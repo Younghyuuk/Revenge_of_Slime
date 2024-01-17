@@ -8,6 +8,7 @@ class GameEngine {
 
         // Everything that will be updated and drawn each frame
         this.entities = [];
+        this.map = null;
 
         // Information on the input
         this.click = null;
@@ -19,12 +20,19 @@ class GameEngine {
         this.options = options || {
             debugging: false,
         };
+     
     };
 
     init(ctx) {
         this.ctx = ctx;
         this.startInput();
         this.timer = new Timer();
+        const tileImages = {
+            0: ASSET_MANAGER.getAsset("./images/floor.png"),
+            1: ASSET_MANAGER.getAsset("./images/slime.png")
+        };
+        
+        this.map = new Map(tileImages);
     };
 
     start() {
@@ -83,6 +91,7 @@ class GameEngine {
     draw() {
         // Clear the whole canvas with transparent color (rgba(0, 0, 0, 0))
         this.ctx.clearRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
+        this.map.drawMap(this.ctx);
 
         // Draw latest things first
         for (let i = this.entities.length - 1; i >= 0; i--) {
