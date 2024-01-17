@@ -1,51 +1,40 @@
 class map {
-    constructor(tileImages) {
-        // this.mapData = mapData;
-        this.tileSize = { width: 32, height: 32 };
-        this.tileImages = tileImages;
-        this.theMap = [
-            [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-            [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-            [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-            [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-            [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-            [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-            [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-            [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-            [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-            [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-            [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-            [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-            [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-        ];
+    constructor() {
+        this.height = 22;
+        this.width = 40;
+        this.theMap = [];
+        this.mapDimensions();
     };
     // 1 wall
 
     drawMap(ctx) {
         for (let i = 0; i < this.theMap.length; i++) {
             for (let j = 0; j < this.theMap[i].length; j++) {
-                const tileType = this.theMap[i][j];
-                const imageKey = this.tileImages[tileType]; // Make sure this is defined correctly
-                const image = ASSET_MANAGER.getAsset(imageKey);
-                if (!imageKey) {
-                    console.error("No image found for tile type:", tileType);
-                    continue; // Skip drawing this tile
+                let image;
+                if (this.theMap[i][j] === 1) {
+                    image = ASSET_MANAGER.getAsset("./images/wall.png");
+                } else if (this.theMap[i][j] === 0) {
+                    image = ASSET_MANAGER.getAsset("./images/floor.png");
                 }
-                
+
                 if (image) {
-                    ctx.drawImage(image, j * this.tileSize.width, i * this.tileSize.height, this.tileSize.width, this.tileSize.height);
+                    ctx.drawImage(image, j * 32, i * 32, 32, 32); // Assuming tileSize is 32x32
                 }
             }
         }
     };
 
-    // draw() {
-    //     const tileImages = {
-    //         0: ASSET_MANAGER.getAsset("./images/floor.png"),
-    //         1: ASSET_MANAGER.getAsset("./images/slime.png")
-    //     };
-        
-    //     this.map = new Map(tileImages);
+    mapDimensions() {
+        for(let i = 0; i < this.height; i++) {
+            this.theMap[i] =[]
+            for(let j = 0; j < this.width; j++) {
+                if (i === 0 || i === this.height - 1 || j === 0 || j === this.width - 1) {
+                    this.theMap[i][j] = 1;
+                } else {
+                    this.theMap[i][j] = 0;
+                }
+            }
+        }
+    };
 
-    // }
 };
