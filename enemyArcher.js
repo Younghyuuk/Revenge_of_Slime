@@ -97,4 +97,4 @@ class enemyArcher {
             this.animator.drawFrame(this.game.clockTick, ctx, this.xPos, this.yPos, [this.takeDamageCollisionCircle, this.dealDamageCollisionCircle]);
         }
     }
-}
+};
