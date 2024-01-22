@@ -31,4 +31,4 @@ class Animator {
     isDone() {
         return (this.elapsedTime >= this.totalTime);
     };
-}
+};
