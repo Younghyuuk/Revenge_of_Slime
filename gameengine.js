@@ -15,6 +15,12 @@ class GameEngine {
         this.wheel = null;
         this.keys = {};
 
+        //key input
+        this.W = false;
+        this.A = false;
+        this.S = false;
+        this.D = false;
+
         // Options and the Details
         this.options = options || {
             debugging: false,
@@ -42,6 +48,8 @@ class GameEngine {
     };
 
     startInput() {
+        this.keyboardActive = false;
+        var that = this; 
         const getXandY = e => ({
             x: e.clientX - this.ctx.canvas.getBoundingClientRect().left,
             y: e.clientY - this.ctx.canvas.getBoundingClientRect().top
@@ -77,8 +85,54 @@ class GameEngine {
             this.rightclick = getXandY(e);
         });
 
-        this.ctx.canvas.addEventListener("keydown", event => this.keys[event.key] = true);
-        this.ctx.canvas.addEventListener("keyup", event => this.keys[event.key] = false);
+        //keep for now, might use implement key event listeners this way in future
+        // this.ctx.canvas.addEventListener("keydown", event => this.keys[event.key] = true);
+        // this.ctx.canvas.addEventListener("keyup", event => this.keys[event.key] = false);
+
+
+        this.ctx.canvas.addEventListener('keydown', function (e) {
+            that.keyboardActive = true;
+            switch (e.code) {
+                case "ArrowLeft":
+                case "KeyA":
+                    that.A = true;
+                    break;
+                case "ArrowRight":
+                case "KeyD":
+                    that.D = true;
+                    break;
+                case "ArrowUp":
+                case "KeyW":
+                    that.W = true;
+                    break;
+                case "ArrowDown":
+                case "KeyS":
+                    that.S = true;
+                    break;
+            }
+        });
+        
+        this.ctx.canvas.addEventListener('keyup', function (e) {
+            that.keyboardActive = false;
+            switch (e.code) {
+                case "ArrowLeft":
+                case "KeyA":
+                    that.A = false;
+                    break;
+                case "ArrowRight":
+                case "KeyD":
+                    that.D = false;
+                    break;
+                case "ArrowUp":
+                case "KeyW":
+                    that.W = false;
+                    break;
+                case "ArrowDown":
+                case "KeyS":
+                    that.S = false;
+                    break;
+            }
+        })
     };
 
     addEntity(entity) {
