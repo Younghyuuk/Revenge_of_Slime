@@ -2,18 +2,15 @@ const gameEngine = new GameEngine();
 
 const ASSET_MANAGER = new AssetManager();
 
-<<<<<<< HEAD
-// global variable storing the knightSprite image for animation
-ASSET_MANAGER.queueDownload("./knightSprite.png");
-
-ASSET_MANAGER.queueDownload("./archerSprite.png");
-=======
 ASSET_MANAGER.queueDownload("./images/wall.png");
 ASSET_MANAGER.queueDownload("./images/floor.png");
 
 ASSET_MANAGER.queueDownload("./slimeSprite.png");
 
->>>>>>> 6226385387cbc5b63c074973d09decd10c290843
+// global variable storing the knightSprite image for animation
+ASSET_MANAGER.queueDownload("./knightSprite.png");
+
+ASSET_MANAGER.queueDownload("./archerSprite.png");
 
 ASSET_MANAGER.downloadAll(() => {
 	const canvas = document.getElementById("gameWorld");
