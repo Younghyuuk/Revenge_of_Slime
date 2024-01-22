@@ -19,7 +19,7 @@ class Animator {
             this.xSpriteSheet + this.width * frame, this.ySpriteSheet, // coords on sprite sheet
             this.width, this.height, // size on spritesheet 
             x, y,                             // coords on canvas  
-            this.width * 3, this.height * 3); // size on canvas * scale
+            this.width * 1, this.height * 1); // size on canvas * scale
     
 
     };
@@ -31,4 +31,4 @@ class Animator {
     isDone() {
         return (this.elapsedTime >= this.totalTime);
     };
-}
+};
