@@ -87,5 +87,5 @@ class enemyKnight {
             this.animator.drawFrame(this.game.clockTick, ctx, this.xPos, this.yPos, this.collisionCircle);
         }
     }
-}
+};
 
