@@ -10,6 +10,8 @@ class Slime {
         this.y = 10;
         this.speed = 50;
 
+        this.collisionCircle = {radius: 22, x: this.x + 10, y: this.y + 10};// collision detection circle
+
         // slime's animations
         this.animations = [];
         this.loadAnimations();
@@ -31,9 +33,9 @@ class Slime {
 
         
         // new Animator(spriteSheet, xSpriteSheet, ySpriteSheet, width, height, frameCount, frameDuration);
-        this.animations[0] = new Animator(this.spritesheet, 0, 0, 32, 32, 10, .175);
-        this.animations[1]= new Animator(this.spritesheet, 0, 32 * 2, 32, 32, 10, .175);
-        this.animations[4] = new Animator(this.spritesheet, 0, 32, 32, 32, 10, .175);
+        this.animations[0] = new Animator(this.spritesheet, 0, 0, 32, 32, 10, .175, 2);
+        this.animations[1]= new Animator(this.spritesheet, 0, 32 * 2, 32, 32, 10, .175, 2);
+        this.animations[4] = new Animator(this.spritesheet, 0, 32, 32, 32, 10, .175, 2);
         // add right, and up animations
 
 
@@ -61,7 +63,7 @@ class Slime {
 
     draw(ctx) {
 
-        this.animations[this.direction].drawFrame(this.game.clockTick, ctx, this.x, this.y);
+        this.animations[this.direction].drawFrame(this.game.clockTick, ctx, this.x, this.y, this.collisionCircle);
 
         // this.animations[0].drawFrame(this.game.clockTick, ctx, this.x, this.y);
         // this.animations[1].drawFrame(this.game.clockTick, ctx, this.x, this.y + 50);
