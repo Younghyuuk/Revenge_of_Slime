@@ -5,7 +5,7 @@ class GameEngine {
         // What you will use to draw
         // Documentation: https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D
         this.ctx = null;
-
+        this.map = new map();
         // Everything that will be updated and drawn each frame
         this.entities = [];
 
@@ -15,16 +15,27 @@ class GameEngine {
         this.wheel = null;
         this.keys = {};
 
+        //key input
+        this.W = false;
+        this.A = false;
+        this.S = false;
+        this.D = false;
+
         // Options and the Details
         this.options = options || {
             debugging: false,
         };
+     
     };
 
     init(ctx) {
+       
         this.ctx = ctx;
         this.startInput();
         this.timer = new Timer();
+      
+        
+        
     };
 
     start() {
@@ -37,6 +48,8 @@ class GameEngine {
     };
 
     startInput() {
+        this.keyboardActive = false;
+        var that = this; 
         const getXandY = e => ({
             x: e.clientX - this.ctx.canvas.getBoundingClientRect().left,
             y: e.clientY - this.ctx.canvas.getBoundingClientRect().top
@@ -72,8 +85,54 @@ class GameEngine {
             this.rightclick = getXandY(e);
         });
 
-        this.ctx.canvas.addEventListener("keydown", event => this.keys[event.key] = true);
-        this.ctx.canvas.addEventListener("keyup", event => this.keys[event.key] = false);
+        //keep for now, might use implement key event listeners this way in future
+        // this.ctx.canvas.addEventListener("keydown", event => this.keys[event.key] = true);
+        // this.ctx.canvas.addEventListener("keyup", event => this.keys[event.key] = false);
+
+
+        this.ctx.canvas.addEventListener('keydown', function (e) {
+            that.keyboardActive = true;
+            switch (e.code) {
+                case "ArrowLeft":
+                case "KeyA":
+                    that.A = true;
+                    break;
+                case "ArrowRight":
+                case "KeyD":
+                    that.D = true;
+                    break;
+                case "ArrowUp":
+                case "KeyW":
+                    that.W = true;
+                    break;
+                case "ArrowDown":
+                case "KeyS":
+                    that.S = true;
+                    break;
+            }
+        });
+        
+        this.ctx.canvas.addEventListener('keyup', function (e) {
+            that.keyboardActive = false;
+            switch (e.code) {
+                case "ArrowLeft":
+                case "KeyA":
+                    that.A = false;
+                    break;
+                case "ArrowRight":
+                case "KeyD":
+                    that.D = false;
+                    break;
+                case "ArrowUp":
+                case "KeyW":
+                    that.W = false;
+                    break;
+                case "ArrowDown":
+                case "KeyS":
+                    that.S = false;
+                    break;
+            }
+        })
     };
 
     addEntity(entity) {
@@ -81,8 +140,10 @@ class GameEngine {
     };
 
     draw() {
+       
         // Clear the whole canvas with transparent color (rgba(0, 0, 0, 0))
         this.ctx.clearRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
+        this.map.drawMap(this.ctx);
 
         // Draw latest things first
         for (let i = this.entities.length - 1; i >= 0; i--) {
