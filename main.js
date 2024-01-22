@@ -11,8 +11,6 @@ ASSET_MANAGER.queueDownload("./slimeSprite.png");
 ASSET_MANAGER.downloadAll(() => {
 	const canvas = document.getElementById("gameWorld");
 	const ctx = canvas.getContext("2d");
-
-	const gameMap = new map(mapData, tileImages);
 	
 	ctx.imageSmoothingEnabled = false; 
 	// for better image quality, espically when rotating
