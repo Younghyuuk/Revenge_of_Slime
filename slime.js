@@ -8,14 +8,20 @@ class Slime {
 
         this.x = 10;
         this.y = 10;
-        this.speed = 50;
+        this.speed = 150;
 
-        this.collisionCircle = {radius: 22, x: this.x + 10, y: this.y + 10};// collision detection circle
+        this.collisionCircle = {radius: 14, x: this.x + 31, y: this.y + 55};// collision detection circle
+        
+        this.overlapCollisionCircle = {radius: 10, x: this.x + 31, y: this.y + 55};// overlap collision detection circle
 
         // slime's animations
         this.animations = [];
         this.loadAnimations();
     };
+
+    getCircle() {
+        return this.collisionCircle;
+    }
 
     loadAnimations() {
 
@@ -59,11 +65,17 @@ class Slime {
             this.direction = 0;
         }
 
+        this.collisionCircle.x = this.x + 31;
+        this.collisionCircle.y = this.y + 55;
+
+        this.overlapCollisionCircle.x = this.x + 31;
+        this.overlapCollisionCircle.y = this.y + 55;
+
     };
 
     draw(ctx) {
 
-        this.animations[this.direction].drawFrame(this.game.clockTick, ctx, this.x, this.y, this.collisionCircle);
+        this.animations[this.direction].drawFrame(this.game.clockTick, ctx, this.x, this.y, [this.collisionCircle, this.overlapCollisionCircle]);
 
         // this.animations[0].drawFrame(this.game.clockTick, ctx, this.x, this.y);
         // this.animations[1].drawFrame(this.game.clockTick, ctx, this.x, this.y + 50);

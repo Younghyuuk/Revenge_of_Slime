@@ -1,6 +1,6 @@
 class enemyKnight {
     // !!!!!!!!!!!! add in a refrence to the player object so we can get its current location !!!!!!!!!!!!
-    constructor(game, xPos, yPos, speed, health, damage) {
+    constructor(game, x, y, speed, health, damage, slime) {
         this.game = game;
             // VARIABLES TO CHANGE FOR EACH DIFFERENT CHARACTER
             // spritesheet - change file path for each different character
@@ -14,58 +14,48 @@ class enemyKnight {
         this.animator = new Animator(ASSET_MANAGER.getAsset("./knightSprite.png"), 0, 190, 70, 85, 8, 0.1, .5);
 
         // KNIGHT STATS CHANGE AS LEVELS PROGRESS, STATS ARE BROUGHT IN THROUGH CONSTRUCTOR
-            // xPos = x-coordinate of the knight's current location
-            // yPos = y-coordinate of the knights current location
+            // x = x-coordinate of the knight's current location
+            // y = y-coordinate of the knights current location
             // speed = this knights speed
             // health = this is the HP of the knight - arbitrary number to be changed
             // damage = this is the attack damage of the knight 
-        Object.assign(this, {xPos, yPos, speed, health, damage});
+        Object.assign(this, {x, y, speed, health, damage, slime});
 
-        this.isAlive = true; // if the sprite is a live or dead, alive at creation
+        this.removeFromWorld = false; // if the sprite is a live or dead, alive at creation
 
-        this.collisionCircle = {radius: 22, x: xPos + 17, y: yPos + 20};// collision detection circle
+        this.collisionCircle = {radius: 22, x: x + 17, y: y + 20};// collision detection circle
+
+        this.overlapCollisionCircle = {radius: 14, x: x + 17, y: y + 20}; // collision circle to prevent NPC overlap
     };
 
     // this method updates the logic, aka the state of the enemy
     update() {
-        // !!!!!!!!!!! player.Location -- look at reference to player class to get its current coordinates !!!!!!!!!!!!
-        var playerCircle = {radius: 38, x: 75, y: 198};//getPlayerLocation();
-        
-        // collision logic 
-        let dx = this.collisionCircle.x - playerCircle.x;
-        let dy = this.collisionCircle.y - playerCircle.y;
-        let distance = Math.sqrt(dx * dx + dy * dy);
+        let target = {x : this.slime.getCircle().x, y : this.slime.getCircle().y};
+        let current = {x : this.collisionCircle.x, y : this.collisionCircle.y};
 
-        if (distance < this.collisionCircle.radius + playerCircle.radius) {
+        var dist = this.distance(current, target);
+
+        if (dist < this.collisionCircle.radius + this.slime.collisionCircle.radius) {
             this.attack();
         } else { 
+            this.velocity = {x : (target.x - current.x) / dist * this.speed, y : (target.y - current.y) / dist * this.speed};
 
-            // for x-coordinate movement 
-            if (this.collisionCircle.x < playerCircle.x) { // if the knight is to the left of the player
-                let updatedX1 = Math.min((1 * this.speed), (playerCircle.x - this.collisionCircle.x));
-                this.collisionCircle.x += updatedX1; // moves closer to the player on x axis by 1 pixel times movement speed
-                this.xPos += updatedX1;
-            } else if (this.collisionCircle.x > playerCircle.x) { // if the knight is to the left of the player
-                let updatedX2 = Math.min((1 * this.speed), (this.collisionCircle.x - playerCircle.x));
-                this.collisionCircle.x -= updatedX2; // moves closer to the player on x axis by 1 pixel times movement speed
-                this.xPos -= updatedX2;
-            }
-
-            // for y-coordinate movement 
-            if (this.collisionCircle.y < playerCircle.y) { // if the knight is above the player
-                let updatedY1 = Math.min((1 * this.speed), (playerCircle.y - this.collisionCircle.y));
-                this.collisionCircle.y += updatedY1; // moves closer to the player on y axis by 1 pixel times movement speed
-                this.yPos += updatedY1;
-            } else if (this.collisionCircle.y > playerCircle.y) { // if the knight is below the player
-                let updatedY2 = Math.min((1 * this.speed), (this.collisionCircle.y - playerCircle.y));
-                this.collisionCircle.y -= updatedY2; // moves closer to the player on y axis by 1 pixel times movement speed
-                this.yPos -= updatedY2;
-            }
+            this.x += this.velocity.x * this.game.clockTick;
+            this.y += this.velocity.y * this.game.clockTick;
         }
 
-        this.collisionCircle.x = this.xPos + 17;
-        this.collisionCircle.y = this.yPos + 20;
+        //update attack/take damage collision circle
+        this.collisionCircle.x = this.x + 17;
+        this.collisionCircle.y = this.y + 20;
+
+        //update overlap collision circle
+        this.overlapCollisionCircle.x = this.x + 17;
+        this.overlapCollisionCircle.y = this.y + 20;
     };
+
+    distance(a, b) {
+        return Math.sqrt((b.x - a.x) * (b.x - a.x) + (b.y - a.y) * (b.y - a.y));
+    }
 
     // this method is called when the knight attacks the player
     attack() {
@@ -78,14 +68,12 @@ class enemyKnight {
     getAttacked(damage) {
         this.health -= damage;
         if (this.health <= 0) {
-            this.isAlive = false;
+            this.removeFromWorld = true;
         }
     };
 
     draw(ctx) {
-        if (this.isAlive) {
-            this.animator.drawFrame(this.game.clockTick, ctx, this.xPos, this.yPos, this.collisionCircle);
-        }
+        this.animator.drawFrame(this.game.clockTick, ctx, this.x, this.y, [this.collisionCircle, this.overlapCollisionCircle]);
     }
 };
 
