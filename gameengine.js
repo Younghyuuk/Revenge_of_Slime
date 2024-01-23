@@ -155,10 +155,17 @@ class GameEngine {
         let entitiesCount = this.entities.length;
 
         for (let i = 0; i < entitiesCount; i++) {
-            let entity = this.entities[i];
+            let entity1 = this.entities[i];
 
-            if (!entity.removeFromWorld) {
-                entity.update();
+            if (!entity1.removeFromWorld) {
+                
+                for (let j = i + 1; j < entitiesCount; j++) {
+                    let entity2 = this.entities[j];
+                    if (this.areColliding(entity1, entity2)) {
+                        this.resolveCollision(entity1, entity2);
+                    }
+                }
+                entity1.update();
             }
         }
 
@@ -168,6 +175,35 @@ class GameEngine {
             }
         }
     };
+
+    areColliding(entityA, entityB) {
+        let dx = entityA.overlapCollisionCircle.x - entityB.overlapCollisionCircle.x;
+        let dy = entityA.overlapCollisionCircle.y - entityB.overlapCollisionCircle.y;
+        let distance = Math.sqrt(dx * dx + dy * dy);
+        return distance < (entityA.overlapCollisionCircle.radius + entityB.overlapCollisionCircle.radius);
+    }
+
+    resolveCollision(entityA, entityB) {
+        let dx = entityA.overlapCollisionCircle.x - entityB.overlapCollisionCircle.x;
+        let dy = entityA.overlapCollisionCircle.y - entityB.overlapCollisionCircle.y;
+        let distance = Math.sqrt(dx * dx + dy * dy);
+    
+        // The amount to move each entity to resolve the collision
+        let overlap = (distance - entityA.overlapCollisionCircle.radius - entityB.overlapCollisionCircle.radius) / 2;
+    
+        // Normalize the difference in positions
+        let dxNormalized = dx / distance;
+        let dyNormalized = dy / distance;
+    
+
+        // Move each entity away from each other to resolve overlap
+        entityA.x -= overlap * dxNormalized;
+        entityA.y -= overlap * dyNormalized;
+        entityB.x += overlap * dxNormalized;
+        entityB.y += overlap * dyNormalized;
+    
+        // Don't forget to update the entities' actual positions if they're separate from their collision circles
+    }    
 
     loop() {
         this.clockTick = this.timer.tick();

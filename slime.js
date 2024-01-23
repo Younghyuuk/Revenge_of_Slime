@@ -8,12 +8,20 @@ class Slime {
 
         this.x = 10;
         this.y = 10;
-        this.speed = 50;
+        this.speed = 150;
+
+        this.collisionCircle = {radius: 14, x: this.x + 31, y: this.y + 55};// collision detection circle
+        
+        this.overlapCollisionCircle = {radius: 10, x: this.x + 31, y: this.y + 55};// overlap collision detection circle
 
         // slime's animations
         this.animations = [];
         this.loadAnimations();
     };
+
+    getCircle() {
+        return this.collisionCircle;
+    }
 
     loadAnimations() {
 
@@ -31,37 +39,61 @@ class Slime {
 
         
         // new Animator(spriteSheet, xSpriteSheet, ySpriteSheet, width, height, frameCount, frameDuration);
-        this.animations[0] = new Animator(this.spritesheet, 0, 0, 32, 32, 10, .175);
-        this.animations[1]= new Animator(this.spritesheet, 0, 32 * 2, 32, 32, 10, .175);
-        this.animations[4] = new Animator(this.spritesheet, 0, 32, 32, 32, 10, .175);
+        this.animations[0] = new Animator(this.spritesheet, 0, 0, 32, 32, 10, .175, 2);
+        this.animations[1]= new Animator(this.spritesheet, 0, 32 * 2, 32, 32, 10, .175, 2);
+        this.animations[4] = new Animator(this.spritesheet, 0, 32, 32, 32, 10, .175, 2);
         // add right, and up animations
 
 
     };
 
     update() {
+        let deltaX = 0;
+        let deltaY = 0;
 
         if(this.game.A) { // left
             this.direction = 1;
+            // deltaX -= 1;
             this.x -= this.speed * this.game.clockTick;
-        } else if (this.game.D) { // right
+        } 
+        if (this.game.D) { // right
             this.direction = 1;
+            // deltaX += 1;
             this.x += this.speed * this.game.clockTick;
-        } else if (this.game.W) { // up
+        } 
+        if (this.game.W) { // up
             this.direction = 4;
+            deltaY -= 1;
             this.y -= this.speed * this.game.clockTick;
-        } else if (this.game.S) { // down
+        } 
+        if (this.game.S) { // down
             this.direction = 4;
+            deltaY += 1;
             this.y += this.speed * this.game.clockTick;
         } else {
             this.direction = 0;
         }
 
+        // if (deltaX !== 0 && deltaY !== 0) {
+        //     const normalizer = Math.sqrt(2) / 2;
+        //     deltaX *= normalizer;
+        //     deltaY *= normalizer;
+        // }
+    
+        // this.x += this.speed * this.game.clockTick * deltaX;
+        // this.y += this.speed * this.game.clockTick * deltaY;
+    
+        this.collisionCircle.x = this.x + 31;
+        this.collisionCircle.y = this.y + 55;
+
+        this.overlapCollisionCircle.x = this.x + 31;
+        this.overlapCollisionCircle.y = this.y + 55;
+
     };
 
     draw(ctx) {
 
-        this.animations[this.direction].drawFrame(this.game.clockTick, ctx, this.x, this.y);
+        this.animations[this.direction].drawFrame(this.game.clockTick, ctx, this.x, this.y, [this.collisionCircle, this.overlapCollisionCircle]);
 
         // this.animations[0].drawFrame(this.game.clockTick, ctx, this.x, this.y);
         // this.animations[1].drawFrame(this.game.clockTick, ctx, this.x, this.y + 50);
