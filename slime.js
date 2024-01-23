@@ -47,6 +47,19 @@ class Slime {
 
     };
 
+    // updateBB() {
+    //     if (this.size === 0 || this.size === 3) {
+    //         this.BB = new BoundingBox(this.x, this.y, PARAMS.BLOCKWIDTH, PARAMS.BLOCKWIDTH);
+    //     }
+    //     else {
+    //         if (this.game.down) // big mario is crouching
+    //             this.BB = new BoundingBox(this.x, this.y + PARAMS.BLOCKWIDTH, PARAMS.BLOCKWIDTH, PARAMS.BLOCKWIDTH);
+    //         else 
+    //             this.BB = new BoundingBox(this.x, this.y, PARAMS.BLOCKWIDTH, PARAMS.BLOCKWIDTH * 2);
+    //     }
+    // };
+
+
     update() {
         let deltaX = 0;
         let deltaY = 0;
@@ -74,15 +87,24 @@ class Slime {
             this.direction = 0;
         }
 
-        // if (deltaX !== 0 && deltaY !== 0) {
-        //     const normalizer = Math.sqrt(2) / 2;
-        //     deltaX *= normalizer;
-        //     deltaY *= normalizer;
-        // }
+        if (deltaX !== 0 && deltaY !== 0) {
+            const normalizer = Math.sqrt(2) / 2;
+            deltaX *= normalizer;
+            deltaY *= normalizer;
+        }
     
         // this.x += this.speed * this.game.clockTick * deltaX;
         // this.y += this.speed * this.game.clockTick * deltaY;
-    
+   
+
+        // if (!this.game.map.collidesWithCircle(this.collisionCircle)) {
+        //     this.x = potentialX;
+        //     this.y = potentialY;
+        //     this.collisionCircle.x = potentialX + 31;
+        //     this.collisionCircle.y = potentialY + 55;
+        // }
+
+
         this.collisionCircle.x = this.x + 31;
         this.collisionCircle.y = this.y + 55;
 
