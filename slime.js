@@ -63,12 +63,12 @@ class Slime {
         } 
         if (this.game.W) { // up
             this.direction = 4;
-            deltaY -= 1;
+            // deltaY -= 1;
             this.y -= this.speed * this.game.clockTick;
         } 
         if (this.game.S) { // down
             this.direction = 4;
-            deltaY += 1;
+            // deltaY += 1;
             this.y += this.speed * this.game.clockTick;
         } else {
             this.direction = 0;
