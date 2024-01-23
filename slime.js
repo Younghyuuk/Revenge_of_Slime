@@ -53,35 +53,35 @@ class Slime {
 
         if(this.game.A) { // left
             this.direction = 1;
-            deltaX -= 1;
-            // this.x -= this.speed * this.game.clockTick;
+            // deltaX -= 1;
+            this.x -= this.speed * this.game.clockTick;
         } 
         if (this.game.D) { // right
             this.direction = 1;
-            deltaX += 1;
-            // this.x += this.speed * this.game.clockTick;
+            // deltaX += 1;
+            this.x += this.speed * this.game.clockTick;
         } 
         if (this.game.W) { // up
             this.direction = 4;
             deltaY -= 1;
-            // this.y -= this.speed * this.game.clockTick;
+            this.y -= this.speed * this.game.clockTick;
         } 
         if (this.game.S) { // down
             this.direction = 4;
             deltaY += 1;
-            // this.y += this.speed * this.game.clockTick;
+            this.y += this.speed * this.game.clockTick;
         } else {
             this.direction = 0;
         }
 
-        if (deltaX !== 0 && deltaY !== 0) {
-            const normalizer = Math.sqrt(2) / 2;
-            deltaX *= normalizer;
-            deltaY *= normalizer;
-        }
+        // if (deltaX !== 0 && deltaY !== 0) {
+        //     const normalizer = Math.sqrt(2) / 2;
+        //     deltaX *= normalizer;
+        //     deltaY *= normalizer;
+        // }
     
-        this.x += this.speed * this.game.clockTick * deltaX;
-        this.y += this.speed * this.game.clockTick * deltaY;
+        // this.x += this.speed * this.game.clockTick * deltaX;
+        // this.y += this.speed * this.game.clockTick * deltaY;
     
         this.collisionCircle.x = this.x + 31;
         this.collisionCircle.y = this.y + 55;
