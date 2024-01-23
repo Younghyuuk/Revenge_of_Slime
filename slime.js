@@ -8,12 +8,20 @@ class Slime {
 
         this.x = 10;
         this.y = 10;
-        this.speed = 50;
+        this.speed = 150;
+
+        this.collisionCircle = {radius: 14, x: this.x + 31, y: this.y + 55};// collision detection circle
+        
+        this.overlapCollisionCircle = {radius: 10, x: this.x + 31, y: this.y + 55};// overlap collision detection circle
 
         // slime's animations
         this.animations = [];
         this.loadAnimations();
     };
+
+    getCircle() {
+        return this.collisionCircle;
+    }
 
     loadAnimations() {
 
@@ -31,9 +39,9 @@ class Slime {
 
         
         // new Animator(spriteSheet, xSpriteSheet, ySpriteSheet, width, height, frameCount, frameDuration);
-        this.animations[0] = new Animator(this.spritesheet, 0, 0, 32, 32, 10, .175);
-        this.animations[1]= new Animator(this.spritesheet, 0, 32 * 2, 32, 32, 10, .175);
-        this.animations[4] = new Animator(this.spritesheet, 0, 32, 32, 32, 10, .175);
+        this.animations[0] = new Animator(this.spritesheet, 0, 0, 32, 32, 10, .175, 2);
+        this.animations[1]= new Animator(this.spritesheet, 0, 32 * 2, 32, 32, 10, .175, 2);
+        this.animations[4] = new Animator(this.spritesheet, 0, 32, 32, 32, 10, .175, 2);
         // add right, and up animations
 
 
@@ -57,11 +65,17 @@ class Slime {
             this.direction = 0;
         }
 
+        this.collisionCircle.x = this.x + 31;
+        this.collisionCircle.y = this.y + 55;
+
+        this.overlapCollisionCircle.x = this.x + 31;
+        this.overlapCollisionCircle.y = this.y + 55;
+
     };
 
     draw(ctx) {
 
-        this.animations[this.direction].drawFrame(this.game.clockTick, ctx, this.x, this.y);
+        this.animations[this.direction].drawFrame(this.game.clockTick, ctx, this.x, this.y, [this.collisionCircle, this.overlapCollisionCircle]);
 
         // this.animations[0].drawFrame(this.game.clockTick, ctx, this.x, this.y);
         // this.animations[1].drawFrame(this.game.clockTick, ctx, this.x, this.y + 50);

@@ -43,18 +43,12 @@ class Animator {
         });
     };
 
-    /**
-     * This method divides the total elapsed time by the duration of each frame to determine the current frame 
-     */ 
+    
     currentFrame() {
         return Math.floor(this.elapsedTime / this.frameDuration);
     };
 
-    /**
-     * If the elapsed time is greater than or equal to the total time, the animation is finished 
-     * @returns 
-     */
     isDone() {
         return (this.elapsedTime >= this.totalTime);
     };
-}
+};
