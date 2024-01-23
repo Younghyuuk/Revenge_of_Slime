@@ -1,7 +1,7 @@
 class map {
     constructor() {
-        this.height = 22;
-        this.width = 38;
+        this.height = 24;
+        this.width = 41;
         this.theMap = [];
         this.mapDimensions();
     };
