@@ -1,5 +1,6 @@
 class Animator {
     constructor (spritesheet, xStart, yStart, width, height, frameCount, frameDuration, scale) {
+        
         Object.assign(this, {spritesheet, xStart, yStart, width, height, frameCount, frameDuration, scale});
 
         // time that has passed in the animation
