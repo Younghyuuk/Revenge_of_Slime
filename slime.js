@@ -6,8 +6,8 @@ class Slime {
         //slime state variables
         this.direction = 0 // 0 = idle, 1 = left, 2 = right, 3 = up, 4 = down
 
-        this.x = 10;
-        this.y = 10;
+        this.x = 30;
+        this.y = 30;
         this.speed = 150;
 
         this.collisionCircle = {radius: 14, x: this.x + 31, y: this.y + 55};// collision detection circle
@@ -47,29 +47,65 @@ class Slime {
 
     };
 
+    // updateBB() {
+    //     if (this.size === 0 || this.size === 3) {
+    //         this.BB = new BoundingBox(this.x, this.y, PARAMS.BLOCKWIDTH, PARAMS.BLOCKWIDTH);
+    //     }
+    //     else {
+    //         if (this.game.down) // big mario is crouching
+    //             this.BB = new BoundingBox(this.x, this.y + PARAMS.BLOCKWIDTH, PARAMS.BLOCKWIDTH, PARAMS.BLOCKWIDTH);
+    //         else 
+    //             this.BB = new BoundingBox(this.x, this.y, PARAMS.BLOCKWIDTH, PARAMS.BLOCKWIDTH * 2);
+    //     }
+    // };
+
+
     update() {
-        let deltaX = 0;
-        let deltaY = 0;
+        let potentialX = this.x;
+        let potentialY = this.y;
+        
+        // let deltaX = 0;
+        // let deltaY = 0;
+        
+       
 
         if(this.game.A) { // left
             this.direction = 1;
             // deltaX -= 1;
-            this.x -= this.speed * this.game.clockTick;
+            // this.x -= this.speed * this.game.clockTick;
+            potentialX -= this.speed * this.game.clockTick;
+            if (!this.game.map.collidesWithCircle({ ...this.collisionCircle, x: potentialX + 31 })) {
+                this.x = potentialX;
+            }
         } 
         if (this.game.D) { // right
             this.direction = 1;
             // deltaX += 1;
-            this.x += this.speed * this.game.clockTick;
+            // this.x += this.speed * this.game.clockTick;
+            potentialX += this.speed * this.game.clockTick;
+            if (!this.game.map.collidesWithCircle({ ...this.collisionCircle, x: potentialX + 31 })) {
+                this.x = potentialX;
+            }
         } 
         if (this.game.W) { // up
             this.direction = 4;
-            deltaY -= 1;
-            this.y -= this.speed * this.game.clockTick;
+            // deltaY -= 1;
+            // this.y -= this.speed * this.game.clockTick;
+
+            potentialY -= this.speed * this.game.clockTick;
+            if (!this.game.map.collidesWithCircle({ ...this.collisionCircle, y: potentialY + 55 })) {
+                this.y = potentialY;
+            }
         } 
         if (this.game.S) { // down
             this.direction = 4;
-            deltaY += 1;
-            this.y += this.speed * this.game.clockTick;
+            // deltaY += 1;
+            // this.y += this.speed * this.game.clockTick;
+            potentialY += this.speed * this.game.clockTick;
+            if (!this.game.map.collidesWithCircle({ ...this.collisionCircle, y: potentialY + 55 })) {
+                this.y = potentialY;
+            }
+
         } else {
             this.direction = 0;
         }
@@ -82,9 +118,14 @@ class Slime {
     
         // this.x += this.speed * this.game.clockTick * deltaX;
         // this.y += this.speed * this.game.clockTick * deltaY;
-    
+   
+       
+        
+
+
         this.collisionCircle.x = this.x + 31;
         this.collisionCircle.y = this.y + 55;
+
 
         this.overlapCollisionCircle.x = this.x + 31;
         this.overlapCollisionCircle.y = this.y + 55;
