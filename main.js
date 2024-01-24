@@ -12,6 +12,10 @@ ASSET_MANAGER.queueDownload("./knightSprite.png");
 
 ASSET_MANAGER.queueDownload("./archerSprite.png");
 
+ASSET_MANAGER.queueDownload("./images/knife.png");
+ASSET_MANAGER.queueDownload("./images/sword.png");
+
+
 ASSET_MANAGER.downloadAll(() => {
 	const canvas = document.getElementById("gameWorld");
 	const ctx = canvas.getContext("2d");
@@ -40,6 +44,10 @@ ASSET_MANAGER.downloadAll(() => {
 	gameEngine.addEntity(new enemyArcher(gameEngine, 490, 400, 60, 75, 30, slime));
 	gameEngine.addEntity(new enemyArcher(gameEngine, 980, 500, 60, 75, 30, slime));
 	gameEngine.addEntity(new enemyArcher(gameEngine, 600, 600, 60, 75, 30, slime));
+
+	gameEngine.addEntity(new knife(gameEngine, 105, 610));
+	gameEngine.addEntity(new sword(gameEngine, 160, 610));
+
 
 	gameEngine.init(ctx);
 
