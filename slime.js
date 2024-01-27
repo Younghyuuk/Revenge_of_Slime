@@ -1,22 +1,38 @@
 class Slime {
-    constructor(game) {
+    constructor(game, x, y, speed, health, damage) {
         this.game = game;
         this.spritesheet = ASSET_MANAGER.getAsset("./slimeSprite.png");
+        Object.assign(this, {x, y, speed, health, damage});
 
         //slime state variables
-        this.direction = 0 // 0 = idle, 1 = left, 2 = right, 3 = up, 4 = down
-
-        this.x = 30;
-        this.y = 30;
-        this.speed = 150;
+        this.direction = 0 // 0 = idle, 1 = left, 2 = right, 3 = up, 4 = down, 5 dead
 
         this.collisionCircle = {radius: 14, x: this.x + 31, y: this.y + 55};// collision detection circle
-        
         this.overlapCollisionCircle = {radius: 10, x: this.x + 31, y: this.y + 55};// overlap collision detection circle
+
+        this.inventory = [];
+        this.dead = false
 
         // slime's animations
         this.animations = [];
         this.loadAnimations();
+    };
+
+    // this method is called when the slime attacks an npc
+    attack(entity) {
+        entity.getAttacked(this.damage);
+        // a method call to the player's character to damage them
+        // sends in the damage as a parameter to determine how much health should be taken from the character
+    };
+
+    // this method is called when this slime is taking damage
+    // takes in a parameter of how much damage is being done  
+    getAttacked(damage) {
+        this.health -= damage;
+        if (this.health <= 0) {
+            this.dead = true;
+            this.direction = 5;
+        }
     };
 
     getCircle() {
@@ -39,25 +55,14 @@ class Slime {
 
         
         // new Animator(spriteSheet, xSpriteSheet, ySpriteSheet, width, height, frameCount, frameDuration);
-        this.animations[0] = new Animator(this.spritesheet, 0, 0, 32, 32, 10, .175, 2);
-        this.animations[1]= new Animator(this.spritesheet, 0, 32 * 2, 32, 32, 10, .175, 2);
-        this.animations[4] = new Animator(this.spritesheet, 0, 32, 32, 32, 10, .175, 2);
+        this.animations[0] = new Animator(this.spritesheet, 0, 0, 32, 32, 10, .175, 2); // idle
+        this.animations[1] = new Animator(this.spritesheet, 0, 32 * 2, 32, 32, 10, .175, 2); //left
+        this.animations[4] = new Animator(this.spritesheet, 0, 32, 32, 32, 10, .175, 2); // down
+        this.animations[5] = new Animator(this.spritesheet, 0, 128, 32, 32, 10, .175, 2); // dead
         // add right, and up animations
 
 
     };
-
-    // updateBB() {
-    //     if (this.size === 0 || this.size === 3) {
-    //         this.BB = new BoundingBox(this.x, this.y, PARAMS.BLOCKWIDTH, PARAMS.BLOCKWIDTH);
-    //     }
-    //     else {
-    //         if (this.game.down) // big mario is crouching
-    //             this.BB = new BoundingBox(this.x, this.y + PARAMS.BLOCKWIDTH, PARAMS.BLOCKWIDTH, PARAMS.BLOCKWIDTH);
-    //         else 
-    //             this.BB = new BoundingBox(this.x, this.y, PARAMS.BLOCKWIDTH, PARAMS.BLOCKWIDTH * 2);
-    //     }
-    // };
 
 
     update() {
@@ -133,12 +138,12 @@ class Slime {
     };
 
     draw(ctx) {
-
         this.animations[this.direction].drawFrame(this.game.clockTick, ctx, this.x, this.y, [this.collisionCircle, this.overlapCollisionCircle]);
 
-        // this.animations[0].drawFrame(this.game.clockTick, ctx, this.x, this.y);
-        // this.animations[1].drawFrame(this.game.clockTick, ctx, this.x, this.y + 50);
-        // this.animations[4].drawFrame(this.game.clockTick, ctx, this.x, this.y + 50 * 2);
+        // this.animations[0].drawFrame(this.game.clockTick, ctx, this.x, this.y, [this.collisionCircle, this.overlapCollisionCircle]);
+        // this.animations[1].drawFrame(this.game.clockTick, ctx, this.x, this.y, [this.collisionCircle, this.overlapCollisionCircle]);
+        // this.animations[4].drawFrame(this.game.clockTick, ctx, this.x, this.y, [this.collisionCircle, this.overlapCollisionCircle]);
+        // this.animations[5].drawFrame(this.game.clockTick, ctx, this.x, this.y, [this.collisionCircle, this.overlapCollisionCircle]);
 
 
     };

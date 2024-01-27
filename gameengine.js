@@ -162,7 +162,15 @@ class GameEngine {
                 for (let j = i + 1; j < entitiesCount; j++) {
                     let entity2 = this.entities[j];
                     if (this.areColliding(entity1, entity2)) {
-                        this.resolveCollision(entity1, entity2);
+                        if (this.isNPC(entity1) && this.isNPC(entity2)) {
+                            this.resolveCollision(entity1, entity2);
+                            
+                        } else if(entity1 instanceof Slime && this.isNPC(entity2)) {
+                            entity1.attack(entity2);
+                        }
+                        this.isWeapon(entity1, entity2);
+                        
+                        
                     }
                 }
                 entity1.update();
@@ -203,7 +211,25 @@ class GameEngine {
         entityB.y += overlap * dyNormalized;
     
         // Don't forget to update the entities' actual positions if they're separate from their collision circles
-    }    
+    }
+    
+    isWeapon(entityA, entityB) {
+        if(entityA instanceof Slime){
+            if(entityB.hasOwnProperty('weapon')) { //all weapons should have this.weapon = true
+                entityA.inventory.push(entityB); // add it to the inventory
+                entityA.damage = entityB.damage; // make slimes damage weapons damage
+                entityB.removeFromWorld = true; // remove weapon from canvas
+                console.log(entityA.inventory); 
+            }
+        }
+    }
+
+    isNPC(entity) {
+        //all NPC's should have this.NPC = true
+        if(entity.hasOwnProperty('NPC')) {
+            return true;
+        }
+    }
 
     loop() {
         this.clockTick = this.timer.tick();
