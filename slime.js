@@ -5,22 +5,32 @@ class Slime {
         Object.assign(this, {x, y, speed, health, damage});
 
         //slime state variables
-        this.direction = 0 // 0 = idle, 1 = left, 2 = right, 3 = up, 4 = down, 5 dead
+        this.direction = 0; // 0 = idle, 1 = left, 2 = right, 3 = up, 4 = down, 5 = dead, 6 = attacking 
+        // this.attacking = false;
+        this.dead = false;
+        
 
         this.collisionCircle = {radius: 14, x: this.x + 31, y: this.y + 55};// collision detection circle
-        this.overlapCollisionCircle = {radius: 10, x: this.x + 31, y: this.y + 55};// overlap collision detection circle
+        this.overlapCollisionCircle = {radius: 14, x: this.x + 31, y: this.y + 55};// overlap collision detection circle
+        this.attackCircle = {radius: 14, x: this.x + 31, y: this.y + 55};
+        this.defendCircle = {radius: 12, x: this.x + 31, y: this.y + 55};
 
         this.inventory = [];
-        this.dead = false
-
+        
         // slime's animations
         this.animations = [];
         this.loadAnimations();
+
+        this.enemyInRange = null;
+        this.count = 0;
     };
 
     // this method is called when the slime attacks an npc
     attack(entity) {
         entity.getAttacked(this.damage);
+        this.enemyInRange = null;
+        this.count++;
+        console.log("ATTACK " + this.count + "");
         // a method call to the player's character to damage them
         // sends in the damage as a parameter to determine how much health should be taken from the character
     };
@@ -41,10 +51,10 @@ class Slime {
 
     loadAnimations() {
 
-        //copied from Marriott's Mario, may have to do similar thing in our code
-        // for (var i = 0; i < 7; i++) { // six states
+        // // copied from Marriott's Mario, may have to do similar thing in our code
+        // for (var i = 0; i < 6; i++) { // six directions
         //     this.animations.push([]);
-        //     for (var j = 0; j < 3; j++) { // three sizes (star-power not implemented yet)
+        //     for (var j = 0; j < 1; j++) { // one attack (others not implemented yet)
         //         this.animations[i].push([]);
         //         for (var k = 0; k < 2; k++) { // two directions
         //             this.animations[i][j].push([]);
@@ -53,12 +63,15 @@ class Slime {
         // }
 
 
-        
-        // new Animator(spriteSheet, xSpriteSheet, ySpriteSheet, width, height, frameCount, frameDuration);
+        // 0 = idle, 1 = left, 2 = right, 3 = up, 4 = down, 5 = dead, 6 = attacking
+        // new Animator(spriteSheet, xSpriteSheet, ySpriteSheet, width, height, frameCount, frameDuration, scale);
         this.animations[0] = new Animator(this.spritesheet, 0, 0, 32, 32, 10, .175, 2); // idle
         this.animations[1] = new Animator(this.spritesheet, 0, 32 * 2, 32, 32, 10, .175, 2); //left
         this.animations[4] = new Animator(this.spritesheet, 0, 32, 32, 32, 10, .175, 2); // down
         this.animations[5] = new Animator(this.spritesheet, 0, 128, 32, 32, 10, .175, 2); // dead
+        this.animations[6] = new Animator(this.spritesheet, 0, 96, 32, 32, 10, .107, 2); // spit attack
+
+
         // add right, and up animations
 
 
@@ -111,9 +124,16 @@ class Slime {
                 this.y = potentialY;
             }
 
-        } else {
+        }
+        else if (this.game.mouseClick == true && this.enemyInRange != null){
+            this.direction = 6;
+            this.attack(this.enemyInRange);
+            this.game.mouseClick = false;
+        } 
+        else {
             this.direction = 0;
         }
+        
 
         // if (deltaX !== 0 && deltaY !== 0) {
         //     const normalizer = Math.sqrt(2) / 2;
@@ -135,16 +155,22 @@ class Slime {
         this.overlapCollisionCircle.x = this.x + 31;
         this.overlapCollisionCircle.y = this.y + 55;
 
+        this.attackCircle.x = this.x + 31;
+        this.attackCircle.y = this.y + 55;
+
+        this.defendCircle.x = this.x + 31;
+        this.defendCircle.y = this.y + 55;
+    
+
     };
 
     draw(ctx) {
-        this.animations[this.direction].drawFrame(this.game.clockTick, ctx, this.x, this.y, [this.collisionCircle, this.overlapCollisionCircle]);
 
-        // this.animations[0].drawFrame(this.game.clockTick, ctx, this.x, this.y, [this.collisionCircle, this.overlapCollisionCircle]);
-        // this.animations[1].drawFrame(this.game.clockTick, ctx, this.x, this.y, [this.collisionCircle, this.overlapCollisionCircle]);
-        // this.animations[4].drawFrame(this.game.clockTick, ctx, this.x, this.y, [this.collisionCircle, this.overlapCollisionCircle]);
-        // this.animations[5].drawFrame(this.game.clockTick, ctx, this.x, this.y, [this.collisionCircle, this.overlapCollisionCircle]);
-
-
+        if(this.dead) {
+            this.animations[5].drawFrame(this.game.clockTick, ctx, this.x, this.y, [this.collisionCircle, this.overlapCollisionCircle]);
+            // this.removeFromWorld = true;
+        } else {
+            this.animations[this.direction].drawFrame(this.game.clockTick, ctx, this.x, this.y, [this.collisionCircle, this.overlapCollisionCircle]);
+        }
     };
 };

@@ -24,11 +24,12 @@ class enemyArcher {
 
         this.removeFromWorld = false; // if the sprite is a live or dead, alive at creation
 
-        this.takeDamageCollisionCircle = {radius: 22, x: x + 17, y: y + 20};// collision detection circle
+        this.defendCircle = {radius: 22, x: x + 17, y: y + 20};// collision detection circle
 
-        this.dealDamageCollisionCircle = {radius: 190, x: x + 17, y: y + 20};
+        this.attackCircle = {radius: 190, x: x + 17, y: y + 20};
 
         this.overlapCollisionCircle = {radius: 14, x: x + 17, y: y + 20};
+
         this.NPC = true;
     };
 
@@ -36,11 +37,12 @@ class enemyArcher {
     update() {
 
         let target = {x : this.slime.getCircle().x, y : this.slime.getCircle().y};
-        let current = {x : this.takeDamageCollisionCircle.x, y : this.takeDamageCollisionCircle.y};
+        let current = {x : this.defendCircle.x, y : this.defendCircle.y};
 
         var dist = this.distance(current, target);
+        let coolDown = this.game.clockTick;
 
-        if (dist < this.dealDamageCollisionCircle.radius + this.slime.collisionCircle.radius) {
+        if (dist < this.attackCircle.radius + this.slime.collisionCircle.radius && coolDown > .016) {
             this.attack(this.slime);
         } else { 
             this.velocity = {x : (target.x - current.x) / dist * this.speed, y : (target.y - current.y) / dist * this.speed};
@@ -50,12 +52,12 @@ class enemyArcher {
         }
 
         // update collision circle for taking damage
-        this.takeDamageCollisionCircle.x = this.x + 17;
-        this.takeDamageCollisionCircle.y = this.y + 20;
+        this.defendCircle.x = this.x + 17;
+        this.defendCircle.y = this.y + 20;
 
         //update collision circle for dealing damage
-        this.dealDamageCollisionCircle.x = this.x + 17;
-        this.dealDamageCollisionCircle.y = this.y + 20;
+        this.attackCircle.x = this.x + 17;
+        this.attackCircle.y = this.y + 20;
 
         // update collison circle for NPC overlapping
         this.overlapCollisionCircle.x = this.x + 17;
@@ -83,6 +85,6 @@ class enemyArcher {
     };
 
     draw(ctx) {
-        this.animator.drawFrame(this.game.clockTick, ctx, this.x, this.y, [this.takeDamageCollisionCircle, this.dealDamageCollisionCircle, this.overlapCollisionCircle]);
+        this.animator.drawFrame(this.game.clockTick, ctx, this.x, this.y, [this.defendCircle, this.attackCircle, this.overlapCollisionCircle]);
     }
 };

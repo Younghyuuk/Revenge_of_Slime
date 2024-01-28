@@ -15,6 +15,8 @@ class GameEngine {
         this.wheel = null;
         this.keys = {};
 
+        this.mouseClick = false;
+
         //key input
         this.W = false;
         this.A = false;
@@ -67,6 +69,8 @@ class GameEngine {
                 console.log("CLICK", getXandY(e));
             }
             this.click = getXandY(e);
+            this.mouseClick = true;
+            console.log("MOUSE CLICK");
         });
 
         this.ctx.canvas.addEventListener("wheel", e => {
@@ -164,13 +168,14 @@ class GameEngine {
                     if (this.areColliding(entity1, entity2)) {
                         if (this.isNPC(entity1) && this.isNPC(entity2)) {
                             this.resolveCollision(entity1, entity2);
-                            
                         } else if(entity1 instanceof Slime && this.isNPC(entity2)) {
-                            entity1.attack(entity2);
+                        // } else if(entity1 instanceof Slime && this.isNPC(entity2) && this.click != null) {
+                            // entity1.attacking = true;
+                            // entity1.attack(entity2);
+                            entity1.enemyInRange = entity2;
+                            
                         }
                         this.isWeapon(entity1, entity2);
-                        
-                        
                     }
                 }
                 entity1.update();
@@ -218,6 +223,14 @@ class GameEngine {
             if(entityB.hasOwnProperty('weapon')) { //all weapons should have this.weapon = true
                 entityA.inventory.push(entityB); // add it to the inventory
                 entityA.damage = entityB.damage; // make slimes damage weapons damage
+
+                //adding collision circles together and assigning it to slime
+                var collisionCircle = {radius: entityA.collisionCircle.radius + entityB.collisionCircle.radius,
+                                    x: entityA.collisionCircle.x + entityB.collisionCircle.x,
+                                    y: entityA.collisionCircle.y + entityB.collisionCircle.y};
+                entityA.collisionCircle = collisionCircle; 
+                entityA.overlapCollisionCircle = collisionCircle;
+
                 entityB.removeFromWorld = true; // remove weapon from canvas
                 console.log(entityA.inventory); 
             }

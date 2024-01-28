@@ -36,8 +36,9 @@ class enemyKnight {
         let current = {x : this.collisionCircle.x, y : this.collisionCircle.y};
 
         var dist = this.distance(current, target);
+        let coolDown = this.game.clockTick;
 
-        if (dist < this.collisionCircle.radius + this.slime.collisionCircle.radius) {
+        if (dist < this.collisionCircle.radius + this.slime.collisionCircle.radius && coolDown > .016) {
             this.attack(this.slime);
         } else { 
             this.velocity = {x : (target.x - current.x) / dist * this.speed, y : (target.y - current.y) / dist * this.speed};

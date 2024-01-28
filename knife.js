@@ -1,8 +1,8 @@
 class knife {
     constructor(game, x, y) {
         Object.assign(this, {game, x, y});
-        this.range = {radius: 15, x: this.x + 9, y: this.y + 12};
-        this.damage = 15; // can be changed, just randomly set to 15
+        this.range = {radius: 13, x: this.x + 9, y: this.y + 12};
+        this.damage = 20; // can be changed, just randomly set to 15
         this.speed = 5; // can be changed, just randomly set to 5
         this.weapon = true;
         this.removeFromWorld = false;
@@ -18,10 +18,12 @@ class knife {
     }
 
     update() {
-        this.collisionCircle.x = this.x + 10;
-        this.collisionCircle.y = this.y + 13;
-        this.overlapCollisionCircle.x = this.x + 10;
-        this.overlapCollisionCircle.y = this.y + 13;
+        if(!this.removeFromWorld){
+            this.collisionCircle.x = this.x + 10;
+            this.collisionCircle.y = this.y + 13;
+            this.overlapCollisionCircle.x = this.x + 10;
+            this.overlapCollisionCircle.y = this.y + 13;
+        }
     }
 
     draw(ctx) {

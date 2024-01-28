@@ -23,31 +23,33 @@ ASSET_MANAGER.downloadAll(() => {
 	ctx.imageSmoothingEnabled = false; 
 	// for better image quality, espically when rotating
 
-	
+						//game, x, y, speed, health, damage
 	let slime = new Slime(gameEngine, 77, 430, 150, 100, 10);
 
 	gameEngine.addEntity(slime);
 
-	gameEngine.addEntity(new enemyKnight(gameEngine, 10, 10, 100, 100, 25, slime));
-	gameEngine.addEntity(new enemyKnight(gameEngine, 100, 10, 100, 100, 25, slime));
-	gameEngine.addEntity(new enemyKnight(gameEngine, 1000, 10, 100, 100, 25, slime));
-	gameEngine.addEntity(new enemyKnight(gameEngine, 456, 10, 100, 100, 25, slime));
-	gameEngine.addEntity(new enemyKnight(gameEngine, 532, 10, 100, 100, 25, slime));
-	gameEngine.addEntity(new enemyKnight(gameEngine, 788, 10, 100, 100, 25, slime));
-	gameEngine.addEntity(new enemyKnight(gameEngine, 234, 10, 100, 100, 25, slime));
-	gameEngine.addEntity(new enemyKnight(gameEngine, 653, 10, 100, 100, 25, slime));
-	gameEngine.addEntity(new enemyKnight(gameEngine, 234, 10, 100, 100, 25, slime));
-	gameEngine.addEntity(new enemyKnight(gameEngine, 876, 10, 100, 100, 25, slime));
+										//game, x, y, speed, health, damage, slime
+	gameEngine.addEntity(new enemyKnight(gameEngine, 10, 10, 100, 20, 5, slime));
+	gameEngine.addEntity(new enemyKnight(gameEngine, 100, 10, 100, 20, 5, slime));
+	// gameEngine.addEntity(new enemyKnight(gameEngine, 1000, 10, 100, 20, 5, slime));
+	// gameEngine.addEntity(new enemyKnight(gameEngine, 456, 10, 100, 20, 5, slime));
+	// gameEngine.addEntity(new enemyKnight(gameEngine, 532, 10, 100, 20, 5, slime));
+	// gameEngine.addEntity(new enemyKnight(gameEngine, 788, 10, 100, 20, 5, slime));
+	// gameEngine.addEntity(new enemyKnight(gameEngine, 234, 10, 100, 20, 5, slime));
+	// gameEngine.addEntity(new enemyKnight(gameEngine, 653, 10, 100, 20, 5, slime));
+	// gameEngine.addEntity(new enemyKnight(gameEngine, 234, 10, 100, 20, 5, slime));
+	// gameEngine.addEntity(new enemyKnight(gameEngine, 876, 10, 100, 20, 5, slime));
 
-	// gameEngine.addEntity(new enemyArcher(gameEngine, 450, 100, 60, 75, 30, slime));
+										//game, x, y, speed, health, damage, slime
+	// gameEngine.addEntity(new enemyArcher(gameEngine, 450, 100, 60, 20, 10, slime));
 	// gameEngine.addEntity(new enemyArcher(gameEngine, 40, 200, 60, 75, 30, slime));
-	// gameEngine.addEntity(new enemyArcher(gameEngine, 1050, 300, 60, 75, 30, slime));
+	gameEngine.addEntity(new enemyArcher(gameEngine, 1050, 300, 60, 20, 10, slime));
 	// gameEngine.addEntity(new enemyArcher(gameEngine, 490, 400, 60, 75, 30, slime));
 	// gameEngine.addEntity(new enemyArcher(gameEngine, 980, 500, 60, 75, 30, slime));
 	// gameEngine.addEntity(new enemyArcher(gameEngine, 600, 600, 60, 75, 30, slime));
 
-	// gameEngine.addEntity(new knife(gameEngine, 105, 610));
-	gameEngine.addEntity(new sword(gameEngine, 160, 610));
+	gameEngine.addEntity(new knife(gameEngine, 105, 610));
+	// gameEngine.addEntity(new sword(gameEngine, 160, 610));
 
 
 	gameEngine.init(ctx);
