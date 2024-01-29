@@ -181,6 +181,8 @@ class GameEngine {
                 entity1.update();
             }
         }
+        //for camera later
+        // this.camera.update();
 
         for (let i = this.entities.length - 1; i >= 0; --i) {
             if (this.entities[i].removeFromWorld) {
