@@ -28,6 +28,8 @@ class GameEngine {
             debugging: false,
         };
      
+        // Camera object
+        this.camera = new Camera(window.innerWidth, window.innerHeight);
     };
 
     init(ctx) {
@@ -157,6 +159,9 @@ class GameEngine {
 
     update() {
         let entitiesCount = this.entities.length;
+        
+        // Update the camera to follow the slime character ADD IN THE SLIME CLASS
+        // this.camera.follow(this.slime);
 
         for (let i = 0; i < entitiesCount; i++) {
             let entity1 = this.entities[i];
