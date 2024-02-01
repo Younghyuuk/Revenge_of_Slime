@@ -22,6 +22,10 @@ class map {
                     // this.rightBB = new BoundingBox(this.x + this.w - PARAMS.BLOCKWIDTH, this.y, PARAMS.BLOCKWIDTH, PARAMS.BLOCKWIDTH * 2)
                 } else if (this.theMap[i][j] === 0) {
                     image = ASSET_MANAGER.getAsset("./images/floor.png");
+
+                    if(Math.random() < 0.1) {
+                        // this.obstacles.push(new Obstacle(this.game, j * 32, i * 32));
+                    }
                 }
 
                 if (image) {
