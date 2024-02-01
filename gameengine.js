@@ -149,7 +149,7 @@ class GameEngine {
        
         // Clear the whole canvas with transparent color (rgba(0, 0, 0, 0))
         this.ctx.clearRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
-        this.map.drawMap(this.ctx);
+        this.map.drawMap(this.ctx, this.camera);
 
         // Draw latest things first
         for (let i = this.entities.length - 1; i >= 0; i--) {

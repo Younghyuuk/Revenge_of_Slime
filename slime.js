@@ -23,6 +23,8 @@ class Slime {
 
         this.enemyInRange = null;
         this.count = 0;
+
+        this.camera = new Camera(window.innerWidth, window.innerHeight);
     };
 
     // this method is called when the slime attacks an npc
@@ -79,6 +81,8 @@ class Slime {
 
 
     update() {
+        this.camera.follow(this);
+        
         let potentialX = this.x;
         let potentialY = this.y;
         
@@ -162,6 +166,7 @@ class Slime {
         this.defendCircle.y = this.y + 55;
     
 
+        
     };
 
     draw(ctx) {
