@@ -3,8 +3,11 @@ class map {
         this.height = 24;
         this.width = 41;
         this.theMap = [];
+        this.obstacles = [];
+        
         this.mapDimensions();
         this.wallBB = null;
+        this.obstacle = null;
     };
     // 1 wall
 
@@ -12,41 +15,51 @@ class map {
         for (let i = 0; i < this.theMap.length; i++) {
             for (let j = 0; j < this.theMap[i].length; j++) {
                 let image;
+                // Draw walls
                 if (this.theMap[i][j] === 1) {
                     image = ASSET_MANAGER.getAsset("./images/wall.png");
                     this.wallBB = new BoundingBox(j * 32, i * 32, 32, 32);
-                    ctx.strokeStyle = 'red';    
-                    ctx.strokeRect(j * 32, i * 32, 32, 32);
-                    // this.BB = new BoundingBox(this.x, this.y, this.w, PARAMS.BLOCKWIDTH * 2);
-                    // this.leftBB = new BoundingBox(this.x, this.y, PARAMS.BLOCKWIDTH, PARAMS.BLOCKWIDTH * 2)
-                    // this.rightBB = new BoundingBox(this.x + this.w - PARAMS.BLOCKWIDTH, this.y, PARAMS.BLOCKWIDTH, PARAMS.BLOCKWIDTH * 2)
+                    // ctx.strokeStyle = 'red';    
+                    // ctx.strokeRect(j * 32, i * 32, 32, 32);
+                // Draw floors
                 } else if (this.theMap[i][j] === 0) {
                     image = ASSET_MANAGER.getAsset("./images/floor.png");
-
-                    if(Math.random() < 0.1) {
-                        // this.obstacles.push(new Obstacle(this.game, j * 32, i * 32));
-                    }
+                } else if (this.theMap[i][j] == 2) {
+                    image = ASSET_MANAGER.getAsset("./images/tree.png");
+                    this.obstacle = new BoundingBox(j * 32, i * 32, 32, 32);
+                    ctx.strokeStyle = 'red';    
+                    ctx.strokeRect(j * 32, i * 32, 32, 32);
                 }
-
+    
+                // Draw the selected image
                 if (image) {
-                    ctx.drawImage(image, j * 32, i * 32, 32, 32); // Assuming tileSize is 32x32
+                    ctx.drawImage(image, j * 32, i * 32, 32, 32);
                 }
             }
         }
+    
     };
+    
 
     mapDimensions() {
+        const obstacleChance = 0.009; // Chance for an obstacle to appear on a tile
         for(let i = 0; i < this.height; i++) {
-            this.theMap[i] =[]
+            this.theMap[i] = [];
             for(let j = 0; j < this.width; j++) {
                 if (i === 0 || i === this.height - 1 || j === 0 || j === this.width - 1) {
-                    this.theMap[i][j] = 1;
+                    this.theMap[i][j] = 1; // Wall
                 } else {
-                    this.theMap[i][j] = 0;
+                    // Determine if the tile should have an obstacle
+                    if (Math.random() < obstacleChance) {
+                        this.theMap[i][j] = 2; // Mark as obstacle
+                    } else {
+                        this.theMap[i][j] = 0; // Empty
+                    }
                 }
             }
         }
     };
+    
 
     collidesWithCircle(circle) {
         for (let i = 0; i < this.theMap.length; i++) {
@@ -60,7 +73,7 @@ class map {
             }
         }
         return false;
-    }
+    };
 
     circleRectCollision(circle, rect) {
         let distX = Math.abs(circle.x - rect.x - rect.width / 2);
@@ -77,7 +90,7 @@ class map {
         let dx = distX - rect.width / 2;
         let dy = distY - rect.height / 2;
         return (dx * dx + dy * dy <= (circle.radius * circle.radius));
-    }
+    };
 
 
     
