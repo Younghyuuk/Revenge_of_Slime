@@ -232,7 +232,6 @@ class GameEngine {
                 entityA.overlapCollisionCircle = collisionCircle;
 
                 entityB.removeFromWorld = true; // remove weapon from canvas
-                console.log(entityA.inventory); 
             }
         }
     }

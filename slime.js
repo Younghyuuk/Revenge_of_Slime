@@ -173,7 +173,7 @@ class Slime {
             this.animations[5].drawFrame(this.game.clockTick, ctx, this.x, this.y, [this.collisionCircle, this.overlapCollisionCircle]);
             this.elapsedTime += this.game.clockTick;
             if(this.elapsedTime > 1.5){
-            this.removeFromWorld = true;
+                this.removeFromWorld = true;
             }
         } else {
             this.animations[this.direction].drawFrame(this.game.clockTick, ctx, this.x, this.y, [this.collisionCircle, this.overlapCollisionCircle]);
