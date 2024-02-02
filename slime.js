@@ -23,6 +23,8 @@ class Slime {
 
         this.enemyInRange = null;
         this.count = 0;
+
+        this.elapsedTime = 0;
     };
 
     // this method is called when the slime attacks an npc
@@ -86,52 +88,53 @@ class Slime {
         // let deltaY = 0;
         
        
+        if(!this.dead){
+            if(this.game.A) { // left
+                this.direction = 1;
+                // deltaX -= 1;
+                // this.x -= this.speed * this.game.clockTick;
+                potentialX -= this.speed * this.game.clockTick;
+                if (!this.game.map.collidesWithCircle({ ...this.collisionCircle, x: potentialX + 31 })) {
+                    this.x = potentialX;
+                }
+            } 
+            if (this.game.D) { // right
+                this.direction = 1;
+                // deltaX += 1;
+                // this.x += this.speed * this.game.clockTick;
+                potentialX += this.speed * this.game.clockTick;
+                if (!this.game.map.collidesWithCircle({ ...this.collisionCircle, x: potentialX + 31 })) {
+                    this.x = potentialX;
+                }
+            } 
+            if (this.game.W) { // up
+                this.direction = 4;
+                // deltaY -= 1;
+                // this.y -= this.speed * this.game.clockTick;
 
-        if(this.game.A) { // left
-            this.direction = 1;
-            // deltaX -= 1;
-            // this.x -= this.speed * this.game.clockTick;
-            potentialX -= this.speed * this.game.clockTick;
-            if (!this.game.map.collidesWithCircle({ ...this.collisionCircle, x: potentialX + 31 })) {
-                this.x = potentialX;
-            }
-        } 
-        if (this.game.D) { // right
-            this.direction = 1;
-            // deltaX += 1;
-            // this.x += this.speed * this.game.clockTick;
-            potentialX += this.speed * this.game.clockTick;
-            if (!this.game.map.collidesWithCircle({ ...this.collisionCircle, x: potentialX + 31 })) {
-                this.x = potentialX;
-            }
-        } 
-        if (this.game.W) { // up
-            this.direction = 4;
-            // deltaY -= 1;
-            // this.y -= this.speed * this.game.clockTick;
+                potentialY -= this.speed * this.game.clockTick;
+                if (!this.game.map.collidesWithCircle({ ...this.collisionCircle, y: potentialY + 55 })) {
+                    this.y = potentialY;
+                }
+            } 
+            if (this.game.S) { // down
+                this.direction = 4;
+                // deltaY += 1;
+                // this.y += this.speed * this.game.clockTick;
+                potentialY += this.speed * this.game.clockTick;
+                if (!this.game.map.collidesWithCircle({ ...this.collisionCircle, y: potentialY + 55 })) {
+                    this.y = potentialY;
+                }
 
-            potentialY -= this.speed * this.game.clockTick;
-            if (!this.game.map.collidesWithCircle({ ...this.collisionCircle, y: potentialY + 55 })) {
-                this.y = potentialY;
             }
-        } 
-        if (this.game.S) { // down
-            this.direction = 4;
-            // deltaY += 1;
-            // this.y += this.speed * this.game.clockTick;
-            potentialY += this.speed * this.game.clockTick;
-            if (!this.game.map.collidesWithCircle({ ...this.collisionCircle, y: potentialY + 55 })) {
-                this.y = potentialY;
+            else if (this.game.mouseClick == true && this.enemyInRange != null){
+                this.direction = 6;
+                this.attack(this.enemyInRange);
+                this.game.mouseClick = false;
+            } 
+            else {
+                this.direction = 0;
             }
-
-        }
-        else if (this.game.mouseClick == true && this.enemyInRange != null){
-            this.direction = 6;
-            this.attack(this.enemyInRange);
-            this.game.mouseClick = false;
-        } 
-        else {
-            this.direction = 0;
         }
         
 
@@ -165,10 +168,13 @@ class Slime {
     };
 
     draw(ctx) {
-
+        
         if(this.dead) {
             this.animations[5].drawFrame(this.game.clockTick, ctx, this.x, this.y, [this.collisionCircle, this.overlapCollisionCircle]);
-            // this.removeFromWorld = true;
+            this.elapsedTime += this.game.clockTick;
+            if(this.elapsedTime > 1.5){
+            this.removeFromWorld = true;
+            }
         } else {
             this.animations[this.direction].drawFrame(this.game.clockTick, ctx, this.x, this.y, [this.collisionCircle, this.overlapCollisionCircle]);
         }
