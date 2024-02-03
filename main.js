@@ -31,7 +31,7 @@ ASSET_MANAGER.downloadAll(() => {
 	// for better image quality, espically when rotating
 
 						//game, x, y, speed, health, damage
-	let slime = new Slime(gameEngine, 77, 430, 150, 100, 10);
+	let slime = new Slime(gameEngine, 700, 430, 150, 100, 10);
 
 	gameEngine.addEntity(slime);
 

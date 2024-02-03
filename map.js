@@ -1,7 +1,7 @@
 class map {
     constructor(game) {
-        this.height = 44;
-        this.width = 41;
+        this.height = 100;
+        this.width = 100;
         this.theMap = [];
         this.obstacles = [];
         
@@ -20,7 +20,9 @@ class map {
                 let image;
                 let drawX = j * 32 - this.game.camera.x; // Adjust X position based on camera
                 let drawY = i * 32 - this.game.camera.y; // Adjust Y position based on camera
-                
+                // let drawX = j * 32;
+                // let drawY = i * 32;
+
                 // Draw walls
                 if (this.theMap[i][j] === 1) {
                     image = ASSET_MANAGER.getAsset("./images/wall.png");

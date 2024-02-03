@@ -3,7 +3,7 @@ class knife {
         Object.assign(this, {game, x, y});
         this.range = {radius: 13, x: this.x + 9, y: this.y + 12};
         this.damage = 20; // can be changed, just randomly set to 15
-        this.speed = 5; // can be changed, just randomly set to 5
+        this.speed = 0; // can be changed, just randomly set to 5
         this.weapon = true;
         this.removeFromWorld = false;
 
