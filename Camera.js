@@ -4,7 +4,7 @@ class Camera {
         this.game.camera = this;
         this.x = 0;
         this.y = 0;
-       
+        this.slime = new Slime(this, 77, 430, 150, 100, 10)
     };
 
     update() {

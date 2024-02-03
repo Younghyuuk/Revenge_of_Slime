@@ -33,7 +33,7 @@ ASSET_MANAGER.downloadAll(() => {
 						//game, x, y, speed, health, damage
 	let slime = new Slime(gameEngine, 77, 430, 150, 100, 10);
 
-	gameEngine.addEntity(slime);
+	gameEngine.addEntity(this.gameEngine.camera.slime);
 
 										//game,      x,   y,  s,  h,  d,  slime
 	gameEngine.addEntity(new enemyKnight(gameEngine, 10, 10, 100, 20, 5, slime));
