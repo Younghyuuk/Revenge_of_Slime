@@ -1,12 +1,10 @@
-class Camera {
+class CameraScene {
     constructor(game) {
         this.game = game;
         this.game.camera = this;
-        // this.slime = new Slime(this.game, 77, 430, 150, 100, 10)
-        // this.game.camera = this;
         this.x = 0;
         this.y = 0;
-        // this.slime = slime;
+    
        
     };
 

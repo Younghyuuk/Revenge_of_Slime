@@ -30,8 +30,8 @@ class GameEngine {
      
         // Camera object
         // this.slime = new Slime(this.game, 77, 430, 150, 100, 10);
-        this.camera = new Camera(this);
-        this.map = new map(this.camera);
+        this.cam = new CameraScene(this);
+        this.map = new map(this.cam);
        
     };
 
