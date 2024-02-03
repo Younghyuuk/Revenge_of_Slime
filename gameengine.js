@@ -29,9 +29,10 @@ class GameEngine {
         };
      
         // Camera object
+        // this.slime = new Slime(this.game, 77, 430, 150, 100, 10);
         this.camera = new Camera(this);
         this.map = new map(this.camera);
-        this.slime = new Slime(this, 77, 430, 150, 100, 10)
+       
     };
 
     init(ctx) {
@@ -189,7 +190,7 @@ class GameEngine {
             }
         }
         //for camera later
-        this.camera.update();
+        // this.camera.update();
 
         for (let i = this.entities.length - 1; i >= 0; --i) {
             if (this.entities[i].removeFromWorld) {
