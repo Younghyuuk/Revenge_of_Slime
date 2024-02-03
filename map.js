@@ -5,7 +5,7 @@ class map {
         this.theMap = [];
         this.obstacles = [];
         
-        this.camera = camera;
+        this.cam = camera;
 
         this.mapDimensions();
         this.wallBB = null;
@@ -18,8 +18,8 @@ class map {
         for (let i = 0; i < this.theMap.length; i++) {
             for (let j = 0; j < this.theMap[i].length; j++) {
                 let image;
-                let drawX = j * 32 - this.camera.x; // Adjust X position based on camera
-                let drawY = i * 32 - this.camera.y; // Adjust Y position based on camera
+                let drawX = j * 32 - this.cam.camera.x; // Adjust X position based on camera
+                let drawY = i * 32 - this.cam.camera.y; // Adjust Y position based on camera
                 
                 // Draw walls
                 if (this.theMap[i][j] === 1) {
