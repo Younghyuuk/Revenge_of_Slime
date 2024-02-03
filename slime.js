@@ -29,7 +29,7 @@ class Slime {
         this.elapsedDeadAnimTime = 0;
         this.elapsedAttackAnimTime = 0;
 
-        this.camera = new Camera(window.innerWidth, window.innerHeight);
+        // this.camera = new Camera(window.innerWidth, window.innerHeight);
 
     };
 
@@ -106,7 +106,7 @@ class Slime {
 
 
     update() {
-        this.camera.follow(this);
+        // this.camera.follow(this);
         
         let potentialX = this.x;
         let potentialY = this.y;
@@ -215,14 +215,14 @@ class Slime {
 
     draw(ctx) {
         if(this.dead) {
-            this.animations[5].drawFrame(this.game.clockTick, ctx, this.x, this.y, [this.collisionCircle, this.overlapCollisionCircle]);
+        this.animations[5].drawFrame(this.game.clockTick, ctx, this.x - this.game.camera.x, this.y - this.game.camera.y, [this.collisionCircle, this.overlapCollisionCircle]);
             // making sure the dead animation plays, and slime is removed from world afterwards
             this.elapsedDeadAnimTime += this.game.clockTick;
             if(this.elapsedDeadAnimTime > 1.5){
                 this.removeFromWorld = true;
             }
         } else {
-            this.animations[this.state].drawFrame(this.game.clockTick, ctx, this.x, this.y, [this.collisionCircle, this.overlapCollisionCircle]);
+            this.animations[this.state].drawFrame(this.game.clockTick, ctx, this.x - this.game.camera.x, this.y - this.game.camera.y, [this.collisionCircle, this.overlapCollisionCircle]);
         }
     };
 };

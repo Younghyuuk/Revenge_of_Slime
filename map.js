@@ -42,7 +42,7 @@ class map {
     
 
     mapDimensions() {
-        const obstacleChance = 0.009; // Chance for an obstacle to appear on a tile
+        const obstacleChance = 0.006; // Chance for an obstacle to appear on a tile
         for(let i = 0; i < this.height; i++) {
             this.theMap[i] = [];
             for(let j = 0; j < this.width; j++) {

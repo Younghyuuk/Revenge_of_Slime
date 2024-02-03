@@ -29,7 +29,7 @@ class GameEngine {
         };
      
         // Camera object
-        this.camera = new Camera(window.innerWidth, window.innerHeight);
+        this.camera = new Camera(this);
     };
 
     init(ctx) {

@@ -20,9 +20,13 @@ ASSET_MANAGER.queueDownload("./images/sword.png");
 
 
 ASSET_MANAGER.downloadAll(() => {
+	// added in the canvas width and height
+	PARAMS.BLOCKWIDTH = PARAMS.BITWIDTH * PARAMS.SCALE;
 	const canvas = document.getElementById("gameWorld");
 	const ctx = canvas.getContext("2d");
-	
+	PARAMS.CANVAS_WIDTH = canvas.width;
+	PARAMS.CANVAS_HEIGHT = canvas.height;
+
 	ctx.imageSmoothingEnabled = false; 
 	// for better image quality, espically when rotating
 
@@ -56,6 +60,7 @@ ASSET_MANAGER.downloadAll(() => {
 
 
 	gameEngine.init(ctx);
+	new Camera(gameEngine);
 
 	gameEngine.start();
 });

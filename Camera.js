@@ -1,15 +1,18 @@
 class Camera {
-    constructor(viewportWidth, viewportHeight) {
+    constructor(game) {
+        this.game = game;
+        this.game.camera = this;
         this.x = 0;
         this.y = 0;
-        this.viewportWidth = viewportWidth;
-        this.viewportHeight = viewportHeight;
-    }
+       
+    };
 
-    follow(target) {
-        this.x = target.x - this.viewportWidth / 2;
-        this.y = target.y - this.viewportHeight / 2;
+    update() {
+        let midpoint = PARAMS.CANVAS_WIDTH/2 - PARAMS.BLOCKWIDTH / 2;
 
-        // Add boundary checks here if necessary
-    }
+        this.x = this.slime.x - midpoint;
+        this.y = this.slime.y - midpoint;
+
+    };
+    
 }
