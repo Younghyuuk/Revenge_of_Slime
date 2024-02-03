@@ -1,10 +1,12 @@
 class map {
-    constructor() {
-        this.height = 24;
+    constructor(camera) {
+        this.height = 44;
         this.width = 41;
         this.theMap = [];
         this.obstacles = [];
         
+        this.camera = camera;
+
         this.mapDimensions();
         this.wallBB = null;
         this.obstacle = null;
@@ -12,32 +14,38 @@ class map {
     // 1 wall
 
     drawMap(ctx) {
+        // Loop through each tile in the map
         for (let i = 0; i < this.theMap.length; i++) {
             for (let j = 0; j < this.theMap[i].length; j++) {
                 let image;
+                let drawX = j * 32 - this.camera.x; // Adjust X position based on camera
+                let drawY = i * 32 - this.camera.y; // Adjust Y position based on camera
+                
                 // Draw walls
                 if (this.theMap[i][j] === 1) {
                     image = ASSET_MANAGER.getAsset("./images/wall.png");
-                    this.wallBB = new BoundingBox(j * 32, i * 32, 32, 32);
+                    this.wallBB = new BoundingBox(drawX, drawY, 32, 32);
+                    // Optionally draw bounding box for debugging
                     // ctx.strokeStyle = 'red';    
-                    // ctx.strokeRect(j * 32, i * 32, 32, 32);
+                    // ctx.strokeRect(drawX, drawY, 32, 32);
                 // Draw floors
                 } else if (this.theMap[i][j] === 0) {
                     image = ASSET_MANAGER.getAsset("./images/floor.png");
+                // Draw obstacles
                 } else if (this.theMap[i][j] == 2) {
                     image = ASSET_MANAGER.getAsset("./images/tree.png");
-                    this.obstacle = new BoundingBox(j * 32, i * 32, 32, 32);
-                    ctx.strokeStyle = 'red';    
-                    ctx.strokeRect(j * 32, i * 32, 32, 32);
+                    this.obstacle = new BoundingBox(drawX, drawY, 32, 32);
+                    // Optionally draw bounding box for debugging
+                    // ctx.strokeStyle = 'red';    
+                    // ctx.strokeRect(drawX, drawY, 32, 32);
                 }
     
                 // Draw the selected image
                 if (image) {
-                    ctx.drawImage(image, j * 32, i * 32, 32, 32);
+                    ctx.drawImage(image, drawX, drawY, 32, 32);
                 }
             }
         }
-    
     };
     
 
