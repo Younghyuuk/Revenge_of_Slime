@@ -28,7 +28,7 @@ ASSET_MANAGER.downloadAll(() => {
 
 	gameEngine.addEntity(slime);
 
-										//game, x, y, speed, health, damage, slime
+										//game,      x,   y,  s,  h,  d,  slime
 	gameEngine.addEntity(new enemyKnight(gameEngine, 10, 10, 100, 20, 5, slime));
 	gameEngine.addEntity(new enemyKnight(gameEngine, 100, 10, 100, 20, 5, slime));
 	// gameEngine.addEntity(new enemyKnight(gameEngine, 1000, 10, 100, 20, 5, slime));
@@ -40,7 +40,7 @@ ASSET_MANAGER.downloadAll(() => {
 	// gameEngine.addEntity(new enemyKnight(gameEngine, 234, 10, 100, 20, 5, slime));
 	// gameEngine.addEntity(new enemyKnight(gameEngine, 876, 10, 100, 20, 5, slime));
 
-										//game, x, y, speed, health, damage, slime
+										//game,       x,   y,  s,  h,  d,  slime
 	// gameEngine.addEntity(new enemyArcher(gameEngine, 450, 100, 60, 20, 10, slime));
 	// gameEngine.addEntity(new enemyArcher(gameEngine, 40, 200, 60, 75, 30, slime));
 	gameEngine.addEntity(new enemyArcher(gameEngine, 1050, 300, 60, 20, 10, slime));
