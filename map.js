@@ -1,11 +1,11 @@
 class map {
-    constructor(camera) {
+    constructor(game) {
         this.height = 44;
         this.width = 41;
         this.theMap = [];
         this.obstacles = [];
         
-        this.cam = camera;
+        this.game = game;
 
         this.mapDimensions();
         this.wallBB = null;
@@ -18,16 +18,16 @@ class map {
         for (let i = 0; i < this.theMap.length; i++) {
             for (let j = 0; j < this.theMap[i].length; j++) {
                 let image;
-                let drawX = j * 32 - this.cam.camera.x; // Adjust X position based on camera
-                let drawY = i * 32 - this.cam.camera.y; // Adjust Y position based on camera
+                let drawX = j * 32 - this.game.camera.x; // Adjust X position based on camera
+                let drawY = i * 32 - this.game.camera.y; // Adjust Y position based on camera
                 
                 // Draw walls
                 if (this.theMap[i][j] === 1) {
                     image = ASSET_MANAGER.getAsset("./images/wall.png");
                     this.wallBB = new BoundingBox(drawX, drawY, 32, 32);
                     // Optionally draw bounding box for debugging
-                    // ctx.strokeStyle = 'red';    
-                    // ctx.strokeRect(drawX, drawY, 32, 32);
+                    ctx.strokeStyle = 'red';    
+                    ctx.strokeRect(drawX, drawY, 32, 32);
                 // Draw floors
                 } else if (this.theMap[i][j] === 0) {
                     image = ASSET_MANAGER.getAsset("./images/floor.png");
