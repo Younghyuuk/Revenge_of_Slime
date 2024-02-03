@@ -4,6 +4,7 @@ class Slime {
         this.spritesheet = ASSET_MANAGER.getAsset("./slimeSprite.png");
         Object.assign(this, {x, y, speed, health, damage});
 
+        this.game.slime = this;
         //slime state variables
         this.state = 0; // 0 = idle, 1 = left, 2 = right, 3 = up, 4 = down, 5 = dead, 6 = attacking
         this.dead = false;
