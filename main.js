@@ -1,6 +1,35 @@
-const gameEngine = new GameEngine();
-
 const ASSET_MANAGER = new AssetManager();
+
+window.slime;
+
+// needed to make this function in main so there is a reference to ASSET_MANAGER for the enemies  
+function createEnemy(gameEngine, type, x, y, speed, health, damage) {
+
+	if (!window.slime) {
+        console.error("Slime has not been initialized.");
+        return null; // Or handle this scenario appropriately
+    }
+	if (type === "archer") {
+		return new enemyArcher(gameEngine, x, y, speed, health, damage, window.slime);
+	} else if (type === "knight") {
+		return new enemyKnight(gameEngine, x, y, speed, health, damage, window.slime);
+	}
+	// ... other enemy types
+}
+
+
+
+function createSlime(gameEngine) {
+	console.log("createSlime() is called");
+	window.slime = new Slime(gameEngine, 700, 430, 150, 100, 10);
+	gameEngine.addEntity(slime);
+	return slime;
+};
+
+const gameEngine = new GameEngine({}, createEnemy, createSlime);
+
+
+
 
 ASSET_MANAGER.queueDownload("./images/wall.png");
 ASSET_MANAGER.queueDownload("./images/floor.png");
@@ -19,6 +48,7 @@ ASSET_MANAGER.queueDownload("./images/knife.png");
 ASSET_MANAGER.queueDownload("./images/sword.png");
 
 
+
 ASSET_MANAGER.downloadAll(() => {
 	// added in the canvas width and height
 	PARAMS.BLOCKWIDTH = PARAMS.BITWIDTH * PARAMS.SCALE;
@@ -31,13 +61,13 @@ ASSET_MANAGER.downloadAll(() => {
 	// for better image quality, espically when rotating
 
 						//game, x, y, speed, health, damage
-	let slime = new Slime(gameEngine, 700, 430, 150, 100, 10);
+	// let slime = new Slime(gameEngine, 700, 430, 150, 100, 10);
 
-	gameEngine.addEntity(slime);
+	// gameEngine.addEntity(slime);
 
 										//game,      x,   y,  s,  h,  d,  slime
-	gameEngine.addEntity(new enemyKnight(gameEngine, 10, 10, 100, 20, 5, slime));
-	gameEngine.addEntity(new enemyKnight(gameEngine, 100, 10, 100, 20, 5, slime));
+	// gameEngine.addEntity(new enemyKnight(gameEngine, 10, 10, 100, 20, 5, slime));
+	// gameEngine.addEntity(new enemyKnight(gameEngine, 100, 10, 100, 20, 5, slime));
 	// gameEngine.addEntity(new enemyKnight(gameEngine, 1000, 10, 100, 20, 5, slime));
 	// gameEngine.addEntity(new enemyKnight(gameEngine, 456, 10, 100, 20, 5, slime));
 	// gameEngine.addEntity(new enemyKnight(gameEngine, 532, 10, 100, 20, 5, slime));
@@ -50,7 +80,7 @@ ASSET_MANAGER.downloadAll(() => {
 										//game,       x,   y,  s,  h,  d,  slime
 	// gameEngine.addEntity(new enemyArcher(gameEngine, 450, 100, 60, 20, 10, slime));
 	// gameEngine.addEntity(new enemyArcher(gameEngine, 40, 200, 60, 75, 30, slime));
-	gameEngine.addEntity(new enemyArcher(gameEngine, 1050, 300, 60, 20, 10, slime));
+	// gameEngine.addEntity(new enemyArcher(gameEngine, 1050, 300, 60, 20, 10, slime));
 	// gameEngine.addEntity(new enemyArcher(gameEngine, 490, 400, 60, 75, 30, slime));
 	// gameEngine.addEntity(new enemyArcher(gameEngine, 980, 500, 60, 75, 30, slime));
 	// gameEngine.addEntity(new enemyArcher(gameEngine, 600, 600, 60, 75, 30, slime));

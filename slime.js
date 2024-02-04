@@ -1,5 +1,6 @@
 class Slime {
     constructor(game, x, y, speed, health, damage) {
+        console.log("slime is created");
         this.game = game;
         this.spritesheet = ASSET_MANAGER.getAsset("./slimeSprite.png");
         Object.assign(this, {x, y, speed, health, damage});
@@ -12,8 +13,8 @@ class Slime {
 
         this.collisionCircle = {radius: 14, x: this.x + 31, y: this.y + 55};// collision detection circle
         this.overlapCollisionCircle = {radius: 14, x: this.x + 31, y: this.y + 55};// overlap collision detection circle
-        this.attackCircle = {radius: 14, x: this.x + 31, y: this.y + 55};
-        this.defendCircle = {radius: 12, x: this.x + 31, y: this.y + 55};
+        // this.attackCircle = {radius: 14, x: this.x + 31, y: this.y + 55};
+        // this.defendCircle = {radius: 12, x: this.x + 31, y: this.y + 55};
 
         // holds slimes weapons
         this.inventory = [];
@@ -34,6 +35,9 @@ class Slime {
 
     };
 
+    confirm() {
+        console.log("reference passed");
+    };
     // calls attack if mouse clicked and enemy in range
     canAttack() {
         if (this.game.mouseClick == true && this.enemyInRange != null){
@@ -51,7 +55,7 @@ class Slime {
                 this.state = 0;
             }
         }
-    }
+    };
 
     // this method is called when the slime attacks an npc
     attack(entity) {
