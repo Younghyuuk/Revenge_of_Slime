@@ -197,18 +197,18 @@ class Slime {
         
 
 
-        this.collisionCircle.x = this.x + 31;
-        this.collisionCircle.y = this.y + 55;
+        this.collisionCircle.x = this.x + 31 - this.game.camera.x;
+        this.collisionCircle.y = this.y + 55 - this.game.camera.y;
 
 
-        this.overlapCollisionCircle.x = this.x + 31;
-        this.overlapCollisionCircle.y = this.y + 55;
+        this.overlapCollisionCircle.x = this.x + 31 - this.game.camera.x;
+        this.overlapCollisionCircle.y = this.y + 55 - this.game.camera.y;
 
-        this.attackCircle.x = this.x + 31;
-        this.attackCircle.y = this.y + 55;
+        // this.attackCircle.x = this.x + 31 - this.game.camera.x;
+        // this.attackCircle.y = this.y + 55 - this.game.camera.y;
 
-        this.defendCircle.x = this.x + 31;
-        this.defendCircle.y = this.y + 55;
+        // this.defendCircle.x = this.x + 31;
+        // this.defendCircle.y = this.y + 55;
     
 
         
