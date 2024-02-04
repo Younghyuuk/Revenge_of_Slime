@@ -21,7 +21,7 @@ function createEnemy(gameEngine, type, x, y, speed, health, damage) {
 
 function createSlime(gameEngine) {
 	console.log("createSlime() is called");
-	window.slime = new Slime(gameEngine, 77, 430, 150, 100, 10);
+	window.slime = new Slime(gameEngine, 700, 430, 150, 100, 10);
 	gameEngine.addEntity(slime);
 	return slime;
 };
@@ -66,8 +66,8 @@ ASSET_MANAGER.downloadAll(() => {
 	// gameEngine.addEntity(slime);
 
 										//game,      x,   y,  s,  h,  d,  slime
-	gameEngine.addEntity(new enemyKnight(gameEngine, 10, 10, 100, 20, 5, slime));
-	gameEngine.addEntity(new enemyKnight(gameEngine, 100, 10, 100, 20, 5, slime));
+	// gameEngine.addEntity(new enemyKnight(gameEngine, 10, 10, 100, 20, 5, slime));
+	// gameEngine.addEntity(new enemyKnight(gameEngine, 100, 10, 100, 20, 5, slime));
 	// gameEngine.addEntity(new enemyKnight(gameEngine, 1000, 10, 100, 20, 5, slime));
 	// gameEngine.addEntity(new enemyKnight(gameEngine, 456, 10, 100, 20, 5, slime));
 	// gameEngine.addEntity(new enemyKnight(gameEngine, 532, 10, 100, 20, 5, slime));
@@ -80,12 +80,12 @@ ASSET_MANAGER.downloadAll(() => {
 										//game,       x,   y,  s,  h,  d,  slime
 	// gameEngine.addEntity(new enemyArcher(gameEngine, 450, 100, 60, 20, 10, slime));
 	// gameEngine.addEntity(new enemyArcher(gameEngine, 40, 200, 60, 75, 30, slime));
-	gameEngine.addEntity(new enemyArcher(gameEngine, 1050, 300, 60, 20, 10, slime));
+	// gameEngine.addEntity(new enemyArcher(gameEngine, 1050, 300, 60, 20, 10, slime));
 	// gameEngine.addEntity(new enemyArcher(gameEngine, 490, 400, 60, 75, 30, slime));
 	// gameEngine.addEntity(new enemyArcher(gameEngine, 980, 500, 60, 75, 30, slime));
 	// gameEngine.addEntity(new enemyArcher(gameEngine, 600, 600, 60, 75, 30, slime));
 
-	gameEngine.addEntity(new knife(gameEngine, 105, 610));
+	// gameEngine.addEntity(new knife(gameEngine, 105, 610));
 	// gameEngine.addEntity(new sword(gameEngine, 160, 610));
 
 

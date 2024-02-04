@@ -13,8 +13,8 @@ class Slime {
 
         this.collisionCircle = {radius: 14, x: this.x + 31, y: this.y + 55};// collision detection circle
         this.overlapCollisionCircle = {radius: 14, x: this.x + 31, y: this.y + 55};// overlap collision detection circle
-        this.attackCircle = {radius: 14, x: this.x + 31, y: this.y + 55};
-        this.defendCircle = {radius: 12, x: this.x + 31, y: this.y + 55};
+        // this.attackCircle = {radius: 14, x: this.x + 31, y: this.y + 55};
+        // this.defendCircle = {radius: 12, x: this.x + 31, y: this.y + 55};
 
         // holds slimes weapons
         this.inventory = [];

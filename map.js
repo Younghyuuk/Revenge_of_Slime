@@ -36,7 +36,7 @@ class map {
                 // Draw obstacles
                 } else if (this.theMap[i][j] == 2) {
                     image = ASSET_MANAGER.getAsset("./images/tree.png");
-                    this.obstacle = new BoundingBox(drawX, drawY, 32, 32);
+                    // this.obstacle = new BoundingBox(drawX, drawY, 32, 32);
                     // Optionally draw bounding box for debugging
                     // ctx.strokeStyle = 'red';    
                     // ctx.strokeRect(drawX, drawY, 32, 32);
