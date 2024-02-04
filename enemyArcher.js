@@ -83,6 +83,9 @@ class enemyArcher {
     };
 
     draw(ctx) {
-        this.animator.drawFrame(this.game.clockTick, ctx, this.x, this.y, [this.takeDamageCollisionCircle, this.dealDamageCollisionCircle, this.overlapCollisionCircle]);
+        if (!this.removeFromWorld) {
+            this.animator.drawFrame(this.game.clockTick, ctx, this.x, this.y, [this.takeDamageCollisionCircle, this.dealDamageCollisionCircle, this.overlapCollisionCircle]);
+        }
+        
     }
 };

@@ -1,5 +1,6 @@
 class Slime {
     constructor(game, x, y, speed, health, damage) {
+        console.log("slime is created");
         this.game = game;
         this.spritesheet = ASSET_MANAGER.getAsset("./slimeSprite.png");
         Object.assign(this, {x, y, speed, health, damage});
@@ -16,6 +17,10 @@ class Slime {
         // slime's animations
         this.animations = [];
         this.loadAnimations();
+    };
+
+    confirm() {
+        console.log("reference passed");
     };
 
     // this method is called when the slime attacks an npc

@@ -76,7 +76,9 @@ class enemyKnight {
     };
 
     draw(ctx) {
-        this.animator.drawFrame(this.game.clockTick, ctx, this.x, this.y, [this.collisionCircle, this.overlapCollisionCircle]);
+        if (!this.removeFromWorld) {
+            this.animator.drawFrame(this.game.clockTick, ctx, this.x, this.y, [this.collisionCircle, this.overlapCollisionCircle]);
+        }
     }
 };
 
