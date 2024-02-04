@@ -28,6 +28,8 @@ class enemyKnight {
         this.overlapCollisionCircle = {radius: 14, x: x + 17, y: y + 20}; // collision circle to prevent NPC overlap
         
         this.NPC = true;
+        this.coolDown = 0;
+        // this.attackCount = 0;
     };
 
     // this method updates the logic, aka the state of the enemy
@@ -36,9 +38,11 @@ class enemyKnight {
         let current = {x : this.collisionCircle.x, y : this.collisionCircle.y};
 
         var dist = this.distance(current, target);
+        this.coolDown += this.game.clockTick;
 
-        if (dist < this.collisionCircle.radius + this.slime.collisionCircle.radius) {
+        if (dist < this.collisionCircle.radius + this.slime.collisionCircle.radius && this.coolDown > .5) {
             this.attack(this.slime);
+            this.coolDown = 0;
         } else { 
             this.velocity = {x : (target.x - current.x) / dist * this.speed, y : (target.y - current.y) / dist * this.speed};
 
@@ -47,12 +51,12 @@ class enemyKnight {
         }
 
         //update attack/take damage collision circle
-        this.collisionCircle.x = this.x + 17;
-        this.collisionCircle.y = this.y + 20;
+        this.collisionCircle.x = this.x + 17 - this.game.camera.x;
+        this.collisionCircle.y = this.y + 20 - this.game.camera.y;
 
         //update overlap collision circle
-        this.overlapCollisionCircle.x = this.x + 17;
-        this.overlapCollisionCircle.y = this.y + 20;
+        this.overlapCollisionCircle.x = this.x + 17 - this.game.camera.x;
+        this.overlapCollisionCircle.y = this.y + 20 - this.game.camera.y;
     };
 
     distance(a, b) {
@@ -62,8 +66,13 @@ class enemyKnight {
     // this method is called when the knight attacks the player
     attack(entity) {
         entity.getAttacked(this.damage);
+    
         // a method call to the player's character to damage them
         // sends in the damage as a parameter to determine how much health should be taken from the character
+
+        // for debugging, uncomment attackCount in constructor
+        // this.attackCount++;
+        // console.log(`Knight Attack ${this.attackCount}`);
     };
 
     // this method is called when this knight is taking damage
@@ -77,7 +86,7 @@ class enemyKnight {
 
     draw(ctx) {
         if (!this.removeFromWorld) {
-            this.animator.drawFrame(this.game.clockTick, ctx, this.x, this.y, [this.collisionCircle, this.overlapCollisionCircle]);
+            this.animator.drawFrame(this.game.clockTick, ctx, this.x - this.game.camera.x, this.y - this.game.camera.y, [this.collisionCircle, this.overlapCollisionCircle]);
         }
     }
 };

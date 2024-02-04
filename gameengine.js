@@ -5,7 +5,7 @@ class GameEngine {
         // What you will use to draw
         // Documentation: https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D
         this.ctx = null;
-        this.map = new map();
+      
         // Everything that will be updated and drawn each frame
         this.entities = [];
 
@@ -19,6 +19,8 @@ class GameEngine {
         this.wheel = null;
         this.keys = {};
 
+        this.mouseClick = false;
+
         //key input
         this.W = false;
         this.A = false;
@@ -29,8 +31,14 @@ class GameEngine {
         this.options = options || {
             debugging: false,
         };
-     console.log("gameengine created");
+        console.log("gameengine created");
         this.levelBuilder = new LevelBuilder(this, this.createEnemy, this.createSlime);
+     
+        // Camera object
+        // this.slime = new Slime(this.game, 77, 430, 150, 100, 10);
+        // this.cam = new CameraScene(this);
+        this.map = new map(this);
+       
     };
 
     init(ctx) {
@@ -75,6 +83,8 @@ class GameEngine {
                 console.log("CLICK", getXandY(e));
             }
             this.click = getXandY(e);
+            this.mouseClick = true;
+            console.log("MOUSE CLICK");
         });
 
         this.ctx.canvas.addEventListener("wheel", e => {
@@ -157,10 +167,14 @@ class GameEngine {
         for (let i = this.entities.length - 1; i >= 0; i--) {
             this.entities[i].draw(this.ctx, this);
         }
+        // this.camera.draw(this.ctx);
     };
 
     update() {
         let entitiesCount = this.entities.length;
+        
+        // Update the camera to follow the slime character ADD IN THE SLIME CLASS
+        // this.camera.follow(this.slime);
 
         //the counts for enemies, reset back to 0 after each update call, number sent ot level builder
         //add more counter variables as we get more enemies 
@@ -184,18 +198,21 @@ class GameEngine {
                     if (this.areColliding(entity1, entity2)) {
                         if (this.isNPC(entity1) && this.isNPC(entity2)) {
                             this.resolveCollision(entity1, entity2);
-                            
                         } else if(entity1 instanceof Slime && this.isNPC(entity2)) {
-                            entity1.attack(entity2);
+                        // } else if(entity1 instanceof Slime && this.isNPC(entity2) && this.click != null) {
+                            // entity1.attacking = true;
+                            // entity1.attack(entity2);
+                            entity1.enemyInRange = entity2;
+                            
                         }
                         this.isWeapon(entity1, entity2);
-                        
-                        
                     }
                 }
                 entity1.update();
             }
         }
+        //for camera later
+        this.camera.update();
 
         //let the levelBuilder know how many of each type of enemy is still alive
         //add more params as we create more enemies 
@@ -243,8 +260,15 @@ class GameEngine {
             if(entityB.hasOwnProperty('weapon')) { //all weapons should have this.weapon = true
                 entityA.inventory.push(entityB); // add it to the inventory
                 entityA.damage = entityB.damage; // make slimes damage weapons damage
+
+                //adding collision circles together and assigning it to slime
+                var collisionCircle = {radius: entityA.collisionCircle.radius + entityB.collisionCircle.radius,
+                                    x: entityA.collisionCircle.x + entityB.collisionCircle.x,
+                                    y: entityA.collisionCircle.y + entityB.collisionCircle.y};
+                entityA.collisionCircle = collisionCircle; 
+                entityA.overlapCollisionCircle = collisionCircle;
+
                 entityB.removeFromWorld = true; // remove weapon from canvas
-                console.log(entityA.inventory); 
             }
         }
     }
