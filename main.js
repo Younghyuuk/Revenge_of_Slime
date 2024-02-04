@@ -23,6 +23,7 @@ function createSlime(gameEngine) {
 	console.log("createSlime() is called");
 	window.slime = new Slime(gameEngine, 700, 430, 150, 100, 10);
 	gameEngine.addEntity(slime);
+	gameEngine.addEntity(new knife(gameEngine, 105, 610));
 	return slime;
 };
 
@@ -85,7 +86,7 @@ ASSET_MANAGER.downloadAll(() => {
 	// gameEngine.addEntity(new enemyArcher(gameEngine, 980, 500, 60, 75, 30, slime));
 	// gameEngine.addEntity(new enemyArcher(gameEngine, 600, 600, 60, 75, 30, slime));
 
-	gameEngine.addEntity(new knife(gameEngine, 105, 610));
+	// gameEngine.addEntity(new knife(gameEngine, 105, 610));
 	// gameEngine.addEntity(new sword(gameEngine, 160, 610));
 
 
