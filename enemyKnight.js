@@ -51,12 +51,12 @@ class enemyKnight {
         }
 
         //update attack/take damage collision circle
-        this.collisionCircle.x = this.x + 17;
-        this.collisionCircle.y = this.y + 20;
+        this.collisionCircle.x = this.x + 17 - this.game.camera.x;
+        this.collisionCircle.y = this.y + 20 - this.game.camera.y;
 
         //update overlap collision circle
-        this.overlapCollisionCircle.x = this.x + 17;
-        this.overlapCollisionCircle.y = this.y + 20;
+        this.overlapCollisionCircle.x = this.x + 17 - this.game.camera.x;
+        this.overlapCollisionCircle.y = this.y + 20 - this.game.camera.y;
     };
 
     distance(a, b) {

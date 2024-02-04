@@ -56,16 +56,16 @@ class enemyArcher {
         }
 
         // update collision circle for taking damage
-        this.defendCircle.x = this.x + 17;
-        this.defendCircle.y = this.y + 20;
+        this.defendCircle.x = this.x + 17 - this.game.camera.x;
+        this.defendCircle.y = this.y + 20 - this.game.camera.y;
 
         //update collision circle for dealing damage
-        this.attackCircle.x = this.x + 17;
-        this.attackCircle.y = this.y + 20;
+        this.attackCircle.x = this.x + 17 - this.game.camera.x;
+        this.attackCircle.y = this.y + 20 - this.game.camera.y;
 
         // update collison circle for NPC overlapping
-        this.overlapCollisionCircle.x = this.x + 17;
-        this.overlapCollisionCircle.y = this.y + 20;
+        this.overlapCollisionCircle.x = this.x + 17 - this.game.camera.x;
+        this.overlapCollisionCircle.y = this.y + 20 - this.game.camera.y;
     };
 
     distance(a, b) {

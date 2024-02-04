@@ -38,8 +38,8 @@ class map {
                     image = ASSET_MANAGER.getAsset("./images/tree.png");
                     this.obstacle = new BoundingBox(drawX, drawY, 32, 32);
                     // Optionally draw bounding box for debugging
-                    // ctx.strokeStyle = 'red';    
-                    // ctx.strokeRect(drawX, drawY, 32, 32);
+                    ctx.strokeStyle = 'red';    
+                    ctx.strokeRect(drawX, drawY, 32, 32);
                 }
     
                 // Draw the selected image
