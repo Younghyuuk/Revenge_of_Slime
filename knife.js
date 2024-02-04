@@ -3,12 +3,12 @@ class knife {
         Object.assign(this, {game, x, y});
         this.game.knife = this;
         this.range = {radius: 13, x: this.x + 9, y: this.y + 12};
-        this.damage = 20; // can be changed, just randomly set to 15
+        this.damage = 50; // can be changed, just randomly set to 15
         this.speed = 5; // can be changed, just randomly set to 5
         this.weapon = true;
         this.removeFromWorld = false;
 
-        this.collisionCircle = {radius: 14, x: this.x + 10, y: this.y + 13};// collision detection circle
+        this.collisionCircle = {radius: 25, x: this.x + 10, y: this.y + 13};// collision detection circle
         
         this.overlapCollisionCircle = {radius: 10, x: this.x + 10, y: this.y + 13};// overlap collision detection circle
 
