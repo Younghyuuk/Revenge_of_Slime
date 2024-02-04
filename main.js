@@ -4,6 +4,9 @@ const ASSET_MANAGER = new AssetManager();
 
 ASSET_MANAGER.queueDownload("./images/wall.png");
 ASSET_MANAGER.queueDownload("./images/floor.png");
+ASSET_MANAGER.queueDownload("./images/tree.png");
+ASSET_MANAGER.queueDownload("./images/lavaPit.png");
+ASSET_MANAGER.queueDownload("./images/rock.png");
 
 ASSET_MANAGER.queueDownload("./slimeSprite.png");
 
@@ -17,18 +20,22 @@ ASSET_MANAGER.queueDownload("./images/sword.png");
 
 
 ASSET_MANAGER.downloadAll(() => {
+	// added in the canvas width and height
+	PARAMS.BLOCKWIDTH = PARAMS.BITWIDTH * PARAMS.SCALE;
 	const canvas = document.getElementById("gameWorld");
 	const ctx = canvas.getContext("2d");
-	
+	PARAMS.CANVAS_WIDTH = canvas.width;
+	PARAMS.CANVAS_HEIGHT = canvas.height;
+
 	ctx.imageSmoothingEnabled = false; 
 	// for better image quality, espically when rotating
 
 						//game, x, y, speed, health, damage
-	let slime = new Slime(gameEngine, 77, 430, 150, 100, 10);
+	let slime = new Slime(gameEngine, 700, 430, 150, 100, 10);
 
 	gameEngine.addEntity(slime);
 
-										//game, x, y, speed, health, damage, slime
+										//game,      x,   y,  s,  h,  d,  slime
 	gameEngine.addEntity(new enemyKnight(gameEngine, 10, 10, 100, 20, 5, slime));
 	gameEngine.addEntity(new enemyKnight(gameEngine, 100, 10, 100, 20, 5, slime));
 	// gameEngine.addEntity(new enemyKnight(gameEngine, 1000, 10, 100, 20, 5, slime));
@@ -40,7 +47,7 @@ ASSET_MANAGER.downloadAll(() => {
 	// gameEngine.addEntity(new enemyKnight(gameEngine, 234, 10, 100, 20, 5, slime));
 	// gameEngine.addEntity(new enemyKnight(gameEngine, 876, 10, 100, 20, 5, slime));
 
-										//game, x, y, speed, health, damage, slime
+										//game,       x,   y,  s,  h,  d,  slime
 	// gameEngine.addEntity(new enemyArcher(gameEngine, 450, 100, 60, 20, 10, slime));
 	// gameEngine.addEntity(new enemyArcher(gameEngine, 40, 200, 60, 75, 30, slime));
 	gameEngine.addEntity(new enemyArcher(gameEngine, 1050, 300, 60, 20, 10, slime));
@@ -53,6 +60,7 @@ ASSET_MANAGER.downloadAll(() => {
 
 
 	gameEngine.init(ctx);
+	new CameraScene(gameEngine);
 
 	gameEngine.start();
 });

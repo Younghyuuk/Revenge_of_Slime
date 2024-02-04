@@ -5,7 +5,7 @@ class GameEngine {
         // What you will use to draw
         // Documentation: https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D
         this.ctx = null;
-        this.map = new map();
+      
         // Everything that will be updated and drawn each frame
         this.entities = [];
 
@@ -28,6 +28,11 @@ class GameEngine {
             debugging: false,
         };
      
+        // Camera object
+        // this.slime = new Slime(this.game, 77, 430, 150, 100, 10);
+        // this.cam = new CameraScene(this);
+        this.map = new map(this);
+       
     };
 
     init(ctx) {
@@ -153,10 +158,14 @@ class GameEngine {
         for (let i = this.entities.length - 1; i >= 0; i--) {
             this.entities[i].draw(this.ctx, this);
         }
+        // this.camera.draw(this.ctx);
     };
 
     update() {
         let entitiesCount = this.entities.length;
+        
+        // Update the camera to follow the slime character ADD IN THE SLIME CLASS
+        // this.camera.follow(this.slime);
 
         for (let i = 0; i < entitiesCount; i++) {
             let entity1 = this.entities[i];
@@ -181,6 +190,8 @@ class GameEngine {
                 entity1.update();
             }
         }
+        //for camera later
+        this.camera.update();
 
         for (let i = this.entities.length - 1; i >= 0; --i) {
             if (this.entities[i].removeFromWorld) {
@@ -232,7 +243,6 @@ class GameEngine {
                 entityA.overlapCollisionCircle = collisionCircle;
 
                 entityB.removeFromWorld = true; // remove weapon from canvas
-                console.log(entityA.inventory); 
             }
         }
     }

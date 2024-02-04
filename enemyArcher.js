@@ -31,6 +31,9 @@ class enemyArcher {
         this.overlapCollisionCircle = {radius: 14, x: x + 17, y: y + 20};
 
         this.NPC = true;
+        this.coolDown = 0;
+        // this.attackCount = 0;
+
     };
 
     // this method updates the logic, aka the state of the enemy
@@ -40,10 +43,11 @@ class enemyArcher {
         let current = {x : this.defendCircle.x, y : this.defendCircle.y};
 
         var dist = this.distance(current, target);
-        let coolDown = this.game.clockTick;
+        this.coolDown += this.game.clockTick;
 
-        if (dist < this.attackCircle.radius + this.slime.collisionCircle.radius && coolDown > .016) {
+        if (dist < this.attackCircle.radius + this.slime.collisionCircle.radius && this.coolDown > .5) {
             this.attack(this.slime);
+            this.coolDown = 0;
         } else { 
             this.velocity = {x : (target.x - current.x) / dist * this.speed, y : (target.y - current.y) / dist * this.speed};
 
@@ -52,16 +56,16 @@ class enemyArcher {
         }
 
         // update collision circle for taking damage
-        this.defendCircle.x = this.x + 17;
-        this.defendCircle.y = this.y + 20;
+        this.defendCircle.x = this.x + 17 - this.game.camera.x;
+        this.defendCircle.y = this.y + 20 - this.game.camera.y;
 
         //update collision circle for dealing damage
-        this.attackCircle.x = this.x + 17;
-        this.attackCircle.y = this.y + 20;
+        this.attackCircle.x = this.x + 17 - this.game.camera.x;
+        this.attackCircle.y = this.y + 20 - this.game.camera.y;
 
         // update collison circle for NPC overlapping
-        this.overlapCollisionCircle.x = this.x + 17;
-        this.overlapCollisionCircle.y = this.y + 20;
+        this.overlapCollisionCircle.x = this.x + 17 - this.game.camera.x;
+        this.overlapCollisionCircle.y = this.y + 20 - this.game.camera.y;
     };
 
     distance(a, b) {
@@ -73,6 +77,10 @@ class enemyArcher {
         entity.getAttacked(this.damage);
         // a method call to the player's character to damage them
         // sends in the damage as a parameter to determine how much health should be taken from the character
+
+        // for debugging, uncomment attackCount in constructor
+        // this.attackCount++;
+        // console.log(`Archer Attack ${this.attackCount}`);
     };
 
     // this method is called when this knight is taking damage
@@ -85,6 +93,6 @@ class enemyArcher {
     };
 
     draw(ctx) {
-        this.animator.drawFrame(this.game.clockTick, ctx, this.x, this.y, [this.defendCircle, this.attackCircle, this.overlapCollisionCircle]);
+        this.animator.drawFrame(this.game.clockTick, ctx, this.x - this.game.camera.x, this.y - this.game.camera.y, [this.defendCircle, this.attackCircle, this.overlapCollisionCircle]);
     }
 };
