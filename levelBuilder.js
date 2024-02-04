@@ -33,7 +33,6 @@ class LevelBuilder {
         // holds all the enemies that will need to spawn in, spawn number limited by maxCapacity
         this.spawnQueue = [];
 
-        
     };
 
     initBuilder() {

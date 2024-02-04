@@ -85,7 +85,7 @@ ASSET_MANAGER.downloadAll(() => {
 	// gameEngine.addEntity(new enemyArcher(gameEngine, 980, 500, 60, 75, 30, slime));
 	// gameEngine.addEntity(new enemyArcher(gameEngine, 600, 600, 60, 75, 30, slime));
 
-	// gameEngine.addEntity(new knife(gameEngine, 105, 610));
+	gameEngine.addEntity(new knife(gameEngine, 105, 610));
 	// gameEngine.addEntity(new sword(gameEngine, 160, 610));
 
 
