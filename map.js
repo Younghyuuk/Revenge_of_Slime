@@ -38,8 +38,8 @@ class map {
                     image = ASSET_MANAGER.getAsset("./images/tree.png");
                     this.obstacle = new BoundingBox(drawX, drawY, 32, 32);
                     // Optionally draw bounding box for debugging
-                    ctx.strokeStyle = 'red';    
-                    ctx.strokeRect(drawX, drawY, 32, 32);
+                    // ctx.strokeStyle = 'red';    
+                    // ctx.strokeRect(drawX, drawY, 32, 32);
                 }
     
                 // Draw the selected image
@@ -75,6 +75,7 @@ class map {
         for (let i = 0; i < this.theMap.length; i++) {
             for (let j = 0; j < this.theMap[i].length; j++) {
                 if (this.theMap[i][j] === 1) {
+                    // check for collision here later
                     let wallRect = {x: j * 32, y: i * 32, width: 32, height: 32};
                     if (this.circleRectCollision(circle, wallRect)) {
                         return true;
