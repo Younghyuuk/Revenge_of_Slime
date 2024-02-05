@@ -1,35 +1,90 @@
-const PROJECTILE_BC_RADIUS = 10
-const PROJECTILE_BB_DIMEN = 20
+
 class Projectile {
-    constructor(posX, posY, spritesheetPath, xStart=0, yStart=0, width, height, frameCount, scale, angle,
-                speed, despawnTime, fudgeScaling=1) {
-        this.speed = speed
-        this.despawnTime = despawnTime
+    constructor(game, x, y, target, spritePath) {
+        Object.assign(this, { game, x, y, target, spritePath});
+        this.radius = 12;
 
-        //Rotated Canvas Cache
-        this.angle = angle
-        // this.tempCanvas = document.createElement("canvas")
-        // this.tempCTX = this.tempCanvas.getContext("2d")
-        // this.animator.spritesheet = this.tempCanvas;
+        this.smooth = false;
 
-        //Finds Movement Vectors
-        var unitx = Math.cos(this.angle);
-        var unity = Math.sin(this.angle);
-        this.movementVectorX = (unitx * this.speed)
-        this.movementVectorY = (unity * this.speed)
 
-        this.animator = new AnimatorRotateOnce(ASSET_MANAGER.getAsset(spritesheetPath), xStart, yStart, width, height, angle, frameCount, scale, fudgeScaling)
+        var dist = distance(this, this.target);
+        this.maxSpeed = 200; // pixels per second
 
-        this.bc = new BoundingCircle(this.posX, this.posY, PROJECTILE_BC_RADIUS)
-        this.bb = new BoundingBox(this.posX, this.posY, PROJECTILE_BB_DIMEN, PROJECTILE_BB_DIMEN)
-        this.bb.updateSides()
+        this.velocity = { x: (this.target.x - this.x) / dist * this.maxSpeed, y: (this.target.y - this.y) / dist * this.maxSpeed };
+
+        this.cache = [];
+        
+        this.facing = 5;
+        
+        this.elapsedTime = 0;
+
+        // this.animator = new AnimatorRotateOnce(ASSET_MANAGER.getAsset(spritesheetPath), xStart, yStart, width, height, angle, frameCount, scale, fudgeScaling)
+
+        // this.bc = new BoundingCircle(this.posX, this.posY, PROJECTILE_BC_RADIUS)
+        // this.bb = new BoundingBox(this.posX, this.posY, PROJECTILE_BB_DIMEN, PROJECTILE_BB_DIMEN)
+        // this.bb.updateSides()
     }
 
+    drawAngle(ctx, angle) {
+        if (angle < 0 || angle > 359) return;
+
+
+        if (!this.cache[angle]) {
+           let radians = angle / 360 * 2 * Math.PI;
+           let offscreenCanvas = document.createElement('canvas');
+
+            offscreenCanvas.width = 32;
+            offscreenCanvas.height = 32;
+
+            let offscreenCtx = offscreenCanvas.getContext('2d');
+
+            offscreenCtx.save();
+            offscreenCtx.translate(16, 16);
+            offscreenCtx.rotate(radians);
+            offscreenCtx.translate(-16, -16);
+            offscreenCtx.drawImage(this.spritesheet, 80, 0, 32, 32, 0, 0, 32, 32);
+            offscreenCtx.restore();
+            this.cache[angle] = offscreenCanvas;
+        }
+        var xOffset = 16;
+        var yOffset = 16;
+
+        ctx.drawImage(this.cache[angle], this.x - xOffset, this.y - yOffset);
+        if (PARAMS.DEBUG) {
+            ctx.strokeStyle = 'Green';
+            ctx.strokeRect(this.x - xOffset, this.y - yOffset, 32, 32);
+        }
+    };
+
     update(){
-        this.saveLastBB()
-        this.automaticDespawnHandler()
-        this.updateCollision()
-        this.movementHandler()
+        this.heatSeeking = document.getElementById("heatseeking").checked;
+        this.smooth = document.getElementById("smooth").checked;
+
+        if (this.heatSeeking) {
+            var dist = distance(this, this.target);
+            this.velocity = { x: (this.target.x - this.x) / dist * this.maxSpeed, y: (this.target.y - this.y) / dist * this.maxSpeed };
+        }
+
+        this.x += this.velocity.x * this.game.clockTick;
+        this.y += this.velocity.y * this.game.clockTick;
+
+        for (var i = 0; i < this.game.entities.length; i++) {
+            var ent = this.game.entities[i];
+            if (this.towerTeam && (ent instanceof Archer || ent instanceof Footman) && collide(this, ent)) {
+                var damage = 10 + randomInt(6);
+                ent.hitpoints -= damage;
+                this.game.addEntity(new Score(this.game, ent.x, ent.y, damage));
+                this.removeFromWorld = true;
+            }
+            if (!this.towerTeam && ent instanceof Tower && collide(this, ent)) {
+                var damage = 7 + randomInt(4);
+                ent.hitpoints -= damage;
+                this.game.addEntity(new Score(this.game, ent.x, ent.y, damage));
+                this.removeFromWorld = true;
+            }
+        }
+
+        this.facing = getFacing(this.velocity);
     }
 
     checkCollisions() {
@@ -46,11 +101,25 @@ class Projectile {
     draw() {
         //super.draw()
 
-        this.animator.drawFrame(this.posX - (this.width/2), this.posY - (this.height/2));
-        //TODO DEBUG REMOVE ME
-        this.bc.drawBoundingCircle()
-        this.bb.drawBoundingBox()
-    }
+        var xOffset = 16;
+        var yOffset = 16;
+        if (this.smooth) {
+            let angle = Math.atan2(this.velocity.y , this.velocity.x);
+            if (angle < 0) angle += Math.PI * 2;
+            let degrees = Math.floor(angle / Math.PI / 2 * 360);
+
+            this.drawAngle(ctx, degrees);
+        } else {
+            if (this.facing < 5) {
+                this.animations[this.facing].drawFrame(this.game.clockTick, ctx, this.x - xOffset, this.y - yOffset, 1);
+            } else {
+                ctx.save();
+                ctx.scale(-1, 1);
+                this.animations[8 - this.facing].drawFrame(this.game.clockTick, ctx, -(this.x) - 32 + xOffset, this.y - yOffset, 1);
+                ctx.restore();
+            }
+        }
+    };
 
     // movementHandler() {
     //     this.posX += this.movementVectorX * GAME_ENGINE.clockTick
@@ -66,82 +135,16 @@ class Projectile {
     //         PROJECTILE_BB_DIMEN, PROJECTILE_BB_DIMEN)
     // }
 
-    updateCollision() {
-        this.bb.x = this.posX - (this.bb.width/ 2)
-        this.bb.y = this.posY - (this.bb.height/ 2)
-        this.bb.updateSides()
+    // updateCollision() {
+    //     this.bb.x = this.posX - (this.bb.width/ 2)
+    //     this.bb.y = this.posY - (this.bb.height/ 2)
+    //     this.bb.updateSides()
 
-        this.bc.x = this.posX
-        this.bc.y = this.posY
-    }
-
-    // onCreate() {
-    //     console.log(unitx + ", " + unity)
-    //     console.log(this.movementVectorX + ", " + this.movementVectorY)
-    //
-    //     //CODE FROM PLAYER
-    //     this.tempCanvas.width = Math.sqrt(Math.pow(Math.max(BULLET_IMAGE_WIDTH, BULLET_IMAGE_HEIGHT), 2) * 2) //Offscreen canvas square that fits old asset
-    //     this.tempCanvas.height = this.tempCanvas.width
-    //     // var myOffset = this.tempCanvas.width/2 - this.width/2
-    //     this.xAllign = 1 * BULLET_IMAGE_SCALE
-    //     this.yAllign = -200 * BULLET_IMAGE_SCALE
-    //
-    //     this.tempCTX.save();
-    //     this.tempCTX.translate((BULLET_IMAGE_WIDTH / 2), (BULLET_IMAGE_HEIGHT / 2)) //Find mid (Squares ONLY)
-    //     this.tempCTX.rotate(this.angle + (Math.PI) / 2)
-    //     this.tempCTX.translate (-(BULLET_IMAGE_WIDTH / 2), -(BULLET_IMAGE_HEIGHT / 2)) ;
-    //     this.tempCTX.drawImage(this.asset, 0, 0, BULLET_IMAGE_WIDTH, BULLET_IMAGE_HEIGHT);
-    //     this.tempCTX.restore();
+    //     this.bc.x = this.posX
+    //     this.bc.y = this.posY
     // }
-}
 
-// const BULLET_IMAGE_SCALE = 0.5;
-// const BULLET_IMAGE_WIDTH = 318 * BULLET_IMAGE_SCALE;
-// const BULLET_IMAGE_HEIGHT = 283 * BULLET_IMAGE_SCALE;
-// const BULLET_RADIUS = (Math.min(BULLET_IMAGE_WIDTH, BULLET_IMAGE_HEIGHT) / 2);
-
-// const bulletImage = "Assets/Images/Items/Bullet.png"
-const BULLET_ANGLE_OFFSET = 0
-const BULLET_IMAGE_SCALE = 1
-const BULLET_IMAGE_WIDTH = 44
-const BULLET_IMAGE_HEIGHT = 44
-const BULLET_DESPAWN_TIME = 10
-class Bullet extends Projectile {
-    constructor(posX, posY, angle, damage, bulletspeed) {
-        // console.log("CONSTRUCTUR BULLET: " + posXOriginal + " " +  posYOriginal)
-        super(posX,posY, bulletImage, 0,0, BULLET_IMAGE_WIDTH, BULLET_IMAGE_HEIGHT,1, 1, angle, bulletspeed, BULLET_DESPAWN_TIME);
-
-        // console.log(posXOriginal, posYOriginal)
-        // console.log(this.posXOriginal, this.posYOriginal)
-
-        this.damage = damage
-
-    }
-
-    update() {
-        this.checkCollisions()
-    }
-
-    checkCollisions() {
-        //Zombies
-        GAME_ENGINE.ent_Zombies.forEach((entity) => {
-            if (entity instanceof Zombie) {
-                let intersectionDepth = this.bc.collide(entity.bc_Movement)
-                if (intersectionDepth < 0) {
-                    entity.takeDamage(this.damage, ZOMBIE_DMG_SHOT)
-                    // GAME_ENGINE.addEntity(new Sound("Assets/Audio/SFX/Guns/hitmarker.mp3",1))
-                    this.removeFromWorld = true
-                }
-            }
-        })
-        GAME_ENGINE.ent_MapObjects.forEach((entity) => {
-            if (entity instanceof MapBB || entity instanceof MapInteract) {
-                if(this.bb.collide(entity.bb) && !entity.projectilePasses) {
-                    this.removeFromWorld = true
-                }
-            }
-        })
-    }
-}
+   
+};
 
 

@@ -8,6 +8,8 @@ class Slime {
         this.game.slime = this;
         //slime state variables
         this.state = 0; // 0 = idle, 1 = left, 2 = right, 3 = up, 4 = down, 5 = dead, 6 = attacking
+
+        this.weaponState = 0; // 0 = no weapon, 1 = knife, 2 = pistol
         this.dead = false;
         
 
@@ -187,7 +189,7 @@ class Slime {
             }
         }
         
-
+        // This is to normalize the speed if needed
         // if (deltaX !== 0 && deltaY !== 0) {
         //     const normalizer = Math.sqrt(2) / 2;
         //     deltaX *= normalizer;
