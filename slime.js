@@ -37,7 +37,8 @@ class Slime {
 
 
         // all the knife stuff.
-        this.hasKnife = this.inventory[this.game.knife]; // Indicates if the slime has a knife to attack with
+        this.hasKnife = this.inventory.some(item => item.name === "knife"); // Indicates if the slime has a knife to attack with
+        // console.log(this.inventory.some(item => item.name === "knife");
         this.isKnifing = false; // Indicates if the slime is currently performing a knife attack
         this.knifeCooldown = 0;
 

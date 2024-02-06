@@ -2,6 +2,7 @@ class knife {
     constructor(game, x, y) {
         Object.assign(this, {game, x, y});
         this.game.knife = this;
+        this.name = "knife";
         this.range = {radius: 13, x: this.x + 9, y: this.y + 12};
         this.damage = 50; // can be changed, just randomly set to 15
         this.speed = 5; // can be changed, just randomly set to 5
