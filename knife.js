@@ -25,11 +25,15 @@ class knife {
             this.overlapCollisionCircle.x = this.x + 10 - this.game.camera.x;
             this.overlapCollisionCircle.y = this.y + 13 - this.game.camera.y;
         }
-    }
+    };
 
     draw(ctx) {
         if(!this.removeFromWorld){
             this.animator.drawFrame(this.game.clockTick, ctx, this.x - this.game.camera.x, this.y - this.game.camera.y, [this.collisionCircle, this.overlapCollisionCircle]);
         }
-    }
+    };
+
+    hasKnife() {
+        boolean = true;
+    };
 }

@@ -270,6 +270,7 @@ class GameEngine {
 
                 entityB.removeFromWorld = true; // remove weapon from canvas
             }
+        
         }
     }
 

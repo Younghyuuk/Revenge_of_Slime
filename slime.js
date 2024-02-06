@@ -35,7 +35,11 @@ class Slime {
         this.elapsedDeadAnimTime = 0;
         this.elapsedAttackAnimTime = 0;
 
-        // this.camera = new Camera(window.innerWidth, window.innerHeight);
+
+        // all the knife stuff.
+        this.hasKnife = this.inventory.knife; // Indicates if the slime has a knife to attack with
+        this.isKnifing = false; // Indicates if the slime is currently performing a knife attack
+        this.knifeCooldown = 0;
 
     };
 
@@ -114,6 +118,20 @@ class Slime {
 
     };
 
+    // Helper method for knife if in inventory
+    knifeAttack() {
+        this.isKnifing = true;
+        this.knifeCooldown = 20;
+        
+        // Perform the attack logic (e.g., check for collisions with enemies)
+        // For now, we can simply log that an attack has been made
+        console.log("Slime is knifing!");
+
+        // After the attack, you might want to set a timeout to reset the knifing state back to false
+        setTimeout(() => {
+            this.isKnifing = false;
+        }, 500); // Reset after 500 milliseconds
+    };
 
     update() {
         // this.camera.follow(this);
@@ -203,7 +221,14 @@ class Slime {
         // this.y += this.speed * this.game.clockTick * deltaY;
    
        
-        
+        // Knife Logic updated
+        if (this.hasKnife && !this.isKnifing && this.game.click && this.knifeCooldown <= 0) {
+            this.knifeAttack();
+        }
+
+        if (this.knifeCooldown > 0) {
+            this.knifeCooldown -= this.game.clockTick;
+        }
 
 
         this.collisionCircle.x = this.x + 31 - this.game.camera.x;
@@ -233,6 +258,13 @@ class Slime {
             }
         } else {
             this.animations[this.state].drawFrame(this.game.clockTick, ctx, this.x - this.game.camera.x, this.y - this.game.camera.y, [this.collisionCircle, this.overlapCollisionCircle]);
+        }
+
+        if (this.isKnifing) {
+            // Draw knife attack animation
+            // You will need to replace this with your actual animation drawing logic
+            ctx.fillStyle = "red"; // Placeholder: red color indicates knifing
+            ctx.fillRect(this.x, this.y, this.width, this.height); // Placeholder: draw a red box
         }
     };
 };
