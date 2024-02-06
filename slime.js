@@ -2,7 +2,9 @@ class Slime {
     constructor(game, x, y, speed, health, damage) {
         console.log("slime is created");
         this.game = game;
-        this.spritesheet = ASSET_MANAGER.getAsset("./slimeSprite.png");
+        this.spritesheet = ASSET_MANAGER.getAsset("./images/UpdatedSlimeSprite.png");
+
+
         Object.assign(this, {x, y, speed, health, damage});
 
         this.game.slime = this;
@@ -100,13 +102,14 @@ class Slime {
         // 0 = idle, 1 = left, 2 = right, 3 = up, 4 = down, 5 = dead, 6 = attacking
         // new Animator(spriteSheet, xSpriteSheet, ySpriteSheet, width, height, frameCount, frameDuration, scale);
         this.animations[0] = new Animator(this.spritesheet, 0, 0, 32, 32, 10, .175, 2); // idle
-        this.animations[1] = new Animator(this.spritesheet, 0, 32 * 2, 32, 32, 10, .175, 2); //left
         this.animations[4] = new Animator(this.spritesheet, 0, 32, 32, 32, 10, .175, 2); // down
-        this.animations[5] = new Animator(this.spritesheet, 0, 128, 32, 32, 10, .175, 2); // dead
-        this.animations[6] = new Animator(this.spritesheet, 0, 96, 32, 32, 10, .107, 2); // spit attack
+        this.animations[3] = new Animator(this.spritesheet, 0, 64, 32, 32, 10, .175, 2); // up
+        this.animations[2] = new Animator(this.spritesheet, 0, 96, 32, 32, 10, .175, 2); // right
+        this.animations[1] = new Animator(this.spritesheet, 0, 128, 32, 32, 10, .175, 2); //left // ORIGINAL
+        this.animations[6] = new Animator(this.spritesheet, 0, 160, 32, 32, 10, .107, 2); // spit attack
+        this.animations[5] = new Animator(this.spritesheet, 0, 192, 32, 32, 10, .175, 2); // dead
 
 
-        // add right, and up animations
 
 
     };
@@ -145,7 +148,7 @@ class Slime {
             // if the slime IS attacking, keep playing attack animation and move right
             // if the slime is NOT attacking, change state for animation and move right
                 if(this.state != 6) {
-                    this.state = 1;
+                    this.state = 2;
                 }
                 // this.state = 1;
                 // deltaX += 1;
@@ -159,7 +162,7 @@ class Slime {
             // if the slime IS attacking, keep playing attack animation and move up
             // if the slime is NOT attacking, change state for animation and move up
                 if(this.state != 6) {
-                    this.state = 4;
+                    this.state = 3;
                 }
                 // this.state = 4;
                 // deltaY -= 1;
