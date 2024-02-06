@@ -29,11 +29,8 @@ class knife {
 
     draw(ctx) {
         if(!this.removeFromWorld){
-            this.animator.drawFrame(this.game.clockTick, ctx, this.x - this.game.camera.x, this.y - this.game.camera.y, [this.collisionCircle, this.overlapCollisionCircle]);
+            this.animator.drawFrame(this.game.clockTick, ctx, this.x - this.game.camera.x, this.y - this.game.camera.y, this.collisionCircle);
         }
     };
 
-    hasKnife() {
-        boolean = true;
-    };
-}
+};

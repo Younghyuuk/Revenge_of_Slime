@@ -259,18 +259,18 @@ class GameEngine {
         if(entityA instanceof Slime){
             if(entityB.hasOwnProperty('weapon')) { //all weapons should have this.weapon = true
                 entityA.inventory.push(entityB); // add it to the inventory
-                entityA.damage = entityB.damage; // make slimes damage weapons damage
+                // entityA.damage = entityB.damage; // make slimes damage weapons damage
 
                 //adding collision circles together and assigning it to slime
-                var collisionCircle = {radius: entityA.collisionCircle.radius + entityB.collisionCircle.radius,
-                                    x: entityA.collisionCircle.x + entityB.collisionCircle.x,
-                                    y: entityA.collisionCircle.y + entityB.collisionCircle.y};
-                entityA.collisionCircle = collisionCircle; 
-                entityA.overlapCollisionCircle = collisionCircle;
+                // var collisionCircle = {radius: entityA.collisionCircle.radius + entityB.collisionCircle.radius,
+                //                     x: entityA.collisionCircle.x + entityB.collisionCircle.x,
+                //                     y: entityA.collisionCircle.y + entityB.collisionCircle.y};
+                // entityA.collisionCircle = collisionCircle; 
+                // entityA.overlapCollisionCircle = collisionCircle;
 
                 entityB.removeFromWorld = true; // remove weapon from canvas
             }
-        
+            
         }
     }
 

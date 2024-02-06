@@ -37,7 +37,7 @@ class Slime {
 
 
         // all the knife stuff.
-        this.hasKnife = this.inventory.knife; // Indicates if the slime has a knife to attack with
+        this.hasKnife = this.inventory[this.game.knife]; // Indicates if the slime has a knife to attack with
         this.isKnifing = false; // Indicates if the slime is currently performing a knife attack
         this.knifeCooldown = 0;
 
@@ -48,7 +48,7 @@ class Slime {
     };
     // calls attack if mouse clicked and enemy in range
     canAttack() {
-        if (this.game.mouseClick == true && this.enemyInRange != null){
+        if (this.game.mouseClick == true && this.enemyInRange != null && this.isKnifing == false){
             //set state to attacking
             this.state = 6;
             this.attack(this.enemyInRange);
