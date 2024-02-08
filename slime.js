@@ -37,7 +37,7 @@ class Slime {
 
 
         // all the knife stuff.
-        this.hasKnife = this.inventory.some(item => item.name === "knife"); // Indicates if the slime has a knife to attack with
+        this.hasKnife = this.inventory.some(item => item instanceof Knife); // Indicates if the slime has a knife to attack with
         // console.log(this.inventory.some(item => item.name === "knife");
         this.isKnifing = false; // Indicates if the slime is currently performing a knife attack
         this.knifeCooldown = 0;
@@ -49,7 +49,7 @@ class Slime {
     };
     // calls attack if mouse clicked and enemy in range
     canAttack() {
-        if (this.game.mouseClick == true && this.enemyInRange != null && this.isKnifing == false){
+        if (this.game.mouseClick == true && this.enemyInRange != null && this.hasKnife == false){
             //set state to attacking
             this.state = 6;
             this.attack(this.enemyInRange);
@@ -146,8 +146,15 @@ class Slime {
        //don't move if dead
         if(!this.dead) {
 
+            if (this.hasKnife && this.game.mouseClick) {
+                this.isKnifing = true
+            }
+    
+            if (this.knifeCooldown > 0) {
+                this.knifeCooldown -= this.game.clockTick;
+            }
             //calls attack if mouse clicked and enemy in range
-            this.canAttack();
+            // this.canAttack();
             
             if(this.game.A) { // left
             // if the slime IS attacking, keep playing attack animation and move left
@@ -223,13 +230,7 @@ class Slime {
    
        
         // Knife Logic updated
-        if (this.hasKnife && !this.isKnifing && this.game.click && this.knifeCooldown <= 0) {
-            this.knifeAttack();
-        }
-
-        if (this.knifeCooldown > 0) {
-            this.knifeCooldown -= this.game.clockTick;
-        }
+       
 
 
         this.collisionCircle.x = this.x + 31 - this.game.camera.x;

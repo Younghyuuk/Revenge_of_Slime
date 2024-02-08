@@ -20,6 +20,7 @@ class GameEngine {
         this.keys = {};
 
         this.mouseClick = false;
+        this.mouseClickPos = { x: 0, y: 0 };
 
         //key input
         this.W = false;
@@ -84,6 +85,7 @@ class GameEngine {
             }
             this.click = getXandY(e);
             this.mouseClick = true;
+            this.mouseClickPos = this.click; // stored the click position
             console.log("MOUSE CLICK");
         });
 
@@ -285,7 +287,20 @@ class GameEngine {
         this.clockTick = this.timer.tick();
         this.update();
         this.draw();
+
+        // tester
+        if (this.mouseClick) {
+            // Handle mouse click
+            this.handleMouseClick(this.mouseClickPos);
+            this.mouseClick = false; // Reset mouse click flag
+        }
     };
+
+    handleMouseClick(clickPos) {
+        // Handle mouse click here
+        console.log("Mouse clicked at:", clickPos);
+        // You can perform any action based on the mouse click position or interact with game entities
+    }
 
 };
 
