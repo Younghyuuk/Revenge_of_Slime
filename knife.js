@@ -20,42 +20,36 @@ class knife {
         this.animator = new Animator(ASSET_MANAGER.getAsset("./images/knife.png"), 0, 0, 350, 600, 1, 1, .05);
     }
 
-    stabPos() {
-        // Get the difference between the mouse click position and the slime character's position
-        let d1 = this.game.mouseClickPos.x;
-        let d2 = this.game.mouseClickPos.y;
-    
-        let dx = (this.game.slime.x - this.game.camera.x) - d1;
-        let dy = (this.game.slime.y - this.game.camera.y) - d2;
-
-        // Calculate the distance between the mouse click position and the slime character's position
-        let distance = Math.sqrt((dx * dx) + (dy * dy));
-    
-        // Normalize the direction vector
-        if (distance !== 0) {
-            dx /= distance;
-            dy /= distance;
-        }
-    
+ 
+    stabPos() {    // Get the mouse click position
+        let mouseX = this.game.mouseClickPos.x;
+        let mouseY = this.game.mouseClickPos.y;        
+        // Get the slime character's position
+        let slimeX = this.game.slime.x;
+        let slimeY = this.game.slime.y;
+       
+        // Calculate the angle between the mouse click position and the slime character's position
+        let angle = Math.atan2(mouseY - slimeY, mouseX - slimeX);
+        
         // Calculate the position where the stab action will occur (25 units away from the slime character)
-        this.stabX = this.game.slime.x + dx * 25;
-        this.stabY = this.game.slime.y + dy * 25;
-    
+        this.stabX = slimeX + Math.cos(angle) * 125;
+        this.stabY = slimeY + Math.sin(angle) * 125;
+        
         // Define the radius of the stab action's collision circle
-        // const STAB_RADIUS = 50; // Example radius size
+        this.stabRad = 15; // Example radius size
     
-    
-
         // Create a collision circle at the stab position
-        let collisionCircle = {
+        let knifeCircle = {
+            radius: this.stabRad, // Radius of the collision circle
             x: this.stabX, // Center x-coordinate of the collision circle
             y: this.stabY, // Center y-coordinate of the collision circle
-            radius: this.stabRad, // Radius of the collision circle
+           
         };
-    
-        // Now you can use the collision circle for collision detection or other purposes
-        return collisionCircle;w
+        
+            // Now you can use the collision circle for collision detection or other purposes
+        return knifeCircle;
     };
+        
     
     
     update() {
@@ -65,7 +59,7 @@ class knife {
             this.overlapCollisionCircle.x = this.x + 10 - this.game.camera.x;
             this.overlapCollisionCircle.y = this.y + 13 - this.game.camera.y;
         }
-        // this.stabPos();
+        this.stabPos();
     };
 
     draw(ctx) {

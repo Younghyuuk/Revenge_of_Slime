@@ -299,11 +299,12 @@ class Slime {
             this.animations[this.state].drawFrame(this.game.clockTick, ctx, this.x - this.game.camera.x, this.y - this.game.camera.y, [this.collisionCircle, this.overlapCollisionCircle]);
         }
 
-        // if (this.isKnifing) {
-        //     // Draw knife attack animation
-        //     // You will need to replace this with your actual animation drawing logic
-        //     ctx.fillStyle = "red"; // Placeholder: red color indicates knifing
-        //     ctx.(this.x, this.y, this.width, this.height); // Placeholder: draw a red box
-        // }
+
+        if (this.isKnifing) {
+            ctx.beginPath();
+            ctx.arc(this.game.knife.stabX, this.game.knife.stabY, this.game.knife.stabRad, 0, 2 * Math.PI);
+            ctx.strokeStyle = 'red'; // Example color
+            ctx.stroke();
+        }
     };
 };
