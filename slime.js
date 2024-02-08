@@ -86,18 +86,33 @@ class Slime {
         }
     };
 
-    performKnifeAttack() {
-        if (this.hasKnife) {
-            let stabCircle = this.game.knife.stabPos();
+    performKnifeAttack(ctx) {
+        let stabCircle = this.game.knife.stabPos();   
+        ctx.beginPath();
+        // console.log(stabCircle.x);
+        // console.log(stabCircle.y);
+        ctx.arc(stabCircle.x, stabCircle.y, stabCircle.radius, 0, 2 * Math.PI, false);
+        ctx.fillStyle = 'rgba(255, 0, 0, 0.5)'; // Semi-transparent red for visibility
+        ctx.fill();
+        ctx.lineWidth = 1;
+        ctx.strokeStyle = '#FF0000';
+        ctx.stroke();
+        // console.log(this.game.mouseClick);  
+        if (this.hasKnife && this.game.mouseClick) {
+           
             // Check for collisions with entities using stabBox
             this.game.entities.forEach(entity => {
                 if (entity instanceof enemyArcher || entity instanceof enemyKnight) {
-                    if(circlesIntersect(stabCircle, entity)) {
+                    if(this.circlesIntersect(entity.collisionCircle, stabCircle)) {
+                        entity.getAttacked(this.game.knife.damage);
+                        console.log("Enemy health" + entity.health);
                         // Apply damage or effects to the entity
                     }
                    
                 }
             });
+            // Reset mouseClick to prevent continuous attacks
+            this.game.mouseClick = false;
         }
     };
 
@@ -110,7 +125,7 @@ class Slime {
         let dy = circle1.y - circle2.y;
         let distance = Math.sqrt(dx * dx + dy * dy);
         return distance < (circle1.radius + circle2.radius);
-    }
+    };
 
     loadAnimations() {
 
@@ -168,15 +183,16 @@ class Slime {
        //don't move if dead
         if(!this.dead) {
 
-            if (this.hasKnife && this.game.mouseClick) {
-                this.isKnifing = true
-            }
+            // if (this.hasKnife && this.game.mouseClick) {
+            //     this.isKnifing = true
+            // }
     
-            if (this.knifeCooldown > 0) {
-                this.knifeCooldown -= this.game.clockTick;
-            }
+            // if (this.knifeCooldown > 0) {
+            //     this.knifeCooldown -= this.game.clockTick;
+            // }
             //calls attack if mouse clicked and enemy in range
-            this.canAttack();
+            // this.canAttack();
+            this.performKnifeAttack(this.game.ctx);
             
             if(this.game.A) { // left
             // if the slime IS attacking, keep playing attack animation and move left
@@ -284,11 +300,11 @@ class Slime {
             this.animations[this.state].drawFrame(this.game.clockTick, ctx, this.x - this.game.camera.x, this.y - this.game.camera.y, [this.collisionCircle, this.overlapCollisionCircle]);
         }
 
-        if (this.isKnifing) {
-            // Draw knife attack animation
-            // You will need to replace this with your actual animation drawing logic
-            ctx.fillStyle = "red"; // Placeholder: red color indicates knifing
-            ctx.fillRect(this.x, this.y, this.width, this.height); // Placeholder: draw a red box
-        }
+        // if (this.isKnifing) {
+        //     // Draw knife attack animation
+        //     // You will need to replace this with your actual animation drawing logic
+        //     ctx.fillStyle = "red"; // Placeholder: red color indicates knifing
+        //     ctx.fillRect(this.x, this.y, this.width, this.height); // Placeholder: draw a red box
+        // }
     };
 };

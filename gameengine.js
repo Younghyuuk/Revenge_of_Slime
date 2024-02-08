@@ -86,6 +86,7 @@ class GameEngine {
             this.mouseClick = true;
             this.mouseClickPos = this.click; // stored the click position
             console.log("MOUSE CLICK");
+            console.log(this.click)
         });
 
         this.ctx.canvas.addEventListener("wheel", e => {
