@@ -89,12 +89,6 @@ class Slime {
     performKnifeAttack(ctx) {
        
         let stabCircle = this.game.knife.stabPos();   
-        ctx.beginPath();
-      
-        ctx.arc(stabCircle.x - this.game.camera.x, stabCircle.y - this.game.camera.y, stabCircle.radius, 0, 2 * Math.PI, true);
-        ctx.beginPath(); // Start a new path
-        ctx.strokeStyle = 'red'; // Red border
-        ctx.stroke();
         // console.log(this.game.mouseClick);  
         if (this.hasKnife && this.game.mouseClick) {
             console.log(stabCircle.x);
@@ -109,6 +103,12 @@ class Slime {
                     }
                    
                 }
+                ctx.beginPath();
+                ctx.arc(stabCircle.x, stabCircle.y, stabCircle.radius, 0, 2 * Math.PI, true);
+                ctx.beginPath(); // Start a new path
+                ctx.strokeStyle = 'red'; // Red border
+                ctx.stroke();
+              
             });
             // Reset mouseClick to prevent continuous attacks
             this.game.mouseClick = false;
@@ -190,7 +190,7 @@ class Slime {
             //     this.knifeCooldown -= this.game.clockTick;
             // }
             //calls attack if mouse clicked and enemy in range
-            // this.canAttack();
+            this.canAttack();
             this.performKnifeAttack(this.game.ctx);
             
             if(this.game.A) { // left

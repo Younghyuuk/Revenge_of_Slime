@@ -21,6 +21,7 @@ class GameEngine {
 
         this.mouseClick = false;
         this.mouseClickPos = { x: 0, y: 0 };
+        this.mousePos = { x: 0, y: 0 };
 
         //key input
         this.W = false;
@@ -76,6 +77,7 @@ class GameEngine {
                 console.log("MOUSE_MOVE", getXandY(e));
             }
             this.mouse = getXandY(e);
+            this.mousePos = this.mouse;
         });
 
         this.ctx.canvas.addEventListener("click", e => {
