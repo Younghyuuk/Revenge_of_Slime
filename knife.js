@@ -34,11 +34,11 @@ class knife {
         }
     
         // Calculate the position where the stab action will occur (25 units away from the slime character)
-        let stabX = this.game.slime.x + dx * 2;
-        let stabY = this.game.slime.y + dy * 2;
+        let stabX = this.game.slime.x + dx * 25;
+        let stabY = this.game.slime.y + dy * 25;
     
         // Define the radius of the stab action's collision circle
-        const STAB_RADIUS = 10; // Example radius size
+        const STAB_RADIUS = 30; // Example radius size
     
         // Create a collision circle at the stab position
         let collisionCircle = {

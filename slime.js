@@ -87,26 +87,25 @@ class Slime {
     };
 
     performKnifeAttack(ctx) {
+       
         let stabCircle = this.game.knife.stabPos();   
         ctx.beginPath();
-        // console.log(stabCircle.x);
-        // console.log(stabCircle.y);
-        ctx.arc(stabCircle.x, stabCircle.y, stabCircle.radius, 0, 2 * Math.PI, false);
-        ctx.fillStyle = 'rgba(255, 0, 0, 0.5)'; // Semi-transparent red for visibility
-        ctx.fill();
-        ctx.lineWidth = 1;
-        ctx.strokeStyle = '#FF0000';
+      
+        ctx.arc(stabCircle.x - this.game.camera.x, stabCircle.y - this.game.camera.y, stabCircle.radius, 0, 2 * Math.PI, true);
+        ctx.beginPath(); // Start a new path
+        ctx.strokeStyle = 'red'; // Red border
         ctx.stroke();
         // console.log(this.game.mouseClick);  
         if (this.hasKnife && this.game.mouseClick) {
-           
+            console.log(stabCircle.x);
+            console.log(stabCircle.y);
+            console.log(stabCircle.radius);
             // Check for collisions with entities using stabBox
             this.game.entities.forEach(entity => {
                 if (entity instanceof enemyArcher || entity instanceof enemyKnight) {
                     if(this.circlesIntersect(entity.collisionCircle, stabCircle)) {
                         entity.getAttacked(this.game.knife.damage);
                         console.log("Enemy health" + entity.health);
-                        // Apply damage or effects to the entity
                     }
                    
                 }
