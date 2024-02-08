@@ -303,7 +303,7 @@ class Slime {
         //     // Draw knife attack animation
         //     // You will need to replace this with your actual animation drawing logic
         //     ctx.fillStyle = "red"; // Placeholder: red color indicates knifing
-        //     ctx.fillRect(this.x, this.y, this.width, this.height); // Placeholder: draw a red box
+        //     ctx.(this.x, this.y, this.width, this.height); // Placeholder: draw a red box
         // }
     };
 };

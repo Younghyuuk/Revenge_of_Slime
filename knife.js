@@ -22,11 +22,11 @@ class knife {
 
     stabPos() {
         // Get the difference between the mouse click position and the slime character's position
-        let d1 = this.game.mousePos.x + this.game.camera.x;
-        let d2 = this.game.mousePos.y + this.game.camera.y;
+        let d1 = this.game.mouseClickPos.x;
+        let d2 = this.game.mouseClickPos.y;
     
-        let dx = this.game.slime.x - d1;
-        let dy = this.game.slime.y - d2;
+        let dx = (this.game.slime.x - this.game.camera.x) - d1;
+        let dy = (this.game.slime.y - this.game.camera.y) - d2;
 
         // Calculate the distance between the mouse click position and the slime character's position
         let distance = Math.sqrt((dx * dx) + (dy * dy));
