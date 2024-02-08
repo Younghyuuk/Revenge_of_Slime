@@ -37,7 +37,7 @@ class Slime {
 
 
         // all the knife stuff.
-        this.hasKnife = this.inventory.some(item => item instanceof Knife); // Indicates if the slime has a knife to attack with
+        this.hasKnife = false; // Indicates if the slime has a knife to attack with
         // console.log(this.inventory.some(item => item.name === "knife");
         this.isKnifing = false; // Indicates if the slime is currently performing a knife attack
         this.knifeCooldown = 0;
@@ -86,8 +86,30 @@ class Slime {
         }
     };
 
+    performKnifeAttack() {
+        if (this.hasKnife) {
+            let stabCircle = this.game.knife.stabPos();
+            // Check for collisions with entities using stabBox
+            this.game.entities.forEach(entity => {
+                if (entity instanceof enemyArcher || entity instanceof enemyKnight) {
+                    if(circlesIntersect(stabCircle, entity)) {
+                        // Apply damage or effects to the entity
+                    }
+                   
+                }
+            });
+        }
+    };
+
     getCircle() {
         return this.collisionCircle;
+    };
+
+    circlesIntersect(circle1, circle2) {
+        let dx = circle1.x - circle2.x;
+        let dy = circle1.y - circle2.y;
+        let distance = Math.sqrt(dx * dx + dy * dy);
+        return distance < (circle1.radius + circle2.radius);
     }
 
     loadAnimations() {
@@ -120,19 +142,19 @@ class Slime {
     };
 
     // Helper method for knife if in inventory
-    knifeAttack() {
-        this.isKnifing = true;
-        this.knifeCooldown = 20;
+    // knifeAttack() {
+    //     this.isKnifing = true;
+    //     this.knifeCooldown = 20;
         
-        // Perform the attack logic (e.g., check for collisions with enemies)
-        // For now, we can simply log that an attack has been made
-        console.log("Slime is knifing!");
+    //     // Perform the attack logic (e.g., check for collisions with enemies)
+    //     // For now, we can simply log that an attack has been made
+    //     console.log("Slime is knifing!");
 
-        // After the attack, you might want to set a timeout to reset the knifing state back to false
-        setTimeout(() => {
-            this.isKnifing = false;
-        }, 500); // Reset after 500 milliseconds
-    };
+    //     // After the attack, you might want to set a timeout to reset the knifing state back to false
+    //     setTimeout(() => {
+    //         this.isKnifing = false;
+    //     }, 500); // Reset after 500 milliseconds
+    // };
 
     update() {
         // this.camera.follow(this);
@@ -154,7 +176,7 @@ class Slime {
                 this.knifeCooldown -= this.game.clockTick;
             }
             //calls attack if mouse clicked and enemy in range
-            // this.canAttack();
+            this.canAttack();
             
             if(this.game.A) { // left
             // if the slime IS attacking, keep playing attack animation and move left

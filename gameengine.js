@@ -37,7 +37,6 @@ class GameEngine {
      
         // Camera object
         // this.slime = new Slime(this.game, 77, 430, 150, 100, 10);
-        // this.cam = new CameraScene(this);
         this.map = new map(this);
        
     };
@@ -169,7 +168,6 @@ class GameEngine {
         for (let i = this.entities.length - 1; i >= 0; i--) {
             this.entities[i].draw(this.ctx, this);
         }
-        // this.camera.draw(this.ctx);
     };
 
     update() {
@@ -271,6 +269,8 @@ class GameEngine {
                 // entityA.overlapCollisionCircle = collisionCircle;
 
                 entityB.removeFromWorld = true; // remove weapon from canvas
+                this.slime.hasKnife = true;
+                console.log("true");
             }
             
         }
