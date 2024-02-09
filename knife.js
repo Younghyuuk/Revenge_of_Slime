@@ -44,7 +44,7 @@ class knife {
         this.stabY = slimeY + Math.sin(angle) * 30;
     
         // Define the radius of the stab action's collision circle
-        this.stabRad = 15; // Radius of the collision circle
+        this.stabRad = 13; // Radius of the collision circle
         
         
         // Create and return the collision circle at the stab position
@@ -72,10 +72,6 @@ class knife {
         if(!this.removeFromWorld){
             this.animator.drawFrame(this.game.clockTick, ctx, this.x - this.game.camera.x, this.y - this.game.camera.y, this.collisionCircle);
         }
-        // ctx.beginPath();
-        // ctx.arc(this.stabX, this.stabY, this.stabRad, 0, 2 * Math.PI);
-        // ctx.strokeStyle = 'red'; // Example color
-        // ctx.stroke();
     };
 
 };
