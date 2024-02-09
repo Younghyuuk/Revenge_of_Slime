@@ -21,6 +21,7 @@ function createEnemy(gameEngine, type, x, y, speed, health, damage) {
 
 function createSlime(gameEngine) {
 	console.log("createSlime() is called");
+	//game , x, y, speed, health,  base damage
 	window.slime = new Slime(gameEngine, 700, 430, 150, 100, 10);
 	gameEngine.addEntity(slime);
 	gameEngine.addEntity(new knife(gameEngine, 105, 610));

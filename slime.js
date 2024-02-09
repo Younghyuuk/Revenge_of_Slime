@@ -10,6 +10,8 @@ class Slime {
         this.game.slime = this;
         //slime state variables
         this.state = 0; // 0 = idle, 1 = left, 2 = right, 3 = up, 4 = down, 5 = dead, 6 = attacking
+
+        this.weaponState = 0; // 0 = no weapon, 1 = knife, 2 = pistol
         this.dead = false;
         
 
@@ -33,7 +35,12 @@ class Slime {
         this.elapsedDeadAnimTime = 0;
         this.elapsedAttackAnimTime = 0;
 
-        // this.camera = new Camera(window.innerWidth, window.innerHeight);
+
+        // all the knife stuff.
+        this.hasKnife = false; // Indicates if the slime has a knife to attack with
+        // console.log(this.inventory.some(item => item.name === "knife");
+        this.isKnifing = false; // Indicates if the slime is currently performing a knife attack
+        this.knifeCooldown = 0;
 
     };
 
@@ -42,7 +49,7 @@ class Slime {
     };
     // calls attack if mouse clicked and enemy in range
     canAttack() {
-        if (this.game.mouseClick == true && this.enemyInRange != null){
+        if (this.game.mouseClick == true && this.enemyInRange != null && this.hasKnife == false){
             //set state to attacking
             this.state = 6;
             this.attack(this.enemyInRange);
@@ -79,9 +86,58 @@ class Slime {
         }
     };
 
+    performKnifeAttack(ctx) {
+        let stabCircle = this.game.knife.stabPos();
+    
+        if (this.hasKnife && this.game.mouseClick) {
+            console.log(stabCircle.x);
+            console.log(stabCircle.y);
+            console.log(stabCircle.radius);
+            this.isKnifing = true;
+            this.showStabCircle = true; // Set to true to show the stab circle
+    
+            // Check for collisions with entities using stabCircle
+            this.game.entities.forEach(entity => {
+                if (entity instanceof enemyArcher || entity instanceof enemyKnight) {
+                    if(this.circlesIntersect(entity.collisionCircle, stabCircle)) {
+                        entity.getAttacked(this.game.knife.damage);
+                        console.log("Enemy health: " + entity.health);
+                    }
+                }
+            });
+    
+            // Draw the stab circle if showStabCircle is true
+            if (this.showStabCircle) {
+                ctx.beginPath();
+                ctx.arc(stabCircle.x - this.game.camera.x, stabCircle.y - this.game.camera.y, stabCircle.radius, 0, 2 * Math.PI, true);
+                ctx.strokeStyle = 'red'; // Red border
+                ctx.stroke();
+            }
+    
+            // Use setTimeout to hide the stab circle after 500ms
+            setTimeout(() => {
+                this.showStabCircle = false;
+                // Optionally clear the circle area. You might need to clear the entire canvas or redraw the scene based on your game's structure
+                // ctx.clearRect(stabCircle.x - stabCircle.radius, stabCircle.y - stabCircle.radius, stabCircle.radius * 2, stabCircle.radius * 2);
+            }, 500);
+    
+            // Reset mouseClick to prevent continuous attacks
+            this.game.mouseClick = false;
+            this.isKnifing = false;
+        }
+    };
+    
+
     getCircle() {
         return this.collisionCircle;
-    }
+    };
+
+    circlesIntersect(circle1, circle2) {
+        let dx = circle1.x - circle2.x;
+        let dy = circle1.y - circle2.y;
+        let distance = Math.sqrt(dx * dx + dy * dy);
+        return distance < (circle1.radius + circle2.radius);
+    };
 
     loadAnimations() {
 
@@ -112,6 +168,20 @@ class Slime {
 
     };
 
+    // Helper method for knife if in inventory
+    // knifeAttack() {
+    //     this.isKnifing = true;
+    //     this.knifeCooldown = 20;
+        
+    //     // Perform the attack logic (e.g., check for collisions with enemies)
+    //     // For now, we can simply log that an attack has been made
+    //     console.log("Slime is knifing!");
+
+    //     // After the attack, you might want to set a timeout to reset the knifing state back to false
+    //     setTimeout(() => {
+    //         this.isKnifing = false;
+    //     }, 500); // Reset after 500 milliseconds
+    // };
 
     update() {
         // this.camera.follow(this);
@@ -125,9 +195,27 @@ class Slime {
        //don't move if dead
         if(!this.dead) {
 
+            // if (this.hasKnife && this.game.mouseClick) {
+            //     this.isKnifing = true
+            // }
+    
+            // if (this.knifeCooldown > 0) {
+            //     this.knifeCooldown -= this.game.clockTick;
+            // }
             //calls attack if mouse clicked and enemy in range
             this.canAttack();
-            
+            this.performKnifeAttack(this.game.ctx);
+            if (this.showStabCircle) {
+                if (!this.stabCircleTimer) { // Initialize the timer the first time
+                    this.stabCircleTimer = 120; // e.g., 60 frames = 1 second at 60 FPS
+                }
+                this.stabCircleTimer--;
+                if (this.stabCircleTimer <= 0) {
+                    this.showStabCircle = false;
+                    this.stabCircleTimer = null; // Reset the timer
+                }
+            }
+
             if(this.game.A) { // left
             // if the slime IS attacking, keep playing attack animation and move left
             // if the slime is NOT attacking, change state for animation and move left
@@ -190,7 +278,8 @@ class Slime {
             }
         }
         
-
+       
+        // This is to normalize the speed if needed
         // if (deltaX !== 0 && deltaY !== 0) {
         //     const normalizer = Math.sqrt(2) / 2;
         //     deltaX *= normalizer;
@@ -201,7 +290,8 @@ class Slime {
         // this.y += this.speed * this.game.clockTick * deltaY;
    
        
-        
+        // Knife Logic updated
+       
 
 
         this.collisionCircle.x = this.x + 31 - this.game.camera.x;
@@ -231,6 +321,15 @@ class Slime {
             }
         } else {
             this.animations[this.state].drawFrame(this.game.clockTick, ctx, this.x - this.game.camera.x, this.y - this.game.camera.y, [this.collisionCircle, this.overlapCollisionCircle]);
+        }
+
+
+        if (this.showStabCircle && this.game.knife) {
+            // Draw the stab circle
+            ctx.beginPath();
+            ctx.arc(this.game.knife.stabX, this.game.knife.stabY, this.game.knife.stabRad, 0, Math.PI * 2);
+            ctx.strokeStyle = 'red';
+            ctx.stroke();
         }
     };
 };
