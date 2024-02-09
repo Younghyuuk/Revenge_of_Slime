@@ -40,17 +40,18 @@ class knife {
         let angle = Math.atan2(mouseY - slimeY, mouseX - slimeX);
     
         // Calculate the position where the stab action will occur, 30 units away from the slime
-        let stabX = slimeX + Math.cos(angle) * 30;
-        let stabY = slimeY + Math.sin(angle) * 30;
+        this.stabX = slimeX + Math.cos(angle) * 30;
+        this.stabY = slimeY + Math.sin(angle) * 30;
     
         // Define the radius of the stab action's collision circle
-        let stabRadius = 15; // Radius of the collision circle
-    
+        this.stabRad = 15; // Radius of the collision circle
+        
+        
         // Create and return the collision circle at the stab position
         return {
-            x: stabX, // X-coordinate of the collision circle's center
-            y: stabY, // Y-coordinate of the collision circle's center
-            radius: stabRadius, // Radius of the collision circle
+            x: this.stabX, // X-coordinate of the collision circle's center
+            y: this.stabY, // Y-coordinate of the collision circle's center
+            radius: this.stabRad, // Radius of the collision circle
         };
     }
     

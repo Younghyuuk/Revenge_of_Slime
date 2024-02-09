@@ -205,7 +205,17 @@ class Slime {
             //calls attack if mouse clicked and enemy in range
             this.canAttack();
             this.performKnifeAttack(this.game.ctx);
-            
+            if (this.showStabCircle) {
+                if (!this.stabCircleTimer) { // Initialize the timer the first time
+                    this.stabCircleTimer = 120; // e.g., 60 frames = 1 second at 60 FPS
+                }
+                this.stabCircleTimer--;
+                if (this.stabCircleTimer <= 0) {
+                    this.showStabCircle = false;
+                    this.stabCircleTimer = null; // Reset the timer
+                }
+            }
+
             if(this.game.A) { // left
             // if the slime IS attacking, keep playing attack animation and move left
             // if the slime is NOT attacking, change state for animation and move left
@@ -268,16 +278,7 @@ class Slime {
             }
         }
         
-        if (this.showStabCircle) {
-            if (!this.stabCircleTimer) { // Initialize the timer the first time
-                this.stabCircleTimer = 60; // e.g., 60 frames = 1 second at 60 FPS
-            }
-            this.stabCircleTimer--;
-            if (this.stabCircleTimer <= 0) {
-                this.showStabCircle = false;
-                this.stabCircleTimer = null; // Reset the timer
-            }
-        }
+       
         // This is to normalize the speed if needed
         // if (deltaX !== 0 && deltaY !== 0) {
         //     const normalizer = Math.sqrt(2) / 2;
