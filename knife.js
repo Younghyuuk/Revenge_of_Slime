@@ -21,34 +21,39 @@ class knife {
     }
 
  
-    stabPos() {    // Get the mouse click position
+    stabPos() {
+        // Ensure we have valid mouse click positions before proceeding
+        if (!this.game.mouseClickPos || !this.game.slime) {
+            console.error("Missing mouse click position or slime character.");
+            return null; // Exit the function if necessary data is missing
+        }
+    
+        // Get the mouse click position
         let mouseX = this.game.mouseClickPos.x;
-        let mouseY = this.game.mouseClickPos.y;        
-        // Get the slime character's position
-        let slimeX = this.game.slime.x + 31;
-        let slimeY = this.game.slime.y + 55;
-       
+        let mouseY = this.game.mouseClickPos.y;
+    
+        // Get the slime character's position with adjustments for specific anchor points
+        let slimeX = this.game.slime.x + 31; // Adjusted X-coordinate of the slime
+        let slimeY = this.game.slime.y + 55; // Adjusted Y-coordinate of the slime
+    
         // Calculate the angle between the mouse click position and the slime character's position
         let angle = Math.atan2(mouseY - slimeY, mouseX - slimeX);
-        
-        // Calculate the position where the stab action will occur (25 units away from the slime character)
-        this.stabX = slimeX + Math.cos(angle) * 30;
-        this.stabY = slimeY + Math.sin(angle) * 30;
-        
-        // Define the radius of the stab action's collision circle
-        this.stabRad = 15; // Example radius size
     
-        // Create a collision circle at the stab position
-        let knifeCircle = {
-            radius: this.stabRad, // Radius of the collision circle
-            x: this.stabX - this.game.camera.x, // Center x-coordinate of the collision circle
-            y: this.stabY - this.game.camera.y, // Center y-coordinate of the collision circle
-           
+        // Calculate the position where the stab action will occur, 30 units away from the slime
+        let stabX = slimeX + Math.cos(angle) * 30;
+        let stabY = slimeY + Math.sin(angle) * 30;
+    
+        // Define the radius of the stab action's collision circle
+        let stabRadius = 15; // Radius of the collision circle
+    
+        // Create and return the collision circle at the stab position
+        return {
+            x: stabX, // X-coordinate of the collision circle's center
+            y: stabY, // Y-coordinate of the collision circle's center
+            radius: stabRadius, // Radius of the collision circle
         };
-        
-            // Now you can use the collision circle for collision detection or other purposes
-        return knifeCircle;
-    };
+    }
+    
         
     
     
@@ -66,10 +71,10 @@ class knife {
         if(!this.removeFromWorld){
             this.animator.drawFrame(this.game.clockTick, ctx, this.x - this.game.camera.x, this.y - this.game.camera.y, this.collisionCircle);
         }
-        ctx.beginPath();
-        ctx.arc(this.stabX, this.stabY, this.stabRad, 0, 2 * Math.PI);
-        ctx.strokeStyle = 'red'; // Example color
-        ctx.stroke();
+        // ctx.beginPath();
+        // ctx.arc(this.stabX, this.stabY, this.stabRad, 0, 2 * Math.PI);
+        // ctx.strokeStyle = 'red'; // Example color
+        // ctx.stroke();
     };
 
 };
