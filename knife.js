@@ -65,7 +65,7 @@ class knife {
             this.overlapCollisionCircle.x = this.x + 10 - this.game.camera.x;
             this.overlapCollisionCircle.y = this.y + 13 - this.game.camera.y;
         }
-        this.stabPos();
+        // this.stabPos();
     };
 
     draw(ctx) {
