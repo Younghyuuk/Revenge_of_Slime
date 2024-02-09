@@ -216,6 +216,7 @@ class GameEngine {
         }
         //for camera later
         this.camera.update();
+        // this.game.knife.stabPos();
 
         //let the levelBuilder know how many of each type of enemy is still alive
         //add more params as we create more enemies 

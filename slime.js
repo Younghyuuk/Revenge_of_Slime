@@ -109,7 +109,7 @@ class Slime {
             // Draw the stab circle if showStabCircle is true
             if (this.showStabCircle) {
                 ctx.beginPath();
-                ctx.arc(stabCircle.x, stabCircle.y, stabCircle.radius, 0, 2 * Math.PI, true);
+                ctx.arc(stabCircle.x - this.game.camera.x, stabCircle.y - this.game.camera.y, stabCircle.radius, 0, 2 * Math.PI, true);
                 ctx.strokeStyle = 'red'; // Red border
                 ctx.stroke();
             }
