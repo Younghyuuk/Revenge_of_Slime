@@ -65,10 +65,12 @@ const PARAMS = {
     BITWIDTH: 16
 };
 
-const getUnitVector = (thisPosX, thisPosY, othPosX, othPosY) => {
+// to get angle thisPosx and thisPosY is for the mouse coordinates of the clicks, and otherPosX
+// and otherPosY is for slimes x and y with camera offset.
+const getUnitVector = (thisPosX, thisPosY, otherPosX, otherPosY) => {
     //get angle
-    var dx = (othPosX) - (thisPosX);
-    var dy = (othPosY) - (thisPosY);
+    var dx = (thisPosX) - (otherPosX);
+    var dy = (thisPosY) - (otherPosY);
     var angle = Math.atan2(dy, dx)
 
     return [Math.cos(angle), Math.sin(angle)]

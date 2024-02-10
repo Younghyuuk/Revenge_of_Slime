@@ -168,20 +168,6 @@ class Slime {
 
     };
 
-    // Helper method for knife if in inventory
-    // knifeAttack() {
-    //     this.isKnifing = true;
-    //     this.knifeCooldown = 20;
-        
-    //     // Perform the attack logic (e.g., check for collisions with enemies)
-    //     // For now, we can simply log that an attack has been made
-    //     console.log("Slime is knifing!");
-
-    //     // After the attack, you might want to set a timeout to reset the knifing state back to false
-    //     setTimeout(() => {
-    //         this.isKnifing = false;
-    //     }, 500); // Reset after 500 milliseconds
-    // };
 
     update() {
         // this.camera.follow(this);
