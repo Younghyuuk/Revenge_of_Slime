@@ -64,3 +64,12 @@ const PARAMS = {
     SCALE: 3,
     BITWIDTH: 16
 };
+
+const getUnitVector = (thisPosX, thisPosY, othPosX, othPosY) => {
+    //get angle
+    var dx = (othPosX) - (thisPosX);
+    var dy = (othPosY) - (thisPosY);
+    var angle = Math.atan2(dy, dx)
+
+    return [Math.cos(angle), Math.sin(angle)]
+};
