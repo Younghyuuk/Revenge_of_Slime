@@ -2,7 +2,12 @@ class Slime {
     constructor(game, x, y, speed, health, damage) {
         console.log("slime is created");
         this.game = game;
-        this.spritesheet = ASSET_MANAGER.getAsset("./images/UpdatedSlimeSprite.png");
+        // this.spritesheet = ASSET_MANAGER.getAsset("./images/UpdatedSlimeSprite.png");
+        // this.spritesheet = ASSET_MANAGER.getAsset("./images/myBlueSlime.png");
+        this.spritesheet = ASSET_MANAGER.getAsset("./images/blueKnifeSlime.png");
+
+
+        
 
 
         Object.assign(this, {x, y, speed, health, damage});
@@ -160,7 +165,7 @@ class Slime {
         this.animations[3] = new Animator(this.spritesheet, 0, 64, 32, 32, 10, .175, 2); // up
         this.animations[2] = new Animator(this.spritesheet, 0, 96, 32, 32, 10, .175, 2); // right
         this.animations[1] = new Animator(this.spritesheet, 0, 128, 32, 32, 10, .175, 2); //left // ORIGINAL
-        this.animations[6] = new Animator(this.spritesheet, 0, 160, 32, 32, 10, .107, 2); // spit attack
+        this.animations[6] = new Animator(this.spritesheet, 0, 160, 32, 32, 10, .175, 2); // spit attack
         this.animations[5] = new Animator(this.spritesheet, 0, 192, 32, 32, 10, .175, 2); // dead
 
 
