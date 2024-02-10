@@ -21,7 +21,7 @@ class GameEngine {
 
         this.mouseClick = false;
         this.mouseClickPos = { x: 0, y: 0 };
-        this.mousePos = { x: 0, y: 0 };
+        // this.mousePos = { x: 0, y: 0 };
 
         //key input
         this.W = false;

@@ -90,9 +90,9 @@ class Slime {
         let stabCircle = this.game.knife.stabPos();
     
         if (this.hasKnife && this.game.mouseClick) {
-            console.log(stabCircle.x);
-            console.log(stabCircle.y);
-            console.log(stabCircle.radius);
+            // console.log(stabCircle.x);
+            // console.log(stabCircle.y);
+            // console.log(stabCircle.radius);
             this.isKnifing = true;
             this.showStabCircle = true; // Set to true to show the stab circle
     
