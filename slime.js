@@ -39,7 +39,6 @@ class Slime {
         // all the knife stuff.
         this.hasKnife = false; // Indicates if the slime has a knife to attack with
         // console.log(this.inventory.some(item => item.name === "knife");
-        this.isKnifing = false; // Indicates if the slime is currently performing a knife attack
         this.knifeCooldown = 0;
 
     };
@@ -93,7 +92,6 @@ class Slime {
             // console.log(stabCircle.x);
             // console.log(stabCircle.y);
             // console.log(stabCircle.radius);
-            this.isKnifing = true;
             this.showStabCircle = true; // Set to true to show the stab circle
     
             // Check for collisions with entities using stabCircle
@@ -123,7 +121,6 @@ class Slime {
     
             // Reset mouseClick to prevent continuous attacks
             this.game.mouseClick = false;
-            this.isKnifing = false;
         }
     };
     
@@ -181,13 +178,7 @@ class Slime {
        //don't move if dead
         if(!this.dead) {
 
-            // if (this.hasKnife && this.game.mouseClick) {
-            //     this.isKnifing = true
-            // }
-    
-            // if (this.knifeCooldown > 0) {
-            //     this.knifeCooldown -= this.game.clockTick;
-            // }
+          
             //calls attack if mouse clicked and enemy in range
             this.canAttack();
             this.performKnifeAttack(this.game.ctx);

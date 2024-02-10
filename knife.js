@@ -36,14 +36,11 @@ class knife {
         let slimeX = this.game.slime.x + 31 - this.game.camera.x; 
         let slimeY = this.game.slime.y + 55 - this.game.camera.y; 
         
-
         // Calculate the angle between the mouse click position and the slime character's position
         // let angle = Math.atan2(mouseY - slimeY, mouseX - slimeX);
         let unitV = getUnitVector(mouseX, mouseY, slimeX, slimeY);
 
         // Calculate the position where the stab action will occur, 30 units away from the slime
-        // this.stabX = slimeX + Math.cos(angle) * 30;
-        // this.stabY = slimeY + Math.sin(angle) * 30;
         this.stabX = slimeX + (unitV[0] * 30);
         this.stabY = slimeY + (unitV[1] * 30);
 
