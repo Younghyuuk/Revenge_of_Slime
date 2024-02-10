@@ -3,8 +3,8 @@ class Slime {
         console.log("slime is created");
         this.game = game;
         // this.spritesheet = ASSET_MANAGER.getAsset("./images/UpdatedSlimeSprite.png");
-        // this.spritesheet = ASSET_MANAGER.getAsset("./images/myBlueSlime.png");
-        this.spritesheet = ASSET_MANAGER.getAsset("./images/blueKnifeSlime.png");
+        this.spritesheet = ASSET_MANAGER.getAsset("./images/myBlueSlime.png"); // uncomment in main too
+        // this.spritesheet = ASSET_MANAGER.getAsset("./images/blueKnifeSlime.png");
 
 
         
@@ -100,6 +100,7 @@ class Slime {
             console.log(stabCircle.radius);
             this.isKnifing = true;
             this.showStabCircle = true; // Set to true to show the stab circle
+            this.state = 6;
     
             // Check for collisions with entities using stabCircle
             this.game.entities.forEach(entity => {

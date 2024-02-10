@@ -272,7 +272,8 @@ class GameEngine {
                 // entityA.collisionCircle = collisionCircle; 
                 // entityA.overlapCollisionCircle = collisionCircle;
 
-                entityB.removeFromWorld = true; // remove weapon from canvas
+                // entityB.removeFromWorld = true; // remove weapon from canvas
+                entityB.assignToSlime = true;
                 this.slime.hasKnife = true;
                 console.log("true");
             }
