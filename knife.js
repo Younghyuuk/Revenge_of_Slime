@@ -4,7 +4,7 @@ class knife {
         this.game.knife = this;
         this.name = "knife";
         // this.range = {radius: 13, x: this.x + 9, y: this.y + 12};
-        this.damage = 100; // can be changed, just randomly set to 15
+        this.damage = 10; // can be changed, just randomly set to 15
         this.speed = 5; // can be changed, just randomly set to 5
         this.weapon = true;
         this.removeFromWorld = false;
@@ -33,16 +33,17 @@ class knife {
         let mouseY = this.game.mouseClickPos.y;
     
         // Get the slime character's position with adjustments for specific anchor points
-        let slimeX = this.game.slime.x + 31 - this.game.camera.x; // Adjusted X-coordinate of the slime
-        let slimeY = this.game.slime.y + 55 - this.game.camera.y; // Adjusted Y-coordinate of the slime
-    
+        let slimeX = this.game.slime.x + 31 - this.game.camera.x; 
+        let slimeY = this.game.slime.y + 55 - this.game.camera.y; 
+        
         // Calculate the angle between the mouse click position and the slime character's position
-        let angle = Math.atan2(mouseY - slimeY, mouseX - slimeX);
-    
+        // let angle = Math.atan2(mouseY - slimeY, mouseX - slimeX);
+        let unitV = getUnitVector(mouseX, mouseY, slimeX, slimeY);
+
         // Calculate the position where the stab action will occur, 30 units away from the slime
-        this.stabX = slimeX + Math.cos(angle) * 30;
-        this.stabY = slimeY + Math.sin(angle) * 30;
-    
+        this.stabX = slimeX + (unitV[0] * 30);
+        this.stabY = slimeY + (unitV[1] * 30);
+
         // Define the radius of the stab action's collision circle
         this.stabRad = 13; // Radius of the collision circle
         
