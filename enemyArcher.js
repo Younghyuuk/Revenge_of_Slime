@@ -24,7 +24,8 @@ class enemyArcher {
 
         this.removeFromWorld = false; // if the sprite is a live or dead, alive at creation
 
-        this.takeDamageCollisionCircle = {radius: 22, x: x + 17, y: y + 20};// collision detection circle
+        //takes damage
+        this.collisionCircle = {radius: 22, x: x + 17, y: y + 20};// collision detection circle
 
         this.dealDamageCollisionCircle = {radius: 190, x: x + 17, y: y + 20};
 
@@ -40,7 +41,7 @@ class enemyArcher {
     update() {
 
         let target = {x : this.slime.getCircle().x, y : this.slime.getCircle().y};
-        let current = {x : this.takeDamageCollisionCircle.x, y : this.takeDamageCollisionCircle.y};
+        let current = {x : this.collisionCircle.x, y : this.collisionCircle.y};
 
         var dist = this.distance(current, target);
         this.coolDown += this.game.clockTick;
@@ -64,8 +65,8 @@ class enemyArcher {
         // this.attackCircle.y = this.y + 20 - this.game.camera.y;
 
 
-        this.takeDamageCollisionCircle.x = this.x + 17 - this.game.camera.x;;
-        this.takeDamageCollisionCircle.y = this.y + 20 - this.game.camera.y;
+        this.collisionCircle.x = this.x + 17 - this.game.camera.x;;
+        this.collisionCircle.y = this.y + 20 - this.game.camera.y;
 
         //update collision circle for dealing damage
         this.dealDamageCollisionCircle.x = this.x + 17 - this.game.camera.x;;
@@ -102,7 +103,7 @@ class enemyArcher {
 
     draw(ctx) {
         if (!this.removeFromWorld) {
-            this.animator.drawFrame(this.game.clockTick, ctx, this.x- this.game.camera.x, this.y - this.game.camera.y, [this.takeDamageCollisionCircle, this.dealDamageCollisionCircle, this.overlapCollisionCircle]);
+            this.animator.drawFrame(this.game.clockTick, ctx, this.x- this.game.camera.x, this.y - this.game.camera.y, [this.collisionCircle, this.dealDamageCollisionCircle, this.overlapCollisionCircle]);
         }
         
     }

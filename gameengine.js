@@ -20,6 +20,8 @@ class GameEngine {
         this.keys = {};
 
         this.mouseClick = false;
+        this.mouseClickPos = { x: 0, y: 0 };
+        // this.mousePos = { x: 0, y: 0 };
 
         //key input
         this.W = false;
@@ -36,7 +38,6 @@ class GameEngine {
      
         // Camera object
         // this.slime = new Slime(this.game, 77, 430, 150, 100, 10);
-        // this.cam = new CameraScene(this);
         this.map = new map(this);
        
     };
@@ -76,6 +77,7 @@ class GameEngine {
                 console.log("MOUSE_MOVE", getXandY(e));
             }
             this.mouse = getXandY(e);
+            this.mousePos = this.mouse;
         });
 
         this.ctx.canvas.addEventListener("click", e => {
@@ -84,7 +86,9 @@ class GameEngine {
             }
             this.click = getXandY(e);
             this.mouseClick = true;
+            this.mouseClickPos = this.click; // stored the click position
             console.log("MOUSE CLICK");
+            console.log(this.click)
         });
 
         this.ctx.canvas.addEventListener("wheel", e => {
@@ -167,7 +171,6 @@ class GameEngine {
         for (let i = this.entities.length - 1; i >= 0; i--) {
             this.entities[i].draw(this.ctx, this);
         }
-        // this.camera.draw(this.ctx);
     };
 
     update() {
@@ -213,6 +216,7 @@ class GameEngine {
         }
         //for camera later
         this.camera.update();
+        // this.game.knife.stabPos();
 
         //let the levelBuilder know how many of each type of enemy is still alive
         //add more params as we create more enemies 
@@ -269,6 +273,8 @@ class GameEngine {
                 // entityA.overlapCollisionCircle = collisionCircle;
 
                 entityB.removeFromWorld = true; // remove weapon from canvas
+                this.slime.hasKnife = true;
+                console.log("true");
             }
             
         }
@@ -285,7 +291,20 @@ class GameEngine {
         this.clockTick = this.timer.tick();
         this.update();
         this.draw();
+
+        // tester
+        if (this.mouseClick) {
+            // Handle mouse click
+            this.handleMouseClick(this.mouseClickPos);
+            this.mouseClick = false; // Reset mouse click flag
+        }
     };
+
+    handleMouseClick(clickPos) {
+        // Handle mouse click here
+        console.log("Mouse clicked at:", clickPos);
+        // You can perform any action based on the mouse click position or interact with game entities
+    }
 
 };
 
