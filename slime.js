@@ -3,8 +3,10 @@ class Slime {
         console.log("slime is created");
         this.game = game;
 
-        this.NoWeaponSpritesheet = ASSET_MANAGER.getAsset("./images/myBlueSlime.png");
-        this.KnifeSpritesheet = ASSET_MANAGER.getAsset("./images/blueKnifeSlime.png");
+        this.NoWeaponSpritesheet = ASSET_MANAGER.getAsset("./images/blueSlime.png");
+        this.KnifeSpritesheet = ASSET_MANAGER.getAsset("./images/knifeBlueSlime.png");
+        this.knifeAttackSpriteSheet = ASSET_MANAGER.getAsset("./images/practiceKnifeAttack.png");
+
 
         Object.assign(this, {x, y, speed, health, damage});
 
@@ -170,8 +172,9 @@ class Slime {
         this.animations[1][3] = new Animator(this.KnifeSpritesheet, 0, 64, 32, 32, 10, .175, 2); // up
         this.animations[1][4] = new Animator(this.KnifeSpritesheet, 0, 32, 32, 32, 10, .175, 2); // down
         this.animations[1][5] = new Animator(this.KnifeSpritesheet, 0, 192, 32, 32, 10, .175, 2); // dead
-        this.animations[1][6] = new Animator(this.KnifeSpritesheet, 0, 160, 32, 32, 10, .175, 2); // knife stab attack
-
+        // this.animations[1][6] = new Animator(this.KnifeSpritesheet, 0, 160, 32, 32, 10, .175, 2); // old knife stab attack
+        this.animations[1][6] = new Animator(this.knifeAttackSpriteSheet, 0, 0, 64, 64, 10, .095, 2); // new knife stab attack
+                                                                    
 
 
 
@@ -323,15 +326,19 @@ class Slime {
 
     draw(ctx) {
         
-        this.animations[this.weaponState][this.state].drawFrame(this.game.clockTick, ctx, this.x - this.game.camera.x, this.y - this.game.camera.y, [this.collisionCircle, this.overlapCollisionCircle]);
-
         if(this.dead) {
+            this.animations[this.weaponState][this.state].drawFrame(this.game.clockTick, ctx, this.x - this.game.camera.x, this.y - this.game.camera.y, [this.collisionCircle, this.overlapCollisionCircle]);
+            
             this.elapsedDeadAnimTime += this.game.clockTick;
                 if(this.elapsedDeadAnimTime > 1.5){
                     this.removeFromWorld = true;
                 }
+        } else if(this.state == 6){ // attacking                                                       // magic numbers to keep the slime centered
+                this.animations[this.weaponState][this.state].drawFrame(this.game.clockTick, ctx, this.x - 18 - this.game.camera.x, this.y + 18 - this.game.camera.y, [this.collisionCircle, this.overlapCollisionCircle]);
+        } else {
+            this.animations[this.weaponState][this.state].drawFrame(this.game.clockTick, ctx, this.x - this.game.camera.x, this.y - this.game.camera.y, [this.collisionCircle, this.overlapCollisionCircle]);
         }
-
+        
 
         if (this.showStabCircle && this.game.knife) {
             // Draw the stab circle

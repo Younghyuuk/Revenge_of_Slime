@@ -39,8 +39,10 @@ ASSET_MANAGER.queueDownload("./images/tree.png");
 ASSET_MANAGER.queueDownload("./images/lavaPit.png");
 ASSET_MANAGER.queueDownload("./images/rock.png");
 
-ASSET_MANAGER.queueDownload("./images/myBlueSlime.png");
-ASSET_MANAGER.queueDownload("./images/blueKnifeSlime.png");
+ASSET_MANAGER.queueDownload("./images/blueSlime.png");
+ASSET_MANAGER.queueDownload("./images/knifeBlueSlime.png");
+ASSET_MANAGER.queueDownload("./images/practiceKnifeAttack.png");
+
 
 
 
