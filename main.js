@@ -39,7 +39,11 @@ ASSET_MANAGER.queueDownload("./images/tree.png");
 ASSET_MANAGER.queueDownload("./images/lavaPit.png");
 ASSET_MANAGER.queueDownload("./images/rock.png");
 
-ASSET_MANAGER.queueDownload("./images/UpdatedSlimeSprite.png");
+// ASSET_MANAGER.queueDownload("./images/UpdatedSlimeSprite.png");
+// ASSET_MANAGER.queueDownload("./images/myBlueSlime.png");
+ASSET_MANAGER.queueDownload("./images/blueKnifeSlime.png");
+
+
 
 // global variable storing the knightSprite image for animation
 ASSET_MANAGER.queueDownload("./knightSprite.png");
