@@ -5,7 +5,8 @@ class Projectile {
         this.radius = 12;
 
         this.smooth = false;
-
+        
+        this.game = game;
 
         var dist = distance(this, this.target);
         this.maxSpeed = 200; // pixels per second
@@ -92,7 +93,7 @@ class Projectile {
     }
 
     automaticDespawnHandler() {
-        this.despawnTime -= GAME_ENGINE.clockTick
+        this.despawnTime -= this.game.clockTick
         if (this.despawnTime <= 0) {
            this.removeFromWorld = true
         }
@@ -120,29 +121,6 @@ class Projectile {
             }
         }
     };
-
-    // movementHandler() {
-    //     this.posX += this.movementVectorX * GAME_ENGINE.clockTick
-    //     this.posY += this.movementVectorY * GAME_ENGINE.clockTick
-    // }
-
-
-    // saveLastBB() {
-    //     this.lastbb = this.bb
-    //     this.bb = new BoundingBox(
-    //         this.posX - (this.bb.width/ 2),
-    //         this.posY - (this.bb.height/ 2),
-    //         PROJECTILE_BB_DIMEN, PROJECTILE_BB_DIMEN)
-    // }
-
-    // updateCollision() {
-    //     this.bb.x = this.posX - (this.bb.width/ 2)
-    //     this.bb.y = this.posY - (this.bb.height/ 2)
-    //     this.bb.updateSides()
-
-    //     this.bc.x = this.posX
-    //     this.bc.y = this.posY
-    // }
 
    
 };
