@@ -202,9 +202,6 @@ class GameEngine {
                         if (this.isNPC(entity1) && this.isNPC(entity2)) {
                             this.resolveCollision(entity1, entity2);
                         } else if(entity1 instanceof Slime && this.isNPC(entity2)) {
-                        // } else if(entity1 instanceof Slime && this.isNPC(entity2) && this.click != null) {
-                            // entity1.attacking = true;
-                            // entity1.attack(entity2);
                             entity1.enemyInRange = entity2;
                             
                         }
@@ -263,19 +260,15 @@ class GameEngine {
         if(entityA instanceof Slime){
             if(entityB.hasOwnProperty('weapon')) { //all weapons should have this.weapon = true
                 entityA.inventory.push(entityB); // add it to the inventory
-                // entityA.damage = entityB.damage; // make slimes damage weapons damage
 
-                //adding collision circles together and assigning it to slime
-                // var collisionCircle = {radius: entityA.collisionCircle.radius + entityB.collisionCircle.radius,
-                //                     x: entityA.collisionCircle.x + entityB.collisionCircle.x,
-                //                     y: entityA.collisionCircle.y + entityB.collisionCircle.y};
-                // entityA.collisionCircle = collisionCircle; 
-                // entityA.overlapCollisionCircle = collisionCircle;
-
-                // entityB.removeFromWorld = true; // remove weapon from canvas
-                entityB.assignToSlime = true;
-                this.slime.hasKnife = true;
-                console.log("true");
+                entityB.removeFromWorld = true; // remove weapon from canvas
+                // entityB.assignToSlime = true;
+                
+                if(entityB instanceof knife){
+                    this.slime.hasKnife = true;
+                    this.slime.weaponState = 1; // 0 = no weapon, 1 = knife, 2 = pistol 
+                    console.log("true");
+                }
             }
             
         }
