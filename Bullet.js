@@ -3,6 +3,8 @@ class Bullet extends Projectile {
         super(game, x, y, target, fireRate);
         // Set any Bullet-specific properties
         this.radius = 5; // Smaller radius for a bullet
+        this.game.bullet = this;
+        this.damage = 10; // Set the damage for a bullet
         // Override or extend other properties or methods specific to a Bullet
     }
 
