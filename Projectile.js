@@ -1,12 +1,11 @@
 
 class Projectile {
-    constructor(game, x, y, target ) {
-        Object.assign(this, { game, x, y, target});
+    constructor(game, x, y, target, fireRate ) {
+        Object.assign(this, { game, x, y, target, fireRate });
         this.radius = 12;
-
         this.smooth = false;
-        
-        this.game = game;
+
+        // this.spritesheet = ASSET_MANAGER.getAsset("./sprites/arrow.png");
 
         var dist = distance(this, this.target);
         this.maxSpeed = 200; // pixels per second
@@ -14,17 +13,20 @@ class Projectile {
         this.velocity = { x: (this.target.x - this.x) / dist * this.maxSpeed, y: (this.target.y - this.y) / dist * this.maxSpeed };
 
         this.cache = [];
-        
+
+
+        this.animations = [];
+        // this.animations.push(new Animator(this.spritesheet, 0, 0, 32, 32, 1, 0.2, 0, false, true));
+        // this.animations.push(new Animator(this.spritesheet, 40, 0, 32, 32, 1, 0.2, 0, false, true));
+        // this.animations.push(new Animator(this.spritesheet, 80, 0, 32, 32, 1, 0.2, 0, false, true));
+        // this.animations.push(new Animator(this.spritesheet, 120, 0, 32, 32, 1, 0.2, 0, false, true));
+        // this.animations.push(new Animator(this.spritesheet, 160, 0, 32, 32, 1, 0.2, 0, false, true));
+
         this.facing = 5;
         
+
         this.elapsedTime = 0;
-
-        // this.animator = new AnimatorRotateOnce(ASSET_MANAGER.getAsset(spritesheetPath), xStart, yStart, width, height, angle, frameCount, scale, fudgeScaling)
-
-        // this.bc = new BoundingCircle(this.posX, this.posY, PROJECTILE_BC_RADIUS)
-        // this.bb = new BoundingBox(this.posX, this.posY, PROJECTILE_BB_DIMEN, PROJECTILE_BB_DIMEN)
-        // this.bb.updateSides()
-    }
+    };
 
     drawAngle(ctx, angle) {
         if (angle < 0 || angle > 359) return;
@@ -57,14 +59,14 @@ class Projectile {
         }
     };
 
-    update(){
-        this.heatSeeking = document.getElementById("heatseeking").checked;
+    update() {
+        // this.heatSeeking = document.getElementById("heatseeking").checked;
         this.smooth = document.getElementById("smooth").checked;
 
-        if (this.heatSeeking) {
+        // if (this.heatSeeking) {
             var dist = distance(this, this.target);
             this.velocity = { x: (this.target.x - this.x) / dist * this.maxSpeed, y: (this.target.y - this.y) / dist * this.maxSpeed };
-        }
+        // }
 
         this.x += this.velocity.x * this.game.clockTick;
         this.y += this.velocity.y * this.game.clockTick;
@@ -86,22 +88,9 @@ class Projectile {
         }
 
         this.facing = getFacing(this.velocity);
-    }
+    };
 
-    checkCollisions() {
-        //ABSTRACT
-    }
-
-    automaticDespawnHandler() {
-        this.despawnTime -= this.game.clockTick
-        if (this.despawnTime <= 0) {
-           this.removeFromWorld = true
-        }
-    }
-
-    draw() {
-        //super.draw()
-
+    draw(ctx) {
         var xOffset = 16;
         var yOffset = 16;
         if (this.smooth) {
@@ -120,8 +109,15 @@ class Projectile {
                 ctx.restore();
             }
         }
-    };
 
+        if (PARAMS.DEBUG) {
+            ctx.strokeStyle = "Red";
+            ctx.beginPath();
+            ctx.arc(this.x, this.y, this.radius, 0, 2 * Math.PI);
+            ctx.closePath();
+            ctx.stroke();
+        }
+    };
    
 };
 
