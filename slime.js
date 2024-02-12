@@ -94,9 +94,6 @@ class Slime {
         let stabCircle = this.game.knife.stabPos();
     
         if (this.hasKnife && this.game.mouseClick) {
-            // console.log(stabCircle.x);
-            // console.log(stabCircle.y);
-            // console.log(stabCircle.radius);
             this.showStabCircle = true; // Set to true to show the stab circle
     
             // Check for collisions with entities using stabCircle
@@ -108,22 +105,6 @@ class Slime {
                     }
                 }
             });
-    
-            // Draw the stab circle if showStabCircle is true
-            if (this.showStabCircle) {
-                ctx.beginPath();
-                ctx.arc(stabCircle.x - this.game.camera.x, stabCircle.y - this.game.camera.y, stabCircle.radius, 0, 2 * Math.PI, true);
-                ctx.strokeStyle = 'red'; // Red border
-                ctx.stroke();
-            }
-    
-            // Use setTimeout to hide the stab circle after 500ms
-            setTimeout(() => {
-                this.showStabCircle = false;
-                // Optionally clear the circle area. You might need to clear the entire canvas or redraw the scene based on your game's structure
-                // ctx.clearRect(stabCircle.x - stabCircle.radius, stabCircle.y - stabCircle.radius, stabCircle.radius * 2, stabCircle.radius * 2);
-            }, 500);
-    
             // Reset mouseClick to prevent continuous attacks
             this.game.mouseClick = false;
         }
@@ -189,7 +170,7 @@ class Slime {
             this.performKnifeAttack(this.game.ctx);
             if (this.showStabCircle) {
                 if (!this.stabCircleTimer) { // Initialize the timer the first time
-                    this.stabCircleTimer = 120; // e.g., 60 frames = 1 second at 60 FPS
+                    this.stabCircleTimer = 60; // e.g., 60 frames = 1 second at 60 FPS
                 }
                 this.stabCircleTimer--;
                 if (this.stabCircleTimer <= 0) {
