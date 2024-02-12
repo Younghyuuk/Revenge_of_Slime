@@ -1,7 +1,7 @@
 
 class Projectile {
-    constructor(game, x, y, target, spritePath) {
-        Object.assign(this, { game, x, y, target, spritePath});
+    constructor(game, x, y, target ) {
+        Object.assign(this, { game, x, y, target});
         this.radius = 12;
 
         this.smooth = false;
