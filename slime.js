@@ -110,6 +110,7 @@ class Slime {
         }
     };
     
+    
 
     getCircle() {
         return this.collisionCircle;
