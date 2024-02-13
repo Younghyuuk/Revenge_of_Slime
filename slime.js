@@ -106,20 +106,21 @@ class Slime {
         }
     }; 
 
-    // this method calls upon a new bullet when the slime has a pistol and attacks an npc with mouse clicks
+    // this method calls upon a new bullet when the slime has a pistol and attacks an npc with mouse clicks add in the update
+    // in the bullet method or projectile later
     pistolShot() {
         if (this.hasPistol && this.game.mouseClick) {
             this.game.addEntity(new Bullet(this.game, this.x, this.y, this.enemyInRange, 1));
             this.game.mouseClick = false;
         }
-        this.game.entities.forEach(entity => {
-            if (entity instanceof enemyArcher || entity instanceof enemyKnight) {
-                if(this.circlesIntersect(entity.collisionCircle, this.attackCircle)) {
-                    entity.getAttacked(this.game.bullet.damage);
-                    console.log("Enemy health: " + entity.health);
-                }
-            }
-        });
+        // this.game.entities.forEach(entity => {
+        //     if (entity instanceof enemyArcher || entity instanceof enemyKnight) {
+        //         if(this.circlesIntersect(entity.collisionCircle, this.attackCircle)) {
+        //             entity.getAttacked(this.game.bullet.damage);
+        //             console.log("Enemy health: " + entity.health);
+        //         }
+        //     }
+        // });
        
         console.log(`Slime Attack ${this.AttackCount}`);
         // a method call to the player's character to damage them
