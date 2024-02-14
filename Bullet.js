@@ -1,18 +1,26 @@
 class Bullet extends Projectile {
     constructor(game, x, y, mouseX, mouseY, speed) {
-        const angle = Math.atan2(mouseY - y, mouseX - x);
-        super(game, x, y, angle, speed, BULLET_DESPAWN_TIME);
+        const [velocityX, velocityY] = getUnitVector(x, y, mouseX, mouseY).map(v => v * speed);
+        super(game, x, y, velocityX, velocityY, speed);
+        // Additional properties for Bullet, e.g., damage
         this.damage = 10;
+        this.bc = {radius: 25, x: this.game.slime.x + 10, y: this.game.slime.y + 10};
     };
 
+    // Override update if needed for collision detection
     update() {
         super.update();
-        // Check for collisions with game entities
-        this.game.entities.forEach(entity => {
-            if (entity instanceof Slime && this.bc.collidesWith(entity.bc)) {
-                entity.takeDamage(this.damage);
-                this.removeFromWorld = true;
-            }
-        });
     };
-}
+
+    onHit(entity) {
+        // Logic for what happens when bullet hits an entity
+        entity.takeDamage(this.damage);
+        // Possibly mark bullet for removal
+        this.markForRemoval = true;
+    };
+
+    draw(ctx) {
+        super.draw(ctx); // Draw the bullet
+        // Additional drawing options for the bullet
+    };
+};

@@ -111,15 +111,28 @@ class Slime {
     // this method calls upon a new bullet when the slime has a pistol and attacks an npc with mouse clicks add in the update
     // in the bullet method or projectile later
     pistolShot() {
-        for (var i = 0; i < this.game.entities.length; i++) {
-            var ent = this.game.entities[i];
-            if ((ent instanceof enemyArcher || ent instanceof enemyKnight) && 
-                this.hasPistol && this.game.mouseClick && this.game.clockTick > this.pistolCD) {
-                this.game.addEntity(new Bullet(this.game, 730, 340, ent));
-                this.game.mouseClick = false;
-            }
-        }   
-        console.log(`Slime Attack ${this.AttackCount}`);
+        if (this.hasPistol && this.game.mouseClick && !this.hasKnife) {
+            // Calculate the bullet's direction based on the mouse click
+            const mouseX = this.game.mouseClickPos.x; // Adjust for camera position if necessary
+            const mouseY = this.game.mouseClickPos.y;
+
+            // Create a new Bullet instance with bullet speed 5
+            this.game.addEntity(new Bullet(this.game, this.x, this.y, mouseX, mouseY, 5));
+          
+            this.game.entities.forEach(entity => {
+                if (entity instanceof enemyArcher || entity instanceof enemyKnight) {
+                    if(this.circlesIntersect(entity.collisionCircle, this.game.bullet.bc)) {
+                        entity.getAttacked(this.game.bullet.damage);
+                        console.log("Enemy health: " + entity.health);
+                    }
+                }
+            });
+            // Reset mouseClick to prevent continuous shooting
+            this.game.mouseClick = false;
+
+            // Implement cooldown logic for pistol shooting
+            // this.resetPistolCD(); // This method needs to be defined to handle cooldown
+        }
     };
 
 

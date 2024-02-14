@@ -1,42 +1,29 @@
 
 class Projectile {
-    constructor(game, x, y, angle, speed, despawnTime) {
+    constructor(game, x, y, speed, direction) {
         this.game = game;
         this.x = x;
         this.y = y;
         this.speed = speed;
-        this.angle = angle;
-        this.radiusZ = 12;
-        this.despawnTime = despawnTime;
-        this.velocityX = Math.cos(this.angle) * this.speed;
-        this.velocityY = Math.sin(this.angle) * this.speed;
-        this.collisionCircle = {x: this.x, y: this.y, radius: this.radiusZ};
-    };
+        // Convert direction to radians for movement calculation
+        this.direction = direction * Math.PI / 180;
+        this.velocityX = Math.cos(this.direction) * this.speed;
+        this.velocityY = Math.sin(this.direction) * this.speed;
+    }
 
     update() {
-        this.x += this.velocityX * this.game.clockTick;
-        this.y += this.velocityY * this.game.clockTick;
-        this.despawnTime -= this.game.clockTick;
-        if (this.despawnTime <= 0 || this.isOutOfBounds()) {
-            this.removeFromWorld = true;
-        }
-    };
+        // Update position based on velocity
+        this.x += this.velocityX;
+        this.y += this.velocityY;
+    }
 
     draw(ctx) {
+        // Basic drawing implementation
         ctx.beginPath();
-        ctx.arc(this.x, this.y, this.radiusZ, 0, Math.PI * 2);
-        ctx.fillStyle = 'black'; // Set bullet color
+        ctx.arc(this.x, this.y, 5, 0, 2 * Math.PI);
         ctx.fill();
-        // Optional: Draw collision circle in debug mode
-        if (this.game.debug) {
-            ctx.strokeStyle = 'red';
-            ctx.stroke();
-        }
-    };
+    }
+}
 
-    isOutOfBounds() {
-        return this.x < 0 || this.x > this.game.width || this.y < 0 || this.y > this.game.height;
-    };
-};
 
 
