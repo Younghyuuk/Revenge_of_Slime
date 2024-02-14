@@ -113,20 +113,9 @@ class Slime {
     pistolShot() {
         if (this.hasPistol && this.game.mouseClick && !this.hasKnife) {
             // Calculate the bullet's direction based on the mouse click
-            const mouseX = this.game.mouseClickPos.x; // Adjust for camera position if necessary
-            const mouseY = this.game.mouseClickPos.y;
-
             // Create a new Bullet instance with bullet speed 5
-            this.game.addEntity(new Bullet(this.game, this.x, this.y, mouseX, mouseY, 5));
-          
-            this.game.entities.forEach(entity => {
-                if (entity instanceof enemyArcher || entity instanceof enemyKnight) {
-                    if(this.circlesIntersect(entity.collisionCircle, this.game.bullet.bc)) {
-                        entity.getAttacked(this.game.bullet.damage);
-                        console.log("Enemy health: " + entity.health);
-                    }
-                }
-            });
+            this.game.addEntity(new Projectile(this.game, this.x - this.game.camera.x, this.y - this.game.camera.y, 5));
+           
             // Reset mouseClick to prevent continuous shooting
             this.game.mouseClick = false;
 

@@ -56,7 +56,7 @@ class enemyArcher {
         let target = {x : this.slime.getCircle().x, y : this.slime.getCircle().y};
         let current = {x : this.collisionCircle.x, y : this.collisionCircle.y};
 
-        var dist = this.distance(current, target);
+        var dist = distance(current, target);
         this.coolDown += this.game.clockTick;
 
         // Update angle change timer
@@ -111,9 +111,9 @@ class enemyArcher {
         this.overlapCollisionCircle.y = this.y + 20 - this.game.camera.y;
     };
 
-    distance(a, b) {
-        return Math.sqrt((b.x - a.x) * (b.x - a.x) + (b.y - a.y) * (b.y - a.y));
-    }
+    // distance(a, b) {
+    //     return Math.sqrt((b.x - a.x) * (b.x - a.x) + (b.y - a.y) * (b.y - a.y));
+    // }
 
     // this method is called when the knight attacks the player
     attack(entity) {
