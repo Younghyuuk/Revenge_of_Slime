@@ -293,18 +293,14 @@ class GameEngine {
         this.draw();
 
         // tester
-        if (this.mouseClick) {
-            // Handle mouse click
-            this.handleMouseClick(this.mouseClickPos);
-            this.mouseClick = false; // Reset mouse click flag
-        }
+        // if (this.mouseClick) {
+        //     // Handle mouse click
+        //     // this.handleMouseClick(this.mouseClickPos);
+        //     this.mouseClick = false; // Reset mouse click flag
+        // }
     };
 
-    handleMouseClick(clickPos) {
-        // Handle mouse click here
-        console.log("Mouse clicked at:", clickPos);
-        // You can perform any action based on the mouse click position or interact with game entities
-    }
+  
 
 };
 

@@ -36,7 +36,7 @@ class LevelBuilder {
     };
 
     initBuilder() {
-        console.log("initSlime in levelBuilder is called");
+        // console.log("initSlime in levelBuilder is called");
         // creates the slime main character and adds to the gameEngine as an entity
         // this.slime = new Slime(engine, 77, 430, 150, 100, 10);
         // this.gameEngine.addEntity(this.slime);
@@ -49,12 +49,12 @@ class LevelBuilder {
 
     // called from gameEngine after each update() method call to update the number of knights and archers currently on the board
     updateEnemyCnt(knights, archers) {
-        console.log("knights: " + knights + ", archers: " + archers);
+        // console.log("knights: " + knights + ", archers: " + archers);
         this.livingKnights = knights;
         this.livingArchers = archers;
         // TODO add more conditions to this if statement as we get more enemies built 
         if (this.livingArchers == 0 && this.livingKnights == 0 /* && !this.slime.dead*/) {
-            console.log("new level being created")
+            // console.log("new level being created")
             // TODO add in next level screen thing
 
             // updating fields to get ready for the next level
@@ -78,7 +78,7 @@ class LevelBuilder {
             return; 
         }
 
-        console.log("enemies: " + (this.livingArchers + this.livingKnights));
+        // console.log("enemies: " + (this.livingArchers + this.livingKnights));
         // checks to see if we have reached the max capacity, if so, wait a bit then try again
         if ((this.livingArchers + this.livingKnights) < this.maxCapacity) {
             // Get the next enemy to spawn
@@ -125,7 +125,7 @@ class LevelBuilder {
                 health = this.level * 2 + 40;
                 damage = this.level * 2 + 15;
             }
-            console.log("enemy is about to be created");
+            // console.log("enemy is about to be created");
             return this.createEnemy(this.gameEngine, "archer", randomX, randomY, 100, health, damage);
         } else if (type == "knight") {
             // change if needed -- once the max number of knights is already 
@@ -139,7 +139,7 @@ class LevelBuilder {
                 health = this.level * 2 + 70;
                 damage = this.level * 2 + 10;
             }
-            console.log("enemy is about to be created");
+            // console.log("enemy is about to be created");
             return this.createEnemy(this.gameEngine, "knight", randomX, randomY, 120, health, damage);
         }
     };
@@ -176,7 +176,7 @@ class LevelBuilder {
             }
         }
 
-        console.log("enemies for this level: " + this.spawnQueue.length);
+        // console.log("enemies for this level: " + this.spawnQueue.length);
     };
 
     gameOver() {

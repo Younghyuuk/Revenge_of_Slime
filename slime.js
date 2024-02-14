@@ -115,7 +115,7 @@ class Slime {
             var ent = this.game.entities[i];
             if ((ent instanceof enemyArcher || ent instanceof enemyKnight) && 
                 this.hasPistol && this.game.mouseClick && this.game.clockTick > this.pistolCD) {
-                this.game.addEntity(new Bullet(this.game, this.x, this.y, ent));
+                this.game.addEntity(new Bullet(this.game, this.x - this.camera.x, this.y - this.game.camera.y, ent));
                 this.game.mouseClick = false;
             }
         }
