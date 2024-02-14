@@ -27,7 +27,9 @@ class enemyKnight {
 
         this.angleChangeInterval = 5; // Change angle every 2 seconds, adjust as needed
 
-        this.attacking = false; // true when currently attacking 
+        this.attacking = false; // true when currently attacking
+        
+        this.dead = false; // made for getting the death animation correct
 
 
        // fields related to knight's animations
@@ -65,7 +67,7 @@ class enemyKnight {
         }
 
         // if the knight is close enough to attack
-        if (dist < this.collisionCircle.radius + this.slime.collisionCircle.radius && this.coolDown > .5) {
+        if (dist < this.collisionCircle.radius + this.slime.collisionCircle.radius/* && this.coolDown > .5*/) {
             this.attack(this.slime);
             this.coolDown = 0;
         // if the knight still needs to get to the slime 
@@ -115,7 +117,7 @@ class enemyKnight {
 
     // this method is called when the knight attacks the player
     attack(entity) {
-        entity.getAttacked(this.damage);
+       // entity.getAttacked(this.damage);
         this.attacking = true;
 
         // This will set `this.attacking` back to false after 1 second
@@ -136,7 +138,7 @@ class enemyKnight {
     getAttacked(damage) {
         this.health -= damage;
         if (this.health <= 0) {
-            this.removeFromWorld = true;
+            this.dead = true;
         }
     };
 
@@ -155,12 +157,14 @@ class enemyKnight {
     };
 
     draw(ctx) {
-        if (this.removeFromWorld) {
-
-        } else if (this.attacking == true) {
-            this.animations[this.attackDirection].drawFrame(this.game.clockTick, ctx, this.x - this.game.camera.x, this.y - this.game.camera.y, [/*this.collisionCircle, this.overlapCollisionCircle*/]);
-        } else {
-            this.animations[this.direction].drawFrame(this.game.clockTick, ctx, this.x - this.game.camera.x, this.y - this.game.camera.y, [/*this.collisionCircle, this.overlapCollisionCircle*/]);
+        if (!this.removeFromWorld) {
+            if (this.dead) {
+                this.animations[8].drawFrame(this.game.clockTick, ctx, this.x - this.game.camera.x, this.y - this.game.camera.y, [/*this.collisionCircle, this.overlapCollisionCircle*/]);
+            } else if (this.attacking == true) {
+                this.animations[this.attackDirection].drawFrame(this.game.clockTick, ctx, this.x - this.game.camera.x, this.y - this.game.camera.y, [/*this.collisionCircle, this.overlapCollisionCircle*/]);
+            } else {
+                this.animations[this.direction].drawFrame(this.game.clockTick, ctx, this.x - this.game.camera.x, this.y - this.game.camera.y, [/*this.collisionCircle, this.overlapCollisionCircle*/]);
+            }
         }
     }
 };
