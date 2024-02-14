@@ -35,7 +35,20 @@ class enemyArcher {
         this.coolDown = 0;
         // this.attackCount = 0;
 
+        this.angleChangeTimer = 0; // Timer to track when to change angle variation
+
+        this.currentAngleVariation = this.generateAngleVariation(); // Initialize with a random angle variation
+
+        this.angleChangeInterval = 5; // Change angle every 2 seconds, adjust as needed
+
+        this.stopInterval = 0;
+
     };
+
+    // this method makes the angle variations to add to knight mevement to add some randomness
+    generateAngleVariation() {
+        return (Math.random() - 0.5) * 2 * Math.PI / 2; // Adjust the denominator for larger/smaller changes
+    }
 
     // this method updates the logic, aka the state of the enemy
     update() {
@@ -46,15 +59,36 @@ class enemyArcher {
         var dist = this.distance(current, target);
         this.coolDown += this.game.clockTick;
 
-        if (dist <  this.dealDamageCollisionCircle + this.slime.collisionCircle.radius && this.coolDown > .5) {
-            this.attack(this.slime);
+        // Update angle change timer
+        this.angleChangeTimer += this.game.clockTick;
+        if (this.angleChangeTimer >= this.angleChangeInterval) {
+            this.currentAngleVariation = this.generateAngleVariation(); // Generate a new angle variation
+            this.angleChangeTimer = 0; // Reset timer
+        }
+
+        if (dist < this.dealDamageCollisionCircle.radius + this.slime.collisionCircle.radius/* && this.coolDown > .5*/) {
+            console.log("archer respects damage collision");
+           // this.attack(this.slime);
             this.coolDown = 0;
         } else { 
-            this.velocity = {x : (target.x - current.x) / dist * this.speed, y : (target.y - current.y) / dist * this.speed};
+            if (this.stopInterval < 200) {
+                // Introduce randomness in the direction
+                const adjustedAngle = Math.atan2(target.y - current.y, target.x - current.x) + this.currentAngleVariation;
+                // Maintain the original speed
+                this.velocity = {
+                    x: Math.cos(adjustedAngle) * this.speed,
+                    y: Math.sin(adjustedAngle) * this.speed
+                };
 
-            this.x += this.velocity.x * this.game.clockTick;
-            this.y += this.velocity.y * this.game.clockTick;
+                this.x += this.velocity.x * this.game.clockTick;
+                this.y += this.velocity.y * this.game.clockTick;
+            } else if (this.stopInterval > 220) {
+                this.stopInterval = 0;
+            }
+
         }
+        this.stopInterval++;
+
 
         // update collision circle for taking damage
         // this.defendCircle.x = this.x + 17 - this.game.camera.x;

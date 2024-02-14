@@ -2,7 +2,7 @@ class enemyKnight {
     // !!!!!!!!!!!! add in a refrence to the player object so we can get its current location !!!!!!!!!!!!
     constructor(game, x, y, speed, health, damage, slime) {
         this.game = game;
-            // VARIABLES TO CHANGE FOR EACH DIFFERENT CHARACTER
+        // VARIABLES TO CHANGE FOR EACH DIFFERENT CHARACTER
             // spritesheet - change file path for each different character
             // xStart - change starting x-pixel for sprite animation based on spritesheet
             // yStart - change starting y-pixel for sprite animation based on spritesheet
@@ -30,21 +30,52 @@ class enemyKnight {
         this.NPC = true;
         this.coolDown = 0;
         // this.attackCount = 0;
+
+        this.angleChangeTimer = 0; // Timer to track when to change angle variation
+
+        this.currentAngleVariation = this.generateAngleVariation(); // Initialize with a random angle variation
+
+        this.angleChangeInterval = 5; // Change angle every 2 seconds, adjust as needed
+
     };
+
+    // this method makes the angle variations to add to knight mevement to add some randomness
+    generateAngleVariation() {
+        return (Math.random() - 0.5) * 2 * Math.PI / 4; // Adjust the denominator for larger/smaller changes
+    }
 
     // this method updates the logic, aka the state of the enemy
     update() {
+        // target stores the location of the slime in its current state 
         let target = {x : this.slime.getCircle().x, y : this.slime.getCircle().y};
+        // current holds the location of the knight in its current state
         let current = {x : this.collisionCircle.x, y : this.collisionCircle.y};
 
+        // distance between the knight and slime 
         var dist = this.distance(current, target);
+        // atttack cooldown
         this.coolDown += this.game.clockTick;
 
+        // Update angle change timer
+        this.angleChangeTimer += this.game.clockTick;
+        if (this.angleChangeTimer >= this.angleChangeInterval) {
+            this.currentAngleVariation = this.generateAngleVariation(); // Generate a new angle variation
+            this.angleChangeTimer = 0; // Reset timer
+        }
+
+        // if the knight is close enough to attack
         if (dist < this.collisionCircle.radius + this.slime.collisionCircle.radius && this.coolDown > .5) {
             this.attack(this.slime);
             this.coolDown = 0;
+        // if the knight still needs to get to the slime 
         } else { 
-            this.velocity = {x : (target.x - current.x) / dist * this.speed, y : (target.y - current.y) / dist * this.speed};
+             // Introduce randomness in the direction
+            const adjustedAngle = Math.atan2(target.y - current.y, target.x - current.x) + this.currentAngleVariation;
+            // Maintain the original speed
+            this.velocity = {
+                x: Math.cos(adjustedAngle) * this.speed,
+                y: Math.sin(adjustedAngle) * this.speed
+            };
 
             this.x += this.velocity.x * this.game.clockTick;
             this.y += this.velocity.y * this.game.clockTick;
