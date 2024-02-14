@@ -14,7 +14,7 @@ class Slime {
         //slime state variables
         this.state = 0; // 0 = idle, 1 = left, 2 = right, 3 = up, 4 = down, 5 = dead, 6 = attacking
         this.weaponState = 0; // 0 = no weapon, 1 = knife, 2 = pistol
-        this.attackAngle = 0; // 1 = up, 2 = right, 3 = down, 4 = left
+        this.attackAngle = 0; // 1 = left, 2 = right, 3 = up, 4 = down
         this.dead = false;
         
 
@@ -91,6 +91,7 @@ class Slime {
         let stabCircle = this.game.knife.stabPos();
     
         if (this.hasKnife && this.game.mouseClick) {
+            this.attackDirection();
             console.log(stabCircle.x);
             console.log(stabCircle.y);
             console.log(stabCircle.radius);
@@ -132,8 +133,29 @@ class Slime {
     };
 
     attackDirection() {
-          //will be helper method
+        let mouseX = this.game.mouseClickPos.x;
+        let mouseY = this.game.mouseClickPos.y;
+
+        let slimeX = this.x + 31 - this.game.camera.x;
+        let slimeY = this.y + 55 - this.game.camera.y;
+    
+        // Calculate the angle between the mouse click and the slime's position
+        let angle = Math.atan2(mouseY - slimeY, mouseX - slimeX);
+    
+        // Convert the angle to a int (1 = left, 2 = right, 3 = up, 4 = down)
+        let angleInDegrees = (180 / Math.PI) * angle;
+        if (angleInDegrees < 45 && angleInDegrees >= -45) {
+            this.attackAngle = 2; // right
+        } else if (angleInDegrees < 135 && angleInDegrees >= 45) {
+            this.attackAngle = 4; // down
+        } else if (angleInDegrees >= 135 || angleInDegrees < -135) {
+            this.attackAngle = 1; // left
+        } else {
+            this.attackAngle = 3; // up
+        }
+
     }
+    
     
 
     getCircle() {
@@ -163,6 +185,7 @@ class Slime {
 
         // 1st 0 = no weapon, 1 = knife, 2 = pistol
         // 2nd 0 = idle, 1 = left, 2 = right, 3 = up, 4 = down, 5 = dead, 6 = attacking
+        // 3rd 1 = left, 2 = right, 3 = up, 4 = down
         // new Animator(spriteSheet, xSpriteSheet, ySpriteSheet, width, height, frameCount, frameDuration, scale);
         this.animations[0][0][0] = new Animator(this.NoWeaponSpritesheet, 0, 0, 32, 32, 10, .175, 2); // idle
         this.animations[0][1][0] = new Animator(this.NoWeaponSpritesheet, 0, 128, 32, 32, 10, .175, 2); //left
@@ -179,12 +202,13 @@ class Slime {
         this.animations[1][4][0] = new Animator(this.KnifeSpritesheet, 0, 32, 32, 32, 10, .175, 2); // down
         this.animations[1][5][0] = new Animator(this.KnifeSpritesheet, 0, 192, 32, 32, 10, .175, 2); // dead
         // this.animations[1][6] = new Animator(this.KnifeSpritesheet, 0, 160, 32, 32, 10, .175, 2); // old knife stab attack
-        this.animations[1][6][0] = new Animator(this.knifeAttackSpriteSheet, 0, 0, 64, 32, 10, .095, 2); // new knife stab attack
-        
-        // this.leftAnimation = new Animator(this.knifeAttackSpriteSheet, 0, 0, 64, 32, 10, .095, 2);
-        //this.rightAnimation = new Animator(this.knifeAttackSpriteSheet, 0, 32, 64, 32, 10, .095, 2);
-        // this.upAnimation   = new Animator(this.knifeAttackSpriteSheet, 0, 64, 64, 32, 10, .095, 2);   
-        // this.downAnimation = new Animator(this.knifeAttackSpriteSheet, 0, 110, 64, 32, 10, .095, 5);                                                         
+        this.animations[1][6][0] = new Animator(this.knifeAttackSpriteSheet, 0, 0, 64, 32, 10, .095, 2); // new knife stab attack place holder
+        this.animations[1][6][1] = new Animator(this.knifeAttackSpriteSheet, 0, 0, 64, 32, 10, .095, 2); // left
+        this.animations[1][6][2] = new Animator(this.knifeAttackSpriteSheet, 0, 32, 64, 32, 10, .095, 2); // right
+        this.animations[1][6][3] = new Animator(this.knifeAttackSpriteSheet, 0, 64, 64, 32, 10, .095, 2); // up
+        this.animations[1][6][4] = new Animator(this.knifeAttackSpriteSheet, 0, 96, 64, 32, 10, .095, 2); // down
+
+                                                         
 
 
 
@@ -343,8 +367,8 @@ class Slime {
                 if(this.elapsedDeadAnimTime > 1.5){
                     this.removeFromWorld = true;
                 }
-        } else if(this.state == 6){ // attacking                                                       // magic numbers to keep the slime centered
-                this.animations[this.weaponState][this.state][0].drawFrame(this.game.clockTick, ctx, this.x - 18 - this.game.camera.x, this.y + 18 - this.game.camera.y, [this.collisionCircle, this.overlapCollisionCircle]);
+        } else if(this.state == 6){ // attacking                                                       // magic numbers to keep the slime centered - 18    + 18
+            this.animations[this.weaponState][this.state][this.attackAngle].drawFrame(this.game.clockTick, ctx, this.x - 18 - this.game.camera.x, this.y + 18 - this.game.camera.y, [this.collisionCircle, this.overlapCollisionCircle]);
         } else {
             this.animations[this.weaponState][this.state][0].drawFrame(this.game.clockTick, ctx, this.x - this.game.camera.x, this.y - this.game.camera.y, [this.collisionCircle, this.overlapCollisionCircle]);
         }
