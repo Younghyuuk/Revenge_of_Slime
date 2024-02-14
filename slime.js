@@ -36,11 +36,13 @@ class Slime {
         this.elapsedDeadAnimTime = 0;
         this.elapsedAttackAnimTime = 0;
 
-
+        this.hasPistol = true;
         // all the knife stuff.
         this.hasKnife = false; // Indicates if the slime has a knife to attack with
         // console.log(this.inventory.some(item => item.name === "knife");
         this.knifeCooldown = 0;
+
+        this.pistolCD = 2;
 
     };
 
@@ -109,9 +111,13 @@ class Slime {
     // this method calls upon a new bullet when the slime has a pistol and attacks an npc with mouse clicks add in the update
     // in the bullet method or projectile later
     pistolShot() {
-        if (this.hasPistol && this.game.mouseClick) {
-            this.game.addEntity(new Bullet(this.game, this.x, this.y, this.enemyInRange, 1));
-            this.game.mouseClick = false;
+        for (var i = 0; i < this.game.entities.length; i++) {
+            var ent = this.game.entities[i];
+            if ((ent instanceof enemyArcher || ent instanceof enemyKnight) && 
+                this.hasPistol && this.game.mouseClick && this.game.clockTick > this.pistolCD) {
+                this.game.addEntity(new Bullet(this.game, this.x, this.y, ent));
+                this.game.mouseClick = false;
+            }
         }
         // this.game.entities.forEach(entity => {
         //     if (entity instanceof enemyArcher || entity instanceof enemyKnight) {
@@ -123,8 +129,8 @@ class Slime {
         // });
        
         console.log(`Slime Attack ${this.AttackCount}`);
-        // a method call to the player's character to damage them
-        // sends in the damage as a parameter to determine how much health should be taken from the character
+       
+    
     };
 
 
@@ -189,6 +195,7 @@ class Slime {
             //calls attack if mouse clicked and enemy in range
             this.canAttack();
             this.performKnifeAttack(this.game.ctx);
+            this.pistolShot();
             if (this.showStabCircle) {
                 if (!this.stabCircleTimer) { // Initialize the timer the first time
                     this.stabCircleTimer = 60; // e.g., 60 frames = 1 second at 60 FPS
@@ -307,5 +314,6 @@ class Slime {
             ctx.strokeStyle = 'red';
             ctx.stroke();
         }
+        
     };
 };

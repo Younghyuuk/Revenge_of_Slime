@@ -60,34 +60,7 @@ class Projectile {
     };
 
     update() {
-        // this.heatSeeking = document.getElementById("heatseeking").checked;
-        this.smooth = document.getElementById("smooth").checked;
 
-        // if (this.heatSeeking) {
-            var dist = distance(this, this.target);
-            this.velocity = { x: (this.target.x - this.x) / dist * this.maxSpeed, y: (this.target.y - this.y) / dist * this.maxSpeed };
-        // }
-
-        this.x += this.velocity.x * this.game.clockTick;
-        this.y += this.velocity.y * this.game.clockTick;
-
-        for (var i = 0; i < this.game.entities.length; i++) {
-            var ent = this.game.entities[i];
-            if (this.towerTeam && (ent instanceof Archer || ent instanceof Footman) && collide(this, ent)) {
-                var damage = 10 + randomInt(6);
-                ent.hitpoints -= damage;
-                this.game.addEntity(new Score(this.game, ent.x, ent.y, damage));
-                this.removeFromWorld = true;
-            }
-            if (!this.towerTeam && ent instanceof Tower && collide(this, ent)) {
-                var damage = 7 + randomInt(4);
-                ent.hitpoints -= damage;
-                this.game.addEntity(new Score(this.game, ent.x, ent.y, damage));
-                this.removeFromWorld = true;
-            }
-        }
-
-        this.facing = getFacing(this.velocity);
     };
 
     draw(ctx) {
