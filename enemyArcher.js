@@ -34,6 +34,8 @@ class enemyArcher {
 
         this.attacking = false;
 
+        this.dead = false;
+
         // fields related to archer's animations
         this.direction = 0;
         this.attackDirection = 0;
@@ -149,7 +151,7 @@ class enemyArcher {
     getAttacked(damage) {
         this.health -= damage;
         if (this.health <= 0) {
-            this.removeFromWorld = true;
+            this.dead = true;
         }
     };
 
@@ -168,12 +170,19 @@ class enemyArcher {
     };
 
     draw(ctx) {
-        if (this.removeFromWorld) {
-        
-        } else if (this.attacking == true) {
-            this.animations[this.attackDirection].drawFrame(this.game.clockTick, ctx, this.x- this.game.camera.x, this.y - this.game.camera.y, [/*this.collisionCircle, this.dealDamageCollisionCircle, this.overlapCollisionCircle*/]);
-        } else {
-            this.animations[this.direction].drawFrame(this.game.clockTick, ctx, this.x- this.game.camera.x, this.y - this.game.camera.y, [/*this.collisionCircle, this.dealDamageCollisionCircle, this.overlapCollisionCircle*/]);
+        if (!this.removeFromWorld) {
+            if (this.dead) {
+                this.animations[8].drawFrame(this.game.clockTick, ctx, this.x - this.game.camera.x, this.y - this.game.camera.y, [/*this.collisionCircle, this.overlapCollisionCircle*/]);
+                // making sure the dead animation plays, and kngiht is removed from world afterwards
+                this.elapsedDeadAnimTime += this.game.clockTick;
+                if(this.elapsedDeadAnimTime > .7){
+                    this.removeFromWorld = true;
+                }
+            } else if (this.attacking == true) {
+                this.animations[this.attackDirection].drawFrame(this.game.clockTick, ctx, this.x- this.game.camera.x, this.y - this.game.camera.y, [/*this.collisionCircle, this.dealDamageCollisionCircle, this.overlapCollisionCircle*/]);
+            } else {
+                this.animations[this.direction].drawFrame(this.game.clockTick, ctx, this.x- this.game.camera.x, this.y - this.game.camera.y, [/*this.collisionCircle, this.dealDamageCollisionCircle, this.overlapCollisionCircle*/]);
+            }
         }
     }
 };

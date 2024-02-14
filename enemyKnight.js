@@ -33,6 +33,7 @@ class enemyKnight {
 
 
        // fields related to knight's animations
+       this.elapsedDeadAnimTime = 0; // to make sure death animation plays correctly
        this.direction = 0;
        this.attackDirection = 0;
        this.animations = [];
@@ -160,6 +161,11 @@ class enemyKnight {
         if (!this.removeFromWorld) {
             if (this.dead) {
                 this.animations[8].drawFrame(this.game.clockTick, ctx, this.x - this.game.camera.x, this.y - this.game.camera.y, [/*this.collisionCircle, this.overlapCollisionCircle*/]);
+                // making sure the dead animation plays, and kngiht is removed from world afterwards
+                this.elapsedDeadAnimTime += this.game.clockTick;
+                if(this.elapsedDeadAnimTime > .8){
+                    this.removeFromWorld = true;
+                }
             } else if (this.attacking == true) {
                 this.animations[this.attackDirection].drawFrame(this.game.clockTick, ctx, this.x - this.game.camera.x, this.y - this.game.camera.y, [/*this.collisionCircle, this.overlapCollisionCircle*/]);
             } else {
