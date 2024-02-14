@@ -112,9 +112,12 @@ class Slime {
     // in the bullet method or projectile later
     pistolShot() {
         if (this.hasPistol && this.game.mouseClick && !this.hasKnife) {
+            
             // Calculate the bullet's direction based on the mouse click
             // Create a new Bullet instance with bullet speed 5
-            this.game.addEntity(new Projectile(this.game, this.x - this.game.camera.x, this.y - this.game.camera.y, 5));
+            let slimeX = this.x + 31 - this.game.camera.x;
+            let slimeY = this.y + 55 - this.game.camera.y;
+            this.game.addEntity(new Projectile(this.game, slimeX, slimeY, 5));
            
             // Reset mouseClick to prevent continuous shooting
             this.game.mouseClick = false;
