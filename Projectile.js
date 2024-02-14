@@ -7,7 +7,7 @@ class Projectile {
         this.maxSpeed = 200; // pixels per second
        
         this.velocity = { x: (this.game.mouseClickPos.x - this.x) / dist * this.maxSpeed, 
-        y: (this.mouseClickPos.y - this.y) / dist * this.maxSpeed };
+        y: (this.game.mouseClickPos.y - this.y) / dist * this.maxSpeed };
        
         this.facing = 5;
         
@@ -78,10 +78,9 @@ class Projectile {
 
         for (var i = 0; i < this.game.entities.length; i++) {
             var ent = this.game.entities[i];
-            if (this.towerTeam && (ent instanceof Archer || ent instanceof Footman) && collide(this, ent)) {
+            if ((ent instanceof enemyArcher || ent instanceof enemyKnight) && circlesIntersect(this, ent)) {
                 var damage = 10 + randomInt(6);
-                ent.hitpoints -= damage;
-                this.game.addEntity(new Score(this.game, ent.x, ent.y, damage));
+                ent.health -= damage;
                 this.removeFromWorld = true;
             }
         }
@@ -90,24 +89,24 @@ class Projectile {
     };
 
     draw(ctx) {
-        var xOffset = 16;
-        var yOffset = 16;
-        if (this.smooth) {
-            let angle = Math.atan2(this.velocity.y , this.velocity.x);
-            if (angle < 0) angle += Math.PI * 2;
-            let degrees = Math.floor(angle / Math.PI / 2 * 360);
+        // var xOffset = 16;
+        // var yOffset = 16;
+        // if (this.smooth) {
+        //     let angle = Math.atan2(this.velocity.y , this.velocity.x);
+        //     if (angle < 0) angle += Math.PI * 2;
+        //     let degrees = Math.floor(angle / Math.PI / 2 * 360);
 
-            this.drawAngle(ctx, degrees);
-        } else {
-            if (this.facing < 5) {
-                this.animations[this.facing].drawFrame(this.game.clockTick, ctx, this.x - xOffset, this.y - yOffset, 1);
-            } else {
-                ctx.save();
-                ctx.scale(-1, 1);
-                this.animations[8 - this.facing].drawFrame(this.game.clockTick, ctx, -(this.x) - 32 + xOffset, this.y - yOffset, 1);
-                ctx.restore();
-            }
-        }
+        //     this.drawAngle(ctx, degrees);
+        // } else {
+        //     if (this.facing < 5) {
+        //         // this.animations[this.facing].drawFrame(this.game.clockTick, ctx, this.x - xOffset, this.y - yOffset, 1);
+        //     } else {
+        //         ctx.save();
+        //         ctx.scale(-1, 1);
+        //         // this.animations[8 - this.facing].drawFrame(this.game.clockTick, ctx, -(this.x) - 32 + xOffset, this.y - yOffset, 1);
+        //         ctx.restore();
+        //     }
+        // }
     };
 };
 

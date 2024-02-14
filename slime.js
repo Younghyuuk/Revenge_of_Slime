@@ -97,7 +97,7 @@ class Slime {
             // Check for collisions with entities using stabCircle
             this.game.entities.forEach(entity => {
                 if (entity instanceof enemyArcher || entity instanceof enemyKnight) {
-                    if(this.circlesIntersect(entity.collisionCircle, stabCircle)) {
+                    if(circlesIntersect(entity.collisionCircle, stabCircle)) {
                         entity.getAttacked(this.game.knife.damage);
                         console.log("Enemy health: " + entity.health);
                     }
@@ -129,12 +129,7 @@ class Slime {
         return this.collisionCircle;
     };
 
-    circlesIntersect(circle1, circle2) {
-        let dx = circle1.x - circle2.x;
-        let dy = circle1.y - circle2.y;
-        let distance = Math.sqrt(dx * dx + dy * dy);
-        return distance < (circle1.radius + circle2.radius);
-    };
+  
 
     loadAnimations() {
 
