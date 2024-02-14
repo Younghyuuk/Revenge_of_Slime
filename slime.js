@@ -88,7 +88,7 @@ class Slime {
         }
     };
 
-    performKnifeAttack(ctx) {
+    performKnifeAttack() {
         let stabCircle = this.game.knife.stabPos();
     
         if (this.hasKnife && this.game.mouseClick) {
@@ -115,28 +115,13 @@ class Slime {
             var ent = this.game.entities[i];
             if ((ent instanceof enemyArcher || ent instanceof enemyKnight) && 
                 this.hasPistol && this.game.mouseClick && this.game.clockTick > this.pistolCD) {
-                this.game.addEntity(new Bullet(this.game, this.x - this.camera.x, this.y - this.game.camera.y, ent));
+                this.game.addEntity(new Bullet(this.game, 730, 340, ent));
                 this.game.mouseClick = false;
             }
-        }
-        // this.game.entities.forEach(entity => {
-        //     if (entity instanceof enemyArcher || entity instanceof enemyKnight) {
-        //         if(this.circlesIntersect(entity.collisionCircle, this.attackCircle)) {
-        //             entity.getAttacked(this.game.bullet.damage);
-        //             console.log("Enemy health: " + entity.health);
-        //         }
-        //     }
-        // });
-       
+        }   
         console.log(`Slime Attack ${this.AttackCount}`);
-       
-    
     };
 
-
-
-
-    
 
     getCircle() {
         return this.collisionCircle;
@@ -194,7 +179,7 @@ class Slime {
           
             //calls attack if mouse clicked and enemy in range
             this.canAttack();
-            this.performKnifeAttack(this.game.ctx);
+            this.performKnifeAttack();
             this.pistolShot();
             if (this.showStabCircle) {
                 if (!this.stabCircleTimer) { // Initialize the timer the first time
