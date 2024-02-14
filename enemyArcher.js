@@ -36,6 +36,8 @@ class enemyArcher {
 
         this.dead = false;
 
+        this.elapsedDeadAnimTime = 0;
+
         // fields related to archer's animations
         this.direction = 0;
         this.attackDirection = 0;
