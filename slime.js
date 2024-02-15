@@ -53,7 +53,7 @@ class Slime {
     };
     // calls attack if mouse clicked and enemy in range
     canAttack() {
-        if (this.game.mouseClick == true && this.enemyInRange != null && this.hasKnife == false){
+        if (this.game.mouseClick == true && this.enemyInRange != null && this.hasKnife == false && !this.hasPistol) {
             //set state to attacking
             this.state = 6;
             this.attack(this.enemyInRange);
@@ -119,7 +119,7 @@ class Slime {
             // Create a new Bullet instance with bullet speed 5
             let slimeX = this.x + 31 - this.game.camera.x;
             let slimeY = this.y + 55 - this.game.camera.y;
-            let pistolBullet = new Projectile(this.game, slimeX, slimeY, .01, 15);
+            let pistolBullet = new Projectile(this.game, slimeX, slimeY, .01, 100);
             this.game.addEntity(pistolBullet);
            
             // this.game.entities.forEach(entity => {

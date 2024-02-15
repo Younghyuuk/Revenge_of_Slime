@@ -14,9 +14,8 @@ class Projectile {
         this.overlapCollisionCircle = {radius: this.radius, x: this.x + 10, y: this.y + 13};
 
         this.facing = 5;
-        this.bc = {x: this.x, y: this.y, radius: this.radius};
         this.elapsedTime = 0;
-
+       
     };
 
     isOutsideGameBounds() {
@@ -64,14 +63,19 @@ class Projectile {
     update() {
         this.x += this.velocity.x * this.game.clockTick;
         this.y += this.velocity.y * this.game.clockTick;
+      
         this.bc = {x: this.x, y: this.y, radius: this.radius};
         for (var i = 0; i < this.game.entities.length; i++) {
             var ent = this.game.entities[i];
-            if ((ent instanceof enemyArcher || ent instanceof enemyKnight) && collide(this.radius, ent.radiusZone)) {
-                ent.health -= this.damage;
+            if ((ent instanceof enemyArcher || ent instanceof enemyKnight) && circlesIntersect(this, ent.collisionCircle)) {
+                ent.health -= 15;
                 
                 this.removeFromWorld = true;
+            // } else if(this.isOutsideGameBounds()) {
+            //     this.removeFromWorld = true;
+            // }
             }
+            
         }
 
         // this.facing = getFacing(this.velocity);
