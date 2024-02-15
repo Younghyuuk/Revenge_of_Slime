@@ -23,7 +23,9 @@ class enemyKnight {
 
         this.removeFromWorld = false; // if the sprite is a live or dead, alive at creation
 
-        this.collisionCircle = {radius: 22, x: x + 17, y: y + 20};// collision detection circle
+        this.radius = 22;
+
+        this.collisionCircle = {radius: this.radius, x: x + 17, y: y + 20};// collision detection circle
 
         this.overlapCollisionCircle = {radius: 14, x: x + 17, y: y + 20}; // collision circle to prevent NPC overlap
         

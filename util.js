@@ -87,6 +87,10 @@ function circlesIntersect(circle1, circle2) {
     return distance < (circle1.radius + circle2.radius);
 };
 
+function collide(A, B) {
+    return (distance(A, B) < A.radius + B.radius);
+};
+
 function getFacing(velocity) {
     if (velocity.x === 0 && velocity.y === 0) return 4;
     let angle = Math.atan2(velocity.y, velocity.x) / Math.PI;

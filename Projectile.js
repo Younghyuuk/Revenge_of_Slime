@@ -3,15 +3,16 @@ class Projectile {
     constructor(game,x, y, speed) {
         this.game = game;
         Object.assign(this, { x, y, speed });
-        this.radius = 12;
+        this.radius = 5;
+        this.game.projectile = this;
         var dist = distance(this, this.game.mouseClickPos);
-        this.maxSpeed = 200; // pixels per second
+        this.maxSpeed = 700; // pixels per second
        
         this.velocity = { x: (this.game.mouseClickPos.x - this.x) / dist * this.maxSpeed, 
         y: (this.game.mouseClickPos.y - this.y) / dist * this.maxSpeed };
        
         this.overlapCollisionCircle = {radius: 10, x: this.x + 10, y: this.y + 13};
-        
+
         this.facing = 5;
         
         this.elapsedTime = 0;
@@ -79,14 +80,14 @@ class Projectile {
         this.x += this.velocity.x * this.game.clockTick;
         this.y += this.velocity.y * this.game.clockTick;
 
-        // for (var i = 0; i < this.game.entities.length; i++) {
-        //     var ent = this.game.entities[i];
-        //     if ((ent instanceof enemyArcher || ent instanceof enemyKnight) /*&& circlesIntersect(this, ent)*/) {
-        //         var damage = 10 + randomInt(6);
-        //         // ent.health -= damage;
-        //         this.removeFromWorld = true;
-        //     }
-        // }
+        for (var i = 0; i < this.game.entities.length; i++) {
+            var ent = this.game.entities[i];
+            if ((ent instanceof enemyArcher || ent instanceof enemyKnight) && collide(this, ent.radius)) {
+                ent.health -= this.damage;
+                
+                this.removeFromWorld = true;
+            }
+        }
 
         // this.facing = getFacing(this.velocity);
     };

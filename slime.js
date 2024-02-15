@@ -119,6 +119,16 @@ class Slime {
             let slimeY = this.y + 55 - this.game.camera.y;
             this.game.addEntity(new Projectile(this.game, slimeX, slimeY, 5));
            
+            for (var i = 0; i < this.game.entities.length; i++) {
+                var ent = this.game.entities[i];
+                if ((ent instanceof enemyArcher || ent instanceof enemyKnight) && collide(this.game.projectile, ent.radius)) {
+                    ent.health -= this.damage;
+                        
+                    this.removeFromWorld = true;
+                }
+            }
+
+            
             // Reset mouseClick to prevent continuous shooting
             this.game.mouseClick = false;
 
