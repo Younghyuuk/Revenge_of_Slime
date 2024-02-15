@@ -40,7 +40,6 @@ class Slime {
         // all the knife stuff.
         this.hasKnife = false; // Indicates if the slime has a knife to attack with
         // console.log(this.inventory.some(item => item.name === "knife");
-        this.isKnifing = false; // Indicates if the slime is currently performing a knife attack
         this.knifeCooldown = 0;
 
     };
@@ -91,6 +90,7 @@ class Slime {
         let stabCircle = this.game.knife.stabPos();
     
         if (this.hasKnife && this.game.mouseClick) {
+
             this.attackDirection();
             console.log(stabCircle.x);
             console.log(stabCircle.y);
@@ -128,7 +128,6 @@ class Slime {
     
             // Reset mouseClick to prevent continuous attacks
             this.game.mouseClick = false;
-            this.isKnifing = false;
         }
     };
 
@@ -215,20 +214,6 @@ class Slime {
 
     };
 
-    // Helper method for knife if in inventory
-    // knifeAttack() {
-    //     this.isKnifing = true;
-    //     this.knifeCooldown = 20;
-        
-    //     // Perform the attack logic (e.g., check for collisions with enemies)
-    //     // For now, we can simply log that an attack has been made
-    //     console.log("Slime is knifing!");
-
-    //     // After the attack, you might want to set a timeout to reset the knifing state back to false
-    //     setTimeout(() => {
-    //         this.isKnifing = false;
-    //     }, 500); // Reset after 500 milliseconds
-    // };
 
     update() {
         // this.camera.follow(this);
@@ -242,13 +227,7 @@ class Slime {
        //don't move if dead
         if(!this.dead) {
 
-            // if (this.hasKnife && this.game.mouseClick) {
-            //     this.isKnifing = true
-            // }
-    
-            // if (this.knifeCooldown > 0) {
-            //     this.knifeCooldown -= this.game.clockTick;
-            // }
+          
             //calls attack if mouse clicked and enemy in range
             this.canAttack();
             this.performKnifeAttack(this.game.ctx);
@@ -347,14 +326,6 @@ class Slime {
 
         this.overlapCollisionCircle.x = this.x + 31 - this.game.camera.x;
         this.overlapCollisionCircle.y = this.y + 55 - this.game.camera.y;
-
-        // this.attackCircle.x = this.x + 31 - this.game.camera.x;
-        // this.attackCircle.y = this.y + 55 - this.game.camera.y;
-
-        // this.defendCircle.x = this.x + 31;
-        // this.defendCircle.y = this.y + 55;
-    
-
         
     };
 
