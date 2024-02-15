@@ -292,12 +292,6 @@ class GameEngine {
         this.update();
         this.draw();
 
-        // tester
-        // if (this.mouseClick) {
-        //     // Handle mouse click
-        //     // this.handleMouseClick(this.mouseClickPos);
-        //     this.mouseClick = false; // Reset mouse click flag
-        // }
     };
 
   
