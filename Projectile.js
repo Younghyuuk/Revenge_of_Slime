@@ -11,7 +11,7 @@ class Projectile {
         this.velocity = { x: (this.game.mouseClickPos.x - this.x) / dist * this.maxSpeed, 
         y: (this.game.mouseClickPos.y - this.y) / dist * this.maxSpeed };
        
-        this.overlapCollisionCircle = {radius: 10, x: this.x + 10, y: this.y + 13};
+        this.overlapCollisionCircle = {radius: this.radius, x: this.x + 10, y: this.y + 13};
 
         this.facing = 5;
         
@@ -50,44 +50,20 @@ class Projectile {
         // }
     };
 
-    // // This is the anglePos logic that will take the mouse click position and the slime character's position and calculate the 
-    // // position where the projectile will shoot and will return the collision circle at the projectile position it will be used
-    // // in the update method to update the position of the projectile and wil have this projectile unlike knife to 
-    // // travel in a straight line and will only be removed if it hits an entity or goes off the bounds of the screen
-    // anglePos() {
-    //     // let mouseX = this.game.mouseClickPos.x;
-    //     // let mouseY = this.game.mouseClickPos.y;
-    //     // // Calculate direction from slime to mouse click
-    //     // let slimeX = this.game.slime.x + 31 - this.game.camera.x;
-    //     // let slimeY = this.game.slime.y + 55 - this.game.camera.y;
-    //     // const [unitX, unitY] = getUnitVector(mouseX, mouseY, slimeX, slimeY);
-    //     // // Set velocity based on direction and speed
-    //     // this.velocityX = unitX * this.speed;
-    //     // this.velocityY = unitY * this.speed;
-    //     // // Update position based on velocity
-    //     // this.x += this.velocityX;
-    //     // this.y += this.velocityY;
-    
-    //     // // Return updated collision circle
-    //     // return {
-    //     //     x: this.x,
-    //     //     y: this.y,
-    //     //     radius: 5 // Assuming a fixed radius for simplicity
-    //     // };
-    // };
+
     
     update() {
         this.x += this.velocity.x * this.game.clockTick;
         this.y += this.velocity.y * this.game.clockTick;
 
-        for (var i = 0; i < this.game.entities.length; i++) {
-            var ent = this.game.entities[i];
-            if ((ent instanceof enemyArcher || ent instanceof enemyKnight) && collide(this, ent.radius)) {
-                ent.health -= this.damage;
+        // for (var i = 0; i < this.game.entities.length; i++) {
+        //     var ent = this.game.entities[i];
+        //     if ((ent instanceof enemyArcher || ent instanceof enemyKnight) && collide(this, ent.radius)) {
+        //         ent.health -= this.damage;
                 
-                this.removeFromWorld = true;
-            }
-        }
+        //         this.removeFromWorld = true;
+        //     }
+        // }
 
         // this.facing = getFacing(this.velocity);
     };

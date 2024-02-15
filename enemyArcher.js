@@ -25,9 +25,9 @@ class enemyArcher {
         this.removeFromWorld = false; // if the sprite is a live or dead, alive at creation
 
         //takes damage
-        this.radius = 22;
+        this.radiusZone = 22;
 
-        this.collisionCircle = {radius: this.radius, x: x + 17, y: y + 20};// collision detection circle
+        this.collisionCircle = {radius: this.radiusZone, x: x + 17, y: y + 20};// collision detection circle
 
         this.dealDamageCollisionCircle = {radius: 190, x: x + 17, y: y + 20};
 
