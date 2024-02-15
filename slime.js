@@ -122,7 +122,7 @@ class Slime {
            
             this.game.entities.forEach(entity => {
                 if (entity instanceof enemyArcher || entity instanceof enemyKnight) {
-                    if(collide(entity.radiusZone, pistolBullet.radius)) {
+                    if(circlesIntersect(entity.collisionCircle, pistolBullet.bc)) {
                         entity.getAttacked(pistolBullet.damage);
                         console.log("Enemy health: " + entity.health);
                     }
