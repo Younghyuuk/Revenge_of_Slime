@@ -1,12 +1,12 @@
 
 class Projectile {
-    constructor(game,x, y, speed, damage, fireRate) {
+    constructor(game,x, y, maxSpeed, damage, radius) {
         this.game = game;
-        Object.assign(this, { x, y, speed, damage });
-        this.radius = 5;
+        Object.assign(this, { x, y, maxSpeed, damage, radius });
+        // this.radius = 5;
         this.game.projectile = this;
         var dist = distance(this, this.game.mouseClickPos);
-        this.maxSpeed = 700; // pixels per second
+        // this.maxSpeed = maxSpeed; // pixels per second
        
         this.velocity = { x: (this.game.mouseClickPos.x - this.x) / dist * this.maxSpeed, 
         y: (this.game.mouseClickPos.y - this.y) / dist * this.maxSpeed };

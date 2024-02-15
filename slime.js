@@ -42,8 +42,12 @@ class Slime {
         // console.log(this.inventory.some(item => item.name === "knife");
         this.knifeCooldown = 0;
 
+        //pistol and gun parameters
         this.pistolCD = 0.8;
+        this.pistolDamage = 30;
+        this.gunMaxSpeed = 1000;
         this.elapsedTime = 0;
+        this.gunRadius = 5;
 
         // this.projectiles = [];
 
@@ -121,12 +125,10 @@ class Slime {
             let slimeX = this.x + 31 - this.game.camera.x;
             let slimeY = this.y + 55 - this.game.camera.y;
 
-            let pistolBullet = new Projectile(this.game, slimeX, slimeY, .01, 50, this.pistolCD);
-            
-          
-             
-                this.elapsedTime = 0;
-                this.game.addEntity(pistolBullet);
+            // game, slime , slime , maxSpeed, damage, radius
+            let pistolBullet = new Projectile(this.game, slimeX, slimeY, this.gunMaxSpeed, this.pistolDamage, this.gunRadius); 
+            this.elapsedTime = 0;
+            this.game.addEntity(pistolBullet);
     
            
             // this.game.entities.forEach(entity => {
