@@ -20,11 +20,11 @@ function createEnemy(gameEngine, type, x, y, speed, health, damage) {
 
 
 function createSlime(gameEngine) {
-	console.log("createSlime() is called");
+	 console.log("createSlime() is called");
 	//game , x, y, speed, health,  base damage
 	window.slime = new Slime(gameEngine, 700, 430, 150, 100, 10);
 	gameEngine.addEntity(slime);
-	gameEngine.addEntity(new knife(gameEngine, 105, 610));
+	gameEngine.addEntity(new knife(gameEngine, 670, 470));
 	return slime;
 };
 
@@ -39,9 +39,10 @@ ASSET_MANAGER.queueDownload("./images/tree.png");
 ASSET_MANAGER.queueDownload("./images/lavaPit.png");
 ASSET_MANAGER.queueDownload("./images/rock.png");
 
-// ASSET_MANAGER.queueDownload("./images/UpdatedSlimeSprite.png");
-// ASSET_MANAGER.queueDownload("./images/myBlueSlime.png");
-ASSET_MANAGER.queueDownload("./images/blueKnifeSlime.png");
+ASSET_MANAGER.queueDownload("./images/blueSlime.png");
+ASSET_MANAGER.queueDownload("./images/knifeBlueSlime.png");
+ASSET_MANAGER.queueDownload("./images/practiceKnifeAttack.png");
+
 
 
 
