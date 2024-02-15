@@ -88,6 +88,8 @@ function circlesIntersect(circle1, circle2) {
 };
 
 function collide(A, B) {
+    console.log(distance(A, B) < A.radius + B.radius);
+    console.log("distance: " + distance(A, B) + "Enemy pos: x: " + A.x + " y: " + A.y);
     return (distance(A, B) < A.radius + B.radius);
 };
 

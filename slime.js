@@ -44,6 +44,8 @@ class Slime {
 
         this.pistolCD = 2;
 
+        this.projectiles = [];
+
     };
 
     confirm() {
@@ -117,19 +119,10 @@ class Slime {
             // Create a new Bullet instance with bullet speed 5
             let slimeX = this.x + 31 - this.game.camera.x;
             let slimeY = this.y + 55 - this.game.camera.y;
-            let pistolBullet = new Projectile(this.game, slimeX, slimeY, 5);
+            let pistolBullet = new Projectile(this.game, slimeX, slimeY, .01, 15);
             this.game.addEntity(pistolBullet);
-           
-            this.game.entities.forEach(entity => {
-                if (entity instanceof enemyArcher || entity instanceof enemyKnight) {
-                    if(collide(entity.radiusZone, pistolBullet.radius)) {
-                        entity.getAttacked(pistolBullet.damage);
-                        console.log("Enemy health: " + entity.health);
-                    }
-                }
-            });
+            this.projectiles.push(pistolBullet);
 
-            
             // Reset mouseClick to prevent continuous shooting
             this.game.mouseClick = false;
 
@@ -192,6 +185,30 @@ class Slime {
             this.canAttack();
             this.performKnifeAttack();
             this.pistolShot();
+
+            for (let i = 0; i < this.projectiles.length; i++) {
+                let projectile = this.projectiles[i];
+
+                if (projectile.isOutsideGameBounds()) {
+                    this.projectiles.splice(i, 1); // Remove from active projectiles
+                    i--; // Adjust index after removal
+                    continue;
+                }
+
+                console.log("projectile #: " + this.projectiles.length);
+                this.game.entities.forEach(entity => {
+                    console.log("enemy pos: " + entity.x + ", " + entity.y);
+                    console.log("slime pos: " + this.x + ", " + this.y);
+                   // console.log("enemy collison circle pos: " + entity.collisionCircle.x + ", " + entity.collisionCircle.y);
+                    if (entity instanceof enemyArcher || entity instanceof enemyKnight) {
+                        if(collide(entity.collisionCircle, projectile.overlapCollisionCircle)) {
+                                entity.getAttacked(projectile.damage);
+                            console.log("Enemy health: " + entity.health);
+                        }
+                    }
+                });
+            }
+
             if (this.showStabCircle) {
                 if (!this.stabCircleTimer) { // Initialize the timer the first time
                     this.stabCircleTimer = 60; // e.g., 60 frames = 1 second at 60 FPS

@@ -119,7 +119,7 @@ class enemyArcher {
 
     // this method is called when the knight attacks the player
     attack(entity) {
-        entity.getAttacked(this.damage);
+       // entity.getAttacked(this.damage);
         // a method call to the player's character to damage them
         // sends in the damage as a parameter to determine how much health should be taken from the character
 
