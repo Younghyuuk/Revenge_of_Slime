@@ -68,7 +68,7 @@ class Projectile {
         for (var i = 0; i < this.game.entities.length; i++) {
             var ent = this.game.entities[i];
             if ((ent instanceof enemyArcher || ent instanceof enemyKnight) && circlesIntersect(this, ent.collisionCircle)) {
-                ent.health -= 15;
+                ent.getAttacked(this.damage);
                 
                 this.removeFromWorld = true;
             // } else if(this.isOutsideGameBounds()) {
