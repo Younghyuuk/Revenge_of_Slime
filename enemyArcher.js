@@ -119,13 +119,13 @@ class enemyArcher {
 
     // this method is called when the knight attacks the player
     attack(entity) {
-       // entity.getAttacked(this.damage);
+       entity.getAttacked(this.damage);
         // a method call to the player's character to damage them
         // sends in the damage as a parameter to determine how much health should be taken from the character
 
         // for debugging, uncomment attackCount in constructor
-        // this.attackCount++;
-        // console.log(`Archer Attack ${this.attackCount}`);
+        this.attackCount++;
+        console.log(`Archer Attack ${this.attackCount}`);
     };
 
     // this method is called when this knight is taking damage
