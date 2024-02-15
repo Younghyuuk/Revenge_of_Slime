@@ -1,8 +1,8 @@
 
 class Projectile {
-    constructor(game,x, y, speed) {
+    constructor(game,x, y, speed, damage) {
         this.game = game;
-        Object.assign(this, { x, y, speed });
+        Object.assign(this, { x, y, speed, damage });
         this.radius = 5;
         this.game.projectile = this;
         var dist = distance(this, this.game.mouseClickPos);
@@ -16,6 +16,15 @@ class Projectile {
         this.facing = 5;
         this.bc = {x: this.x, y: this.y, radius: this.radius};
         this.elapsedTime = 0;
+
+    };
+
+    isOutsideGameBounds() {
+        if (this.x > 690 || this.x < 60 || this.y > 440 || this.y < 60) {
+            return true;
+        } else {
+            return false;
+        }
     };
 
 

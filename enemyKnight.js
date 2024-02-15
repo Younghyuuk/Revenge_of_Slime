@@ -66,7 +66,7 @@ class enemyKnight {
         }
 
         // if the knight is close enough to attack
-        if (dist < this.collisionCircle.radius + this.slime.collisionCircle.radius && this.coolDown > .5) {
+        if (dist < this.collisionCircle.radius + this.slime.collisionCircle.radius/* && this.coolDown > .5*/) {
             this.attack(this.slime);
             this.coolDown = 0;
         // if the knight still needs to get to the slime 
@@ -98,7 +98,7 @@ class enemyKnight {
 
     // this method is called when the knight attacks the player
     attack(entity) {
-        entity.getAttacked(this.damage);
+       // entity.getAttacked(this.damage);
     
         // a method call to the player's character to damage them
         // sends in the damage as a parameter to determine how much health should be taken from the character
