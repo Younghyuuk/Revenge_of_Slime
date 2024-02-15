@@ -186,6 +186,8 @@ class Slime {
             this.performKnifeAttack();
             this.pistolShot();
 
+
+            // THIS IS THE PROJECTILES COLLISION LOGIC THAT I CHANGED AND MOVED FROM PISTOLSHOT() ***********************
             for (let i = 0; i < this.projectiles.length; i++) {
                 let projectile = this.projectiles[i];
 
@@ -208,6 +210,8 @@ class Slime {
                     }
                 });
             }
+
+            // **************************************************************
 
             if (this.showStabCircle) {
                 if (!this.stabCircleTimer) { // Initialize the timer the first time
