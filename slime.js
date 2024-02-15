@@ -42,10 +42,10 @@ class Slime {
         // console.log(this.inventory.some(item => item.name === "knife");
         this.knifeCooldown = 0;
 
-        this.pistolCD = 1;
+        this.pistolCD = 0.8;
         this.elapsedTime = 0;
 
-        this.projectiles = [];
+        // this.projectiles = [];
 
     };
 
@@ -121,7 +121,7 @@ class Slime {
             let slimeX = this.x + 31 - this.game.camera.x;
             let slimeY = this.y + 55 - this.game.camera.y;
 
-            let pistolBullet = new Projectile(this.game, slimeX, slimeY, .01, 100, this.pistolCD);
+            let pistolBullet = new Projectile(this.game, slimeX, slimeY, .01, 50, this.pistolCD);
             
           
              
@@ -137,7 +137,8 @@ class Slime {
             //         }
             //     }
             // });
-            this.projectiles.push(pistolBullet);
+
+            // this.projectiles.push(pistolBullet);
 
             // Reset mouseClick to prevent continuous shooting
             this.game.mouseClick = false;
@@ -205,28 +206,28 @@ class Slime {
 
 
             // THIS IS THE PROJECTILES COLLISION LOGIC THAT I CHANGED AND MOVED FROM PISTOLSHOT() ***********************
-            for (let i = 0; i < this.projectiles.length; i++) {
-                let projectile = this.projectiles[i];
+            // for (let i = 0; i < this.projectiles.length; i++) {
+            //     let projectile = this.projectiles[i];
 
-                if (projectile.isOutsideGameBounds()) {
-                    this.projectiles.splice(i, 1); // Remove from active projectiles
-                    i--; // Adjust index after removal
-                    continue;
-                }
+            //     if (projectile.isOutsideGameBounds()) {
+            //         this.projectiles.splice(i, 1); // Remove from active projectiles
+            //         i--; // Adjust index after removal
+            //         continue;
+            //     }
 
-                console.log("projectile #: " + this.projectiles.length);
-                this.game.entities.forEach(entity => {
-                    console.log("enemy pos: " + entity.x + ", " + entity.y);
-                    console.log("slime pos: " + this.x + ", " + this.y);
-                   // console.log("enemy collison circle pos: " + entity.collisionCircle.x + ", " + entity.collisionCircle.y);
-                    if (entity instanceof enemyArcher || entity instanceof enemyKnight) {
-                        if(collide(entity.collisionCircle, projectile.overlapCollisionCircle)) {
-                                entity.getAttacked(projectile.damage);
-                            console.log("Enemy health: " + entity.health);
-                        }
-                    }
-                });
-            }
+            //     console.log("projectile #: " + this.projectiles.length);
+            //     this.game.entities.forEach(entity => {
+            //         console.log("enemy pos: " + entity.x + ", " + entity.y);
+            //         console.log("slime pos: " + this.x + ", " + this.y);
+            //        // console.log("enemy collison circle pos: " + entity.collisionCircle.x + ", " + entity.collisionCircle.y);
+            //         if (entity instanceof enemyArcher || entity instanceof enemyKnight) {
+            //             if(collide(entity.collisionCircle, projectile.overlapCollisionCircle)) {
+            //                     entity.getAttacked(projectile.damage);
+            //                 console.log("Enemy health: " + entity.health);
+            //             }
+            //         }
+            //     });
+            // }
 
             // **************************************************************
 
