@@ -1,6 +1,6 @@
 
 class Projectile {
-    constructor(game,x, y, speed, damage) {
+    constructor(game,x, y, speed, damage, fireRate) {
         this.game = game;
         Object.assign(this, { x, y, speed, damage });
         this.radius = 5;
@@ -19,7 +19,7 @@ class Projectile {
     };
 
     isOutsideGameBounds() {
-        if (this.x > 690 || this.x < 60 || this.y > 440 || this.y < 60) {
+        if (this.x > 3200 || this.x < 0 || this.y > 3200 || this.y < 0) {
             return true;
         } else {
             return false;
@@ -71,13 +71,19 @@ class Projectile {
                 ent.getAttacked(this.damage);
                 
                 this.removeFromWorld = true;
-            // } else if(this.isOutsideGameBounds()) {
+                
+                // this if statement is if the bullet goes outside of the map it will be removed from the world
+                if (!this.isOutsideGameBounds()) {
+                    this.removeFromWorld = true;
+                }
+
+            // } else if(this.isOutsideGameBounds()) {sadsa
             //     this.removeFromWorld = true;
             // }
             }
             
         }
-
+        
         // this.facing = getFacing(this.velocity);
     };
 

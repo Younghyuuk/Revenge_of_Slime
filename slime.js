@@ -42,7 +42,8 @@ class Slime {
         // console.log(this.inventory.some(item => item.name === "knife");
         this.knifeCooldown = 0;
 
-        this.pistolCD = 2;
+        this.pistolCD = 1;
+        this.elapsedTime = 0;
 
         this.projectiles = [];
 
@@ -113,14 +114,20 @@ class Slime {
     // this method calls upon a new bullet when the slime has a pistol and attacks an npc with mouse clicks add in the update
     // in the bullet method or projectile later
     pistolShot() {
-        if (this.hasPistol && this.game.mouseClick && !this.hasKnife) {
+        if (this.hasPistol && this.game.mouseClick && !this.hasKnife && this.elapsedTime > this.pistolCD) {
             
             // Calculate the bullet's direction based on the mouse click
             // Create a new Bullet instance with bullet speed 5
             let slimeX = this.x + 31 - this.game.camera.x;
             let slimeY = this.y + 55 - this.game.camera.y;
-            let pistolBullet = new Projectile(this.game, slimeX, slimeY, .01, 100);
-            this.game.addEntity(pistolBullet);
+
+            let pistolBullet = new Projectile(this.game, slimeX, slimeY, .01, 100, this.pistolCD);
+            
+          
+             
+                this.elapsedTime = 0;
+                this.game.addEntity(pistolBullet);
+    
            
             // this.game.entities.forEach(entity => {
             //     if (entity instanceof enemyArcher || entity instanceof enemyKnight) {
@@ -179,7 +186,8 @@ class Slime {
 
     update() {
         // this.camera.follow(this);
-        
+        this.elapsedTime += this.game.clockTick;
+
         let potentialX = this.x;
         let potentialY = this.y;
         
