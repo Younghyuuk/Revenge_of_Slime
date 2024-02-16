@@ -42,6 +42,13 @@ class Slime {
         // console.log(this.inventory.some(item => item.name === "knife");
         this.knifeCooldown = 0;
 
+          //pistol and gun parameters
+        this.pistolCD = 0.8;
+        this.pistolDamage = 30;
+        this.gunMaxSpeed = 1000;
+        this.elapsedTime = 0;
+        this.gunRadius = 5;
+  
     };
 
     confirm() {
@@ -92,10 +99,6 @@ class Slime {
         if (this.hasKnife && this.game.mouseClick) {
 
             this.attackDirection();
-            console.log(stabCircle.x);
-            console.log(stabCircle.y);
-            console.log(stabCircle.radius);
-            this.isKnifing = true;
             this.showStabCircle = true; // Set to true to show the stab circle
             this.state = 6;
     
@@ -112,19 +115,6 @@ class Slime {
             // console.log(`Mouse Click x: ${this.game.mouseClickPos.x} y:${this.game.mouseClickPos.y}\nSlime x: ${this.x} y:${this.y}`);
 
             // Draw the stab circle if showStabCircle is true
-            if (this.showStabCircle) {
-                ctx.beginPath();
-                ctx.arc(stabCircle.x - this.game.camera.x, stabCircle.y - this.game.camera.y, stabCircle.radius, 0, 2 * Math.PI, true);
-                ctx.strokeStyle = 'red'; // Red border
-                ctx.stroke();
-            }
-    
-            // Use setTimeout to hide the stab circle after 500ms
-            setTimeout(() => {
-                this.showStabCircle = false;
-                // Optionally clear the circle area. You might need to clear the entire canvas or redraw the scene based on your game's structure
-                // ctx.clearRect(stabCircle.x - stabCircle.radius, stabCircle.y - stabCircle.radius, stabCircle.radius * 2, stabCircle.radius * 2);
-            }, 500);
     
             // Reset mouseClick to prevent continuous attacks
             this.game.mouseClick = false;
