@@ -60,11 +60,11 @@ class map {
                     this.theMap[i][j] = 1; // Wall
                 } else {
                     // Determine if the tile should have an obstacle
-                    if (Math.random() < obstacleChance) {
-                        this.theMap[i][j] = 2; // Mark as obstacle
-                    } else {
+                    // if (Math.random() < obstacleChance) {
+                    //     this.theMap[i][j] = 2; // Mark as obstacle
+                    // } else {
                         this.theMap[i][j] = 0; // Empty
-                    }
+                    // }
                 }
             }
         }

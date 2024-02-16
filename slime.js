@@ -140,7 +140,7 @@ class Slime {
             this.attackAngle = 3; // up
         }
 
-    }
+    };
     
      // this method calls upon a new bullet when the slime has a pistol and attacks an npc with mouse clicks add in the update
     // in the bullet method or projectile later
