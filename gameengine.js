@@ -38,8 +38,7 @@ class GameEngine {
      
         // Camera object
         // this.slime = new Slime(this.game, 77, 430, 150, 100, 10);
-        this.map = new map(this);
-       
+        this.map = new map(this);       
     };
 
     init(ctx) {
@@ -56,6 +55,7 @@ class GameEngine {
     start() {
         console.log("start in gameengine is called");
         this.levelBuilder.initBuilder();
+        this.hud = new hud(this);
         this.running = true;
         const gameLoop = () => {
             this.loop();
@@ -171,6 +171,8 @@ class GameEngine {
         for (let i = this.entities.length - 1; i >= 0; i--) {
             this.entities[i].draw(this.ctx, this);
         }
+
+        this.hud.draw(this.ctx);
     };
 
     update() {
@@ -225,6 +227,8 @@ class GameEngine {
                 this.entities.splice(i, 1);
             }
         }
+
+        this.hud.update();
     };
 
     areColliding(entityA, entityB) {

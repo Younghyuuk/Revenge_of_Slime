@@ -135,6 +135,11 @@ class enemyArcher {
         }
     };
 
+    drawMiniMap(ctx, mmX, mmY){
+        ctx.fillStyle = "#084c18"; // color of archer
+        ctx.fillRect(mmX + this.x / 32, mmY + this.y / 32, 4, 4);
+    }
+
     draw(ctx) {
         if (!this.removeFromWorld) {
             this.animator.drawFrame(this.game.clockTick, ctx, this.x- this.game.camera.x, this.y - this.game.camera.y, [this.collisionCircle, this.dealDamageCollisionCircle, this.overlapCollisionCircle]);
