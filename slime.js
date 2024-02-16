@@ -57,7 +57,7 @@ class Slime {
     };
     // calls attack if mouse clicked and enemy in range
     canAttack() {
-        if (this.game.mouseClick == true && this.enemyInRange != null && this.hasKnife == false){
+        if (this.game.mouseClick == true && this.enemyInRange != null && this.hasKnife == false && !this.hasPistol){
             //set state to attacking
             this.state = 6;
             this.attack(this.enemyInRange);
