@@ -42,6 +42,14 @@ class Slime {
         // console.log(this.inventory.some(item => item.name === "knife");
         this.knifeCooldown = 0;
 
+        //pistol and gun parameters
+        this.hasPistol = true;
+        this.pistolCD = 0.8;
+        this.pistolDamage = 30;
+        this.gunMaxSpeed = 1000;
+        this.elapsedTime = 0;
+        this.gunRadius = 5;
+  
     };
 
     confirm() {
@@ -86,45 +94,24 @@ class Slime {
         }
     };
 
-    performKnifeAttack(ctx) {
+    performKnifeAttack() {
         let stabCircle = this.game.knife.stabPos();
     
         if (this.hasKnife && this.game.mouseClick) {
 
             this.attackDirection();
-            console.log(stabCircle.x);
-            console.log(stabCircle.y);
-            console.log(stabCircle.radius);
-            this.isKnifing = true;
             this.showStabCircle = true; // Set to true to show the stab circle
             this.state = 6;
     
             // Check for collisions with entities using stabCircle
             this.game.entities.forEach(entity => {
                 if (entity instanceof enemyArcher || entity instanceof enemyKnight) {
-                    if(this.circlesIntersect(entity.collisionCircle, stabCircle)) {
+                    if(circlesIntersect(entity.collisionCircle, stabCircle)) {
                         entity.getAttacked(this.game.knife.damage);
                         console.log("Enemy health: " + entity.health);
                     }
                 }
             });
-
-            // console.log(`Mouse Click x: ${this.game.mouseClickPos.x} y:${this.game.mouseClickPos.y}\nSlime x: ${this.x} y:${this.y}`);
-
-            // Draw the stab circle if showStabCircle is true
-            if (this.showStabCircle) {
-                ctx.beginPath();
-                ctx.arc(stabCircle.x - this.game.camera.x, stabCircle.y - this.game.camera.y, stabCircle.radius, 0, 2 * Math.PI, true);
-                ctx.strokeStyle = 'red'; // Red border
-                ctx.stroke();
-            }
-    
-            // Use setTimeout to hide the stab circle after 500ms
-            setTimeout(() => {
-                this.showStabCircle = false;
-                // Optionally clear the circle area. You might need to clear the entire canvas or redraw the scene based on your game's structure
-                // ctx.clearRect(stabCircle.x - stabCircle.radius, stabCircle.y - stabCircle.radius, stabCircle.radius * 2, stabCircle.radius * 2);
-            }, 500);
     
             // Reset mouseClick to prevent continuous attacks
             this.game.mouseClick = false;
@@ -153,20 +140,32 @@ class Slime {
             this.attackAngle = 3; // up
         }
 
-    }
+    };
     
+     // this method calls upon a new bullet when the slime has a pistol and attacks an npc with mouse clicks add in the update
+    // in the bullet method or projectile later
+    pistolShot() {
+        if (this.hasPistol && this.game.mouseClick && !this.hasKnife && this.elapsedTime > this.pistolCD) {
+            
+            // Calculate the bullet's direction based on the mouse click
+            // Create a new Bullet instance with bullet speed 5
+            let slimeX = this.x + 31 - this.game.camera.x;
+            let slimeY = this.y + 55 - this.game.camera.y;
+
+            // game, slime , slime , maxSpeed, damage, radius
+            let pistolBullet = new Projectile(this.game, slimeX, slimeY, this.gunMaxSpeed, this.pistolDamage, this.gunRadius); 
+            this.elapsedTime = 0;
+            this.game.addEntity(pistolBullet);
     
+            this.game.mouseClick = false;
+        }
+    };
+
 
     getCircle() {
         return this.collisionCircle;
     };
 
-    circlesIntersect(circle1, circle2) {
-        let dx = circle1.x - circle2.x;
-        let dy = circle1.y - circle2.y;
-        let distance = Math.sqrt(dx * dx + dy * dy);
-        return distance < (circle1.radius + circle2.radius);
-    };
 
     loadAnimations() {
 
@@ -217,7 +216,8 @@ class Slime {
 
     update() {
         // this.camera.follow(this);
-        
+        this.elapsedTime += this.game.clockTick;
+
         let potentialX = this.x;
         let potentialY = this.y;
         
@@ -230,7 +230,8 @@ class Slime {
           
             //calls attack if mouse clicked and enemy in range
             this.canAttack();
-            this.performKnifeAttack(this.game.ctx);
+            this.performKnifeAttack();
+            this.pistolShot();
             if (this.showStabCircle) {
                 if (!this.stabCircleTimer) { // Initialize the timer the first time
                     this.stabCircleTimer = 120; // e.g., 60 frames = 1 second at 60 FPS

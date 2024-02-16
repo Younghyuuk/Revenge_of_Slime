@@ -52,7 +52,7 @@ class enemyKnight {
         let current = {x : this.collisionCircle.x, y : this.collisionCircle.y};
 
         // distance between the knight and slime 
-        var dist = this.distance(current, target);
+        var dist = distance(current, target);
         // atttack cooldown
         this.coolDown += this.game.clockTick;
 
@@ -90,9 +90,9 @@ class enemyKnight {
         this.overlapCollisionCircle.y = this.y + 20 - this.game.camera.y;
     };
 
-    distance(a, b) {
-        return Math.sqrt((b.x - a.x) * (b.x - a.x) + (b.y - a.y) * (b.y - a.y));
-    }
+    // distance(a, b) {
+    //     return Math.sqrt((b.x - a.x) * (b.x - a.x) + (b.y - a.y) * (b.y - a.y));
+    // }
 
     // this method is called when the knight attacks the player
     attack(entity) {
