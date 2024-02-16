@@ -75,3 +75,35 @@ const getUnitVector = (thisPosX, thisPosY, otherPosX, otherPosY) => {
 
     return [Math.cos(angle), Math.sin(angle)]
 };
+
+
+function circlesIntersect(circle1, circle2) {
+    let dx = circle1.x - circle2.x;
+    let dy = circle1.y - circle2.y;
+    let distance = Math.sqrt(dx * dx + dy * dy);
+    return distance < (circle1.radius + circle2.radius);
+};
+
+function distance(a, b) {
+    return Math.sqrt((b.x - a.x) * (b.x - a.x) + (b.y - a.y) * (b.y - a.y));
+};
+
+function collide(A, B) {
+    console.log(distance(A, B) < A.radius + B.radius);
+    console.log("distance: " + distance(A, B) + "Enemy pos: x: " + A.x + " y: " + A.y);
+    return (distance(A, B) < A.radius + B.radius);
+};
+
+function getFacing(velocity) {
+    if (velocity.x === 0 && velocity.y === 0) return 4;
+    let angle = Math.atan2(velocity.y, velocity.x) / Math.PI;
+
+    if (-0.625 < angle && angle < -0.375) return 0;
+    if (-0.375 < angle && angle < -0.125) return 1;
+    if (-0.125 < angle && angle < 0.125) return 2;
+    if (0.125 < angle && angle < 0.375) return 3;
+    if (0.375 < angle && angle < 0.625) return 4;
+    if (0.625 < angle && angle < 0.875) return 5;
+    if (-0.875 > angle || angle > 0.875) return 6;
+    if (-0.875 < angle && angle < -0.625) return 7;
+};

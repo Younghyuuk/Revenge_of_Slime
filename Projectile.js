@@ -64,7 +64,6 @@ class Projectile {
         this.x += this.velocity.x * this.game.clockTick;
         this.y += this.velocity.y * this.game.clockTick;
       
-        this.bc = {x: this.x, y: this.y, radius: this.radius};
         for (var i = 0; i < this.game.entities.length; i++) {
             var ent = this.game.entities[i];
             if ((ent instanceof enemyArcher || ent instanceof enemyKnight) && circlesIntersect(this, ent.collisionCircle)) {
@@ -72,14 +71,6 @@ class Projectile {
                 
                 this.removeFromWorld = true;
                 
-                // this if statement is if the bullet goes outside of the map it will be removed from the world
-                if (!this.isOutsideGameBounds()) {
-                    this.removeFromWorld = true;
-                }
-
-            // } else if(this.isOutsideGameBounds()) {sadsa
-            //     this.removeFromWorld = true;
-            // }
             }
             
         }
