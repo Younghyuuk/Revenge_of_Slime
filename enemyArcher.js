@@ -68,7 +68,7 @@ class enemyArcher {
             this.angleChangeTimer = 0; // Reset timer
         }
 
-        if (dist < this.dealDamageCollisionCircle.radius + this.slime.collisionCircle.radius/* && this.coolDown > .5*/) {
+        if (dist < this.dealDamageCollisionCircle.radius + this.slime.collisionCircle.radius && this.coolDown > .5) {
             console.log("archer respects damage collision");
             this.attack(this.slime);
            // this.attack(this.slime);
@@ -139,7 +139,7 @@ class enemyArcher {
 
     // this method is called when the knight attacks the player
     attack(entity) {
-        entity.getAttacked(this.damage);
+        // entity.getAttacked(this.damage);
         this.attacking = true;
 
         // This will set `this.attacking` back to false after 1 second
