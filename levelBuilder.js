@@ -72,33 +72,34 @@ class LevelBuilder {
 
     // builds new level
     buildNextLevel() {
+        if (!this.slime.dead) {
+            // No more enemies to spawn end loop
+            if (this.spawnQueue.length === 0) {
+                return; 
+            }
 
-        // No more enemies to spawn end loop
-        if (this.spawnQueue.length === 0) {
-            return; 
-        }
+            console.log("enemies: " + (this.livingArchers + this.livingKnights));
+            // checks to see if we have reached the max capacity, if so, wait a bit then try again
+            if ((this.livingArchers + this.livingKnights) < this.maxCapacity) {
+                // Get the next enemy to spawn
+                const enemyType = this.spawnQueue.shift(); 
+                // method call to create enemies with right stats and spawn point
+                this.gameEngine.addEntity(this.createEnemyStats(enemyType)); 
 
-        console.log("enemies: " + (this.livingArchers + this.livingKnights));
-        // checks to see if we have reached the max capacity, if so, wait a bit then try again
-        if ((this.livingArchers + this.livingKnights) < this.maxCapacity) {
-            // Get the next enemy to spawn
-            const enemyType = this.spawnQueue.shift(); 
-            // method call to create enemies with right stats and spawn point
-            this.gameEngine.addEntity(this.createEnemyStats(enemyType)); 
+                // Randomize next spawn time 
+                // change values for balancing 
+                const minSpawnDelay = 1000; // Minimum spawn delay in milliseconds
+                const maxSpawnDelay = 3000; // Maximum spawn delay in milliseconds
+                const spawnDelay = Math.random() * (maxSpawnDelay - minSpawnDelay) + minSpawnDelay;
 
-            // Randomize next spawn time 
-            // change values for balancing 
-            const minSpawnDelay = 1000; // Minimum spawn delay in milliseconds
-            const maxSpawnDelay = 3000; // Maximum spawn delay in milliseconds
-            const spawnDelay = Math.random() * (maxSpawnDelay - minSpawnDelay) + minSpawnDelay;
+                // spawn the next enemy with a random interval
+                setTimeout(() => this.buildNextLevel(), spawnDelay); // Schedule next spawn
 
-            // spawn the next enemy with a random interval
-            setTimeout(() => this.buildNextLevel(), spawnDelay); // Schedule next spawn
-
-        // if the max capacity is reached, wait 1 second and try again, will keep looping until everything is spawned 
-        } else {
-            // If max capacity reached, check again after a short delay
-            setTimeout(() => this.buildNextLevel(), 100); // Check again in .1 seconds
+            // if the max capacity is reached, wait 1 second and try again, will keep looping until everything is spawned 
+            } else {
+                // If max capacity reached, check again after a short delay
+                setTimeout(() => this.buildNextLevel(), 100); // Check again in .1 seconds
+            }
         }
     };
 
@@ -125,7 +126,6 @@ class LevelBuilder {
                 health = this.level * 2 + 40;
                 damage = this.level * 2 + 15;
             }
-            console.log("enemy is about to be created");
             return this.createEnemy(this.gameEngine, "archer", randomX, randomY, 100, health, damage);
         } else if (type == "knight") {
             // change if needed -- once the max number of knights is already 
@@ -139,7 +139,6 @@ class LevelBuilder {
                 health = this.level * 2 + 70;
                 damage = this.level * 2 + 5;
             }
-            console.log("enemy is about to be created");
             return this.createEnemy(this.gameEngine, "knight", randomX, randomY, 120, health, damage);
         }
     };

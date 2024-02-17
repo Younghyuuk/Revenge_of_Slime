@@ -31,6 +31,11 @@ class enemyKnight {
         
         this.dead = false; // made for getting the death animation correct
 
+        this.velocity = {
+            x: 0,
+            y: 0
+        };
+
 
        // fields related to knight's animations
        this.elapsedDeadAnimTime = 0; // to make sure death animation plays correctly
@@ -50,6 +55,13 @@ class enemyKnight {
 
     // this method updates the logic, aka the state of the enemy
     update() {
+        if (this.slime.dead || this.dead) {
+            if (this.velocity.x != null && this.velocity.y != null){
+                this.velocity.x = 0;
+                this.velocity.y = 0;
+            }
+            return;
+        }
         // target stores the location of the slime in its current state 
         let target = {x : this.slime.getCircle().x, y : this.slime.getCircle().y};
         // current holds the location of the knight in its current state
@@ -68,11 +80,14 @@ class enemyKnight {
         }
 
         // if the knight is close enough to attack
-        if (dist < this.collisionCircle.radius + this.slime.collisionCircle.radius && this.coolDown > .5) {
-            this.attack(this.slime);
-            this.coolDown = 0;
+        if (dist < this.collisionCircle.radius + this.slime.collisionCircle.radius) {
+            if (this.coolDown > 1) {
+                this.attack(this.slime);
+                this.coolDown = 0;
+            }
         // if the knight still needs to get to the slime 
         } else { 
+            this.attacking = false;
             // Introduce randomness in the direction
             const adjustedAngle = Math.atan2(target.y - current.y, target.x - current.x) + this.currentAngleVariation;
             // Maintain the original speed
@@ -81,8 +96,8 @@ class enemyKnight {
                 y: Math.sin(adjustedAngle) * this.speed
             };
 
-            this.x += this.velocity.x * this.game.clockTick;
             this.y += this.velocity.y * this.game.clockTick;
+            this.x += this.velocity.x * this.game.clockTick;
 
             // Determine direction based on the velocity angle in degrees
             const directionAngle = (Math.atan2(this.velocity.y, this.velocity.x) * 180 / Math.PI + 360) % 360;
@@ -103,6 +118,8 @@ class enemyKnight {
         
         }
 
+        this.ensureWithinBounds();
+
         //update attack/take damage collision circle
         this.collisionCircle.x = this.x + 25 - this.game.camera.x;
         this.collisionCircle.y = this.y + 25 - this.game.camera.y;
@@ -110,7 +127,29 @@ class enemyKnight {
         //update overlap collision circle
         this.overlapCollisionCircle.x = this.x + 25 - this.game.camera.x;
         this.overlapCollisionCircle.y = this.y + 25 - this.game.camera.y;
+        
     };
+
+    ensureWithinBounds() {
+        const minX = 0;
+        const minY = 0;
+        const maxX = 3132;
+        const maxY = 3132;
+
+        // Check and adjust the x-coordinate
+        if (this.x < minX) {
+            this.x = minX;
+        } else if (this.x > maxX) {
+            this.x = maxX;
+        }
+
+        // Check and adjust the y-coordinate
+        if (this.y < minY) {
+            this.y = minY;
+        } else if (this.y > maxY) {
+            this.y = maxY;
+        }
+    }
 
     // distance(a, b) {
     //     return Math.sqrt((b.x - a.x) * (b.x - a.x) + (b.y - a.y) * (b.y - a.y));
@@ -122,9 +161,9 @@ class enemyKnight {
         this.attacking = true;
 
         // This will set `this.attacking` back to false after 1 second
-        setTimeout(() => {
-            this.attacking = false;
-        }, 1000);
+        // setTimeout(() => {
+        //     this.attacking = false;
+        // }, 1000);
     
         // a method call to the player's character to damage them
         // sends in the damage as a parameter to determine how much health should be taken from the character
@@ -158,16 +197,19 @@ class enemyKnight {
         this.animations[5] = new Animator(this.spritesheet, 0, 160, 32, 32, 9, .08, 1.75); // attack down
         this.animations[6] = new Animator(this.spritesheet, 0, 192, 32, 32, 5, .1, 1.75); // attack up
         this.animations[7] = new Animator(this.spritesheet, 0, 224, 32, 32, 11, .1, 1.75); // up
-        this.animations[8] = new Animator(this.spritesheet, 0, 256, 32, 32, 7, .1, 1.75); // die
+        this.animations[8] = new Animator(this.spritesheet, 0, 256, 32, 32, 10, .1, 1.75); // die
+        this.animations[9] = new Animator(this.spritesheet, 0, 0, 32, 32, 0, 1000000, 1.75); // stopped
     };
 
     draw(ctx) {
         if (!this.removeFromWorld) {
-            if (this.dead) {
+            if (this.slime.dead) {
+                this.animations[9].drawFrame(this.game.clockTick, ctx, this.x - this.game.camera.x, this.y - this.game.camera.y, [/*this.collisionCircle, this.overlapCollisionCircle*/]);
+            } else if (this.dead) {
                 this.animations[8].drawFrame(this.game.clockTick, ctx, this.x - this.game.camera.x, this.y - this.game.camera.y, [/*this.collisionCircle, this.overlapCollisionCircle*/]);
                 // making sure the dead animation plays, and kngiht is removed from world afterwards
                 this.elapsedDeadAnimTime += this.game.clockTick;
-                if(this.elapsedDeadAnimTime > .8){
+                if(this.elapsedDeadAnimTime > 1){
                     this.removeFromWorld = true;
                 }
             } else if (this.attacking == true) {
