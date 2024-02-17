@@ -102,5 +102,10 @@ class Projectile {
         //     }
         // }
     };
+
+    drawMiniMap(ctx, mmX, mmY){
+        //drawMiniMap is called on all entities, 
+        //so without this empty method the game will crash in the beginning
+    }
 };
 
