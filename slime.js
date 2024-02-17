@@ -330,6 +330,13 @@ class Slime {
         
     };
 
+    drawMiniMap(ctx, mmX, mmY) {
+        ctx.fillStyle = "#1ed9d9"; // color of slime
+        ctx.beginPath();
+        ctx.arc(mmX + this.x / 32, mmY + this.y / 32, 5, 0, Math.PI * 2);
+        ctx.fill();
+    }
+
     draw(ctx) {
         
         if(this.dead) {

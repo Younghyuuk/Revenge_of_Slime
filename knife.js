@@ -17,6 +17,8 @@ class knife {
         this.stabRad = 0;
                                             // spritesheet, xStart, yStart, width, height, frameCount, frameDuration, scale
         this.animator = new Animator(ASSET_MANAGER.getAsset("./images/knife.png"), 0, 0, 15, 15, 1, 1, 2);
+        this.HUDanimator = new Animator(ASSET_MANAGER.getAsset("./images/knife.png"), 0, 0, 15, 15, 1, 1, 3);
+
     }
 
  
@@ -65,6 +67,11 @@ class knife {
             this.overlapCollisionCircle.y = this.y + 13 - this.game.camera.y;
         }
     };
+
+    drawMiniMap(ctx, mmX, mmY){
+        //drawMiniMap is called on all entities, 
+        //so without this empty method the game will crash in the beginning
+    }
 
     draw(ctx) {
         if(!this.removeFromWorld){
