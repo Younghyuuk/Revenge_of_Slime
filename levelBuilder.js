@@ -137,7 +137,7 @@ class LevelBuilder {
             } else {
                 // change for balancing
                 health = this.level * 2 + 70;
-                damage = this.level * 2 + 10;
+                damage = this.level * 2 + 5;
             }
             console.log("enemy is about to be created");
             return this.createEnemy(this.gameEngine, "knight", randomX, randomY, 120, health, damage);
