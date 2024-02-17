@@ -47,9 +47,9 @@ ASSET_MANAGER.queueDownload("./images/practiceKnifeAttack.png");
 
 
 // global variable storing the knightSprite image for animation
-ASSET_MANAGER.queueDownload("./knightSprite.png");
+ASSET_MANAGER.queueDownload("./images/KnightSprite.png");
 
-ASSET_MANAGER.queueDownload("./archerSprite.png");
+ASSET_MANAGER.queueDownload("./images/ArcherSprite.png");
 
 ASSET_MANAGER.queueDownload("./images/knife.png");
 ASSET_MANAGER.queueDownload("./images/sword.png");
