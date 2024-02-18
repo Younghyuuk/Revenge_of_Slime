@@ -25,6 +25,7 @@ function createSlime(gameEngine) {
 	window.slime = new Slime(gameEngine, 700, 430, 150, 100, 10);
 	gameEngine.addEntity(slime);
 	gameEngine.addEntity(new knife(gameEngine, 670, 470));
+	gameEngine.addEntity(new pistol(gameEngine, 780, 470));
 	return slime;
 };
 
