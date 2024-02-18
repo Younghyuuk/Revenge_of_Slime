@@ -177,8 +177,11 @@ class enemyKnight {
     // takes in a parameter of how much damage is being done  
     getAttacked(damage) {
         this.health -= damage;
-        if (this.health <= 0) {
+        this.game.levelBuilder.totalDamage += damage;
+        console.log("damage increment: " + this.game.levelBuilder.totalDamage);
+        if (this.health <= 0 && !this.dead) {
             this.dead = true;
+            this.game.levelBuilder.kills++;
         }
     };
 

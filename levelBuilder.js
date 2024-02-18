@@ -33,6 +33,12 @@ class LevelBuilder {
         // holds all the enemies that will need to spawn in, spawn number limited by maxCapacity
         this.spawnQueue = [];
 
+        this.kills = 0;
+
+        this.score = 0;
+
+        this.totalDamage = 0;
+
     };
 
     initBuilder() {
@@ -179,6 +185,67 @@ class LevelBuilder {
     };
 
     gameOver() {
-        // TODO add game over screen with options, reset everything
+        this.gameEngine.running = false;
+        // Create the overlay div
+        const gameOverScreen = document.createElement('div');
+        gameOverScreen.id = 'gameOverScreen';
+        gameOverScreen.style.position = 'fixed';
+        gameOverScreen.style.top = '0';
+        gameOverScreen.style.left = '0';
+        gameOverScreen.style.width = '100%';
+        gameOverScreen.style.height = '100%';
+        // change the last number value in the string to set opacity
+        gameOverScreen.style.backgroundColor = 'rgba(0, 0, 0, 1)';
+        gameOverScreen.style.color = 'white';
+        gameOverScreen.style.display = 'flex';
+        gameOverScreen.style.flexDirection = 'column';
+        gameOverScreen.style.justifyContent = 'center';
+        gameOverScreen.style.alignItems = 'center';
+        gameOverScreen.style.zIndex = '1000';
+        gameOverScreen.style.fontSize = '24px';
+        gameOverScreen.style.fontFamily = "'Press Start 2P', serif";
+
+        // Create the Game Over text
+        const gameOverText = document.createElement('h1');
+        gameOverText.textContent = 'Game Over';
+        gameOverText.style.color = 'red';
+        gameOverScreen.appendChild(gameOverText);
+
+        // Create the level display
+        const levelDisplay = document.createElement('p');
+        levelDisplay.textContent = `Level: ${this.level}`;
+        gameOverScreen.appendChild(levelDisplay);
+
+        // Create the kills display
+        const killsDisplay = document.createElement('p');
+        killsDisplay.textContent = `Kills: ${this.kills}`;
+        gameOverScreen.appendChild(killsDisplay);
+
+        // Create the damage display
+        const damageDisplay = document.createElement('p');
+        damageDisplay.textContent = `Total Damage: ${this.totalDamage}`;
+        gameOverScreen.appendChild(damageDisplay);
+
+        // Create the Play Again button
+        const playAgainButton = document.createElement('button');
+        playAgainButton.textContent = 'Play Again';
+        playAgainButton.style.cursor = 'pointer';
+        playAgainButton.style.padding = '20px 40px'; // Makes the button bigger
+        playAgainButton.style.fontSize = '20px'; // Increases the font size
+        playAgainButton.style.fontFamily = "'Press Start 2P', cursive"; // Sets the font family
+        playAgainButton.style.border = '2px solid #000000'; // Adds a black border
+        playAgainButton.style.color = '#000000'; // Optional: sets the text color
+        playAgainButton.style.backgroundColor = '#FFFFFF'; // Sets the background color to white
+        playAgainButton.style.borderRadius = '5px'; // Optional: rounds the corners of the button
+        playAgainButton.style.marginTop = '20px'; // Optional: adds space above the button
+        playAgainButton.textContent = 'Play Again';
+        playAgainButton.style.cursor = 'pointer';
+        playAgainButton.onclick = function() {
+            window.location.reload(); // Refresh the page
+        };
+        gameOverScreen.appendChild(playAgainButton);
+
+        // Append the overlay to the body to show it
+        document.body.appendChild(gameOverScreen);
     };
 }
