@@ -13,8 +13,8 @@ class pistol {
 
       
                                             // spritesheet, xStart, yStart, width, height, frameCount, frameDuration, scale
-        // this.animator = new Animator(ASSET_MANAGER.getAsset("./images/knife.png"), 0, 0, 15, 15, 1, 1, 2);
-        // this.HUDanimator = new Animator(ASSET_MANAGER.getAsset("./images/knife.png"), 0, 0, 15, 15, 1, 1, 3);
+        this.animator = new Animator(ASSET_MANAGER.getAsset("./images/pistol.png"), 5, 5, 25, 15, 1, 1, 2);
+        this.HUDanimator = new Animator(ASSET_MANAGER.getAsset("./images/pistol.png"), 0, 0, 15, 15, 1, 1, 3);
 
     }
 
