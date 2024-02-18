@@ -16,7 +16,7 @@ class LevelBuilder {
         // as the levels go higher, this makes the spawning period of enemies take longer since there 
         // will be more than 30 enemies per level at a high level waiting in queue to spawn in 
         // change value for balancing 
-        this.maxCapacity = 30;
+        this.maxCapacity = 70;
 
         //number of knights created for the current level
         this.currentKnightCnt = 0;
@@ -38,20 +38,28 @@ class LevelBuilder {
         this.score = 0;
 
         this.totalDamage = 0;
-
     };
 
     initBuilder() {
-        console.log("initSlime in levelBuilder is called");
+        console.log("initBuilder in levelBuilder is called");
         // creates the slime main character and adds to the gameEngine as an entity
         // this.slime = new Slime(engine, 77, 430, 150, 100, 10);
         // this.gameEngine.addEntity(this.slime);
-        this.slime = createSlime(this.gameEngine);
+            this.slime = createSlime(this.gameEngine);
 
-        // start off the game with level 1
-        this.calculateEnemyCount();
-        this.buildNextLevel()
+            // start off the game with level 1
+            this.calculateEnemyCount();
+            this.buildNextLevel();
+
+
+
+        
     };
+
+    // only here to adda a timer since set time out is being weird 
+    update() {
+        this.levelChangeGap += this.gameEngine.clockTick
+    }
 
     // called from gameEngine after each update() method call to update the number of knights and archers currently on the board
     updateEnemyCnt(knights, archers) {
@@ -66,9 +74,13 @@ class LevelBuilder {
             // updating fields to get ready for the next level
            this.level++;
            this.spawnQueue = [];
-            // TODO add in the new level grpahic here  
-           this.calculateEnemyCount();         
-           this.buildNextLevel(); 
+
+           this.nextLevelScreen();
+          // setTimeout(() => {
+           // Now this part will execute after a 4-second delay
+           this.calculateEnemyCount();
+           this.buildNextLevel();
+          // }, 4000); // 4000 milliseconds = 4 seconds
         }
 
         if (this.slime.dead) {
@@ -85,27 +97,28 @@ class LevelBuilder {
             }
 
             console.log("enemies: " + (this.livingArchers + this.livingKnights));
-            // checks to see if we have reached the max capacity, if so, wait a bit then try again
-            if ((this.livingArchers + this.livingKnights) < this.maxCapacity) {
-                // Get the next enemy to spawn
-                const enemyType = this.spawnQueue.shift(); 
-                // method call to create enemies with right stats and spawn point
-                this.gameEngine.addEntity(this.createEnemyStats(enemyType)); 
 
-                // Randomize next spawn time 
-                // change values for balancing 
-                const minSpawnDelay = 1000; // Minimum spawn delay in milliseconds
-                const maxSpawnDelay = 3000; // Maximum spawn delay in milliseconds
-                const spawnDelay = Math.random() * (maxSpawnDelay - minSpawnDelay) + minSpawnDelay;
+                // checks to see if we have reached the max capacity, if so, wait a bit then try again
+                if ((this.livingArchers + this.livingKnights) < this.maxCapacity) {
+                    // Get the next enemy to spawn
+                    const enemyType = this.spawnQueue.shift(); 
+                    // method call to create enemies with right stats and spawn point
+                    this.gameEngine.addEntity(this.createEnemyStats(enemyType)); 
 
-                // spawn the next enemy with a random interval
-                setTimeout(() => this.buildNextLevel(), spawnDelay); // Schedule next spawn
+                    // Randomize next spawn time 
+                    // change values for balancing 
+                    const minSpawnDelay = 1000; // Minimum spawn delay in milliseconds
+                    const maxSpawnDelay = 3000; // Maximum spawn delay in milliseconds
+                    const spawnDelay = Math.random() * (maxSpawnDelay - minSpawnDelay) + minSpawnDelay;
 
-            // if the max capacity is reached, wait 1 second and try again, will keep looping until everything is spawned 
-            } else {
-                // If max capacity reached, check again after a short delay
-                setTimeout(() => this.buildNextLevel(), 100); // Check again in .1 seconds
-            }
+                    // spawn the next enemy with a random interval
+                    setTimeout(() => this.buildNextLevel(), spawnDelay); // Schedule next spawn
+
+                // if the max capacity is reached, wait 1 second and try again, will keep looping until everything is spawned 
+                } else {
+                    // If max capacity reached, check again after a short delay
+                    setTimeout(() => this.buildNextLevel(), 100); // Check again in .1 seconds
+                }
         }
     };
 
@@ -183,6 +196,39 @@ class LevelBuilder {
 
         console.log("enemies for this level: " + this.spawnQueue.length);
     };
+
+    nextLevelScreen() {
+        this.nextLevelScreenOn = true;
+        const nextLevelScreen = document.createElement('div');
+        nextLevelScreen.id = 'nextLevelScreen';
+        nextLevelScreen.style.position = 'fixed';
+        nextLevelScreen.style.top = '0';
+        nextLevelScreen.style.left = '0';
+        nextLevelScreen.style.width = '100%';
+        nextLevelScreen.style.height = '100%';
+        // change the last number value in the string to set opacity
+        nextLevelScreen.style.backgroundColor = 'rgba(0, 0, 0, .75)';
+        nextLevelScreen.style.color = 'white';
+        nextLevelScreen.style.display = 'flex';
+        nextLevelScreen.style.flexDirection = 'column';
+        nextLevelScreen.style.justifyContent = 'center';
+        nextLevelScreen.style.alignItems = 'center';
+        nextLevelScreen.style.zIndex = '1000';
+        nextLevelScreen.style.fontSize = '24px';
+        nextLevelScreen.style.fontFamily = "'Press Start 2P', serif";
+
+        // Create the Next Level text
+        const nextLevelText = document.createElement('h1');
+        nextLevelText.textContent = `Level: ${this.level}`;
+        nextLevelText.style.color = 'red';
+        nextLevelScreen.appendChild(nextLevelText);
+
+        document.body.appendChild(nextLevelScreen);
+        setTimeout(() => {
+            nextLevelScreen.remove();
+            this.nextLevelScreenOn = false;
+        }, 1000)
+    }
 
     gameOver() {
         this.gameEngine.running = false;
