@@ -54,7 +54,7 @@ ASSET_MANAGER.queueDownload("./images/ArcherSprite.png");
 
 ASSET_MANAGER.queueDownload("./images/knife.png");
 ASSET_MANAGER.queueDownload("./images/sword.png");
-
+ASSET_MANAGER.queueDownload("./images/pistol.png");
 
 
 ASSET_MANAGER.downloadAll(() => {
