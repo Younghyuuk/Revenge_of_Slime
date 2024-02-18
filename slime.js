@@ -45,7 +45,7 @@ class Slime {
         //pistol and gun parameters
         this.hasPistol = true;
         this.pistolCD = 0.8;
-        this.pistolDamage = 30;
+        this.pistolDamage = 50;
         this.gunMaxSpeed = 1000;
         this.elapsedTime = 0;
         this.gunRadius = 5;

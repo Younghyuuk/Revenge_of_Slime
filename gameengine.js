@@ -283,6 +283,10 @@ class GameEngine {
                     this.slime.weaponState = 1; // 0 = no weapon, 1 = knife, 2 = pistol 
                     console.log("true");
                 }
+                if (entityB instanceOf pistol) {
+                    this.slime.hasPistol = true;
+                    this.slime.weaponsState = 2;
+                }
             }
             
         }
