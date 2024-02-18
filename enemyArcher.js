@@ -38,6 +38,11 @@ class enemyArcher {
 
         this.elapsedDeadAnimTime = 0;
 
+        this.velocity = {
+            x: 0,
+            y: 0
+        };
+
         // fields related to archer's animations
         this.direction = 0;
         this.attackDirection = 0;
@@ -54,7 +59,13 @@ class enemyArcher {
 
     // this method updates the logic, aka the state of the enemy
     update() {
-
+        if (this.slime.dead || this.dead) {
+            if (this.velocity.x != null && this.velocity.y != null){
+                this.velocity.x = 0;
+                this.velocity.y = 0;
+            }
+            return;
+        }
         let target = {x : this.slime.getCircle().x, y : this.slime.getCircle().y};
         let current = {x : this.collisionCircle.x, y : this.collisionCircle.y};
 
@@ -68,11 +79,12 @@ class enemyArcher {
             this.angleChangeTimer = 0; // Reset timer
         }
 
-        if (dist < this.dealDamageCollisionCircle.radius + this.slime.collisionCircle.radius && this.coolDown > .5) {
-            console.log("archer respects damage collision");
-            this.attack(this.slime);
-           // this.attack(this.slime);
-            this.coolDown = 0;
+        if (dist < this.dealDamageCollisionCircle.radius + this.slime.collisionCircle.radius) {
+            if (this.coolDown > .5) {
+                this.attack(this.slime);
+               // this.attack(this.slime);
+                this.coolDown = 0;
+            }
         } else { 
             if (this.stopInterval < 200) {
                 // Introduce randomness in the direction
@@ -109,7 +121,7 @@ class enemyArcher {
         }
         this.stopInterval++;
 
- 
+        this.ensureWithinBounds();
 
 
         // update collision circle for taking damage
@@ -133,6 +145,27 @@ class enemyArcher {
         this.overlapCollisionCircle.y = this.y + 23 - this.game.camera.y;
     };
 
+    ensureWithinBounds() {
+        const minX = 0;
+        const minY = 0;
+        const maxX = 3132;
+        const maxY = 3132;
+
+        // Check and adjust the x-coordinate
+        if (this.x < minX) {
+            this.x = minX;
+        } else if (this.x > maxX) {
+            this.x = maxX;
+        }
+
+        // Check and adjust the y-coordinate
+        if (this.y < minY) {
+            this.y = minY;
+        } else if (this.y > maxY) {
+            this.y = maxY;
+        }
+    }
+
     // distance(a, b) {
     //     return Math.sqrt((b.x - a.x) * (b.x - a.x) + (b.y - a.y) * (b.y - a.y));
     // }
@@ -152,8 +185,11 @@ class enemyArcher {
     // takes in a parameter of how much damage is being done  
     getAttacked(damage) {
         this.health -= damage;
-        if (this.health <= 0) {
+        this.game.levelBuilder.totalDamage += damage;
+        console.log("damage increment: " + this.game.levelBuilder.totalDamage);
+        if (this.health <= 0 && !this.dead) {
             this.dead = true;
+            this.game.levelBuilder.kills++;
         }
     };
 
@@ -173,16 +209,19 @@ class enemyArcher {
         this.animations[5] = new Animator(this.spritesheet, 0, 160, 32, 32, 5, .1, 1.75); // shoot left
         this.animations[6] = new Animator(this.spritesheet, 0, 192, 32, 32, 5, .1, 1.75); // shoot right
         this.animations[7] = new Animator(this.spritesheet, 0, 224, 32, 32, 9, .1, 1.75); // shoot up
-        this.animations[8] = new Animator(this.spritesheet, 0, 256, 32, 32, 6, .1, 1.75); // die
+        this.animations[8] = new Animator(this.spritesheet, 0, 256, 32, 32, 9, .1, 1.75); // die
+        this.animations[9] = new Animator(this.spritesheet, 0, 96, 32, 32, 1, 100000, 1.75); // stopped
     };
 
     draw(ctx) {
         if (!this.removeFromWorld) {
-            if (this.dead) {
+            if (this.slime.dead) {
+                this.animations[9].drawFrame(this.game.clockTick, ctx, this.x- this.game.camera.x, this.y - this.game.camera.y, [/*this.collisionCircle, this.dealDamageCollisionCircle, this.overlapCollisionCircle*/]);
+            } else if (this.dead) {
                 this.animations[8].drawFrame(this.game.clockTick, ctx, this.x - this.game.camera.x, this.y - this.game.camera.y, [/*this.collisionCircle, this.overlapCollisionCircle*/]);
                 // making sure the dead animation plays, and kngiht is removed from world afterwards
                 this.elapsedDeadAnimTime += this.game.clockTick;
-                if(this.elapsedDeadAnimTime > .7){
+                if(this.elapsedDeadAnimTime > 1){
                     this.removeFromWorld = true;
                 }
             } else if (this.attacking == true) {

@@ -9,6 +9,8 @@ class GameEngine {
         // Everything that will be updated and drawn each frame
         this.entities = [];
 
+        this.running = false;
+
         this.createEnemy = createEnemy;
 
         this.createSlime = createSlime;
@@ -63,6 +65,10 @@ class GameEngine {
         };
         gameLoop();
     };
+
+    stop() {
+        this.running = false;
+    }
 
     startInput() {
         this.keyboardActive = false;
@@ -162,73 +168,77 @@ class GameEngine {
     };
 
     draw() {
-       
-        // Clear the whole canvas with transparent color (rgba(0, 0, 0, 0))
-        this.ctx.clearRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
-        this.map.drawMap(this.ctx);
+        if (this.running) {
+            // Clear the whole canvas with transparent color (rgba(0, 0, 0, 0))
+            this.ctx.clearRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
+            this.map.drawMap(this.ctx);
 
-        // Draw latest things first
-        for (let i = this.entities.length - 1; i >= 0; i--) {
-            this.entities[i].draw(this.ctx, this);
+            // Draw latest things first
+            for (let i = this.entities.length - 1; i >= 0; i--) {
+                this.entities[i].draw(this.ctx, this);
+            }
+
+            this.hud.draw(this.ctx);
         }
-
-        this.hud.draw(this.ctx);
     };
 
     update() {
-        let entitiesCount = this.entities.length;
+        if (this.running) {
+            let entitiesCount = this.entities.length;
         
-        // Update the camera to follow the slime character ADD IN THE SLIME CLASS
-        // this.camera.follow(this.slime);
-
-        //the counts for enemies, reset back to 0 after each update call, number sent ot level builder
-        //add more counter variables as we get more enemies 
-        let archerCnt = 0;
-        let knightCnt = 0;
-
-        for (let i = 0; i < entitiesCount; i++) {
-            let entity1 = this.entities[i];
-            if (!entity1.removeFromWorld) {
-
-                // if statements for level builder - determines number of enemies and types 
-                //add more "else if" statements as we create more enemies 
-                if (entity1 instanceof enemyKnight) {
-                    knightCnt++;
-                } else if (entity1 instanceof enemyArcher) {
-                    archerCnt++;
-                }
-                
-                for (let j = i + 1; j < entitiesCount; j++) {
-                    let entity2 = this.entities[j];
-                    if (this.areColliding(entity1, entity2)) {
-                        if (this.isNPC(entity1) && this.isNPC(entity2)) {
-                            this.resolveCollision(entity1, entity2);
-                        } else if(entity1 instanceof Slime && this.isNPC(entity2)) {
-                            entity1.enemyInRange = entity2;
-                            
-                        }
-                        this.isWeapon(entity1, entity2);
+            // Update the camera to follow the slime character ADD IN THE SLIME CLASS
+            // this.camera.follow(this.slime);
+    
+            //the counts for enemies, reset back to 0 after each update call, number sent ot level builder
+            //add more counter variables as we get more enemies 
+            let archerCnt = 0;
+            let knightCnt = 0;
+    
+            for (let i = 0; i < entitiesCount; i++) {
+                let entity1 = this.entities[i];
+                if (!entity1.removeFromWorld) {
+    
+                    // if statements for level builder - determines number of enemies and types 
+                    //add more "else if" statements as we create more enemies 
+                    if (entity1 instanceof enemyKnight) {
+                        knightCnt++;
+                    } else if (entity1 instanceof enemyArcher) {
+                        archerCnt++;
                     }
+                    
+                    for (let j = i + 1; j < entitiesCount; j++) {
+                        let entity2 = this.entities[j];
+                        if (this.areColliding(entity1, entity2)) {
+                            if (this.isNPC(entity1) && this.isNPC(entity2)) {
+                                this.resolveCollision(entity1, entity2);
+                            } else if(entity1 instanceof Slime && this.isNPC(entity2)) {
+                                entity1.enemyInRange = entity2;
+                                
+                            }
+                            this.isWeapon(entity1, entity2);
+                        }
+                    }
+                    entity1.update();
                 }
-                entity1.update();
             }
-        }
-        //for camera later
-        this.camera.update();
-        // this.game.knife.stabPos();
-
-        //let the levelBuilder know how many of each type of enemy is still alive
-        //add more params as we create more enemies 
-        this.levelBuilder.updateEnemyCnt(knightCnt, archerCnt);
-
-        // remove all the entites that are no longer relevant - marked with removeFromWorld
-        for (let i = this.entities.length - 1; i >= 0; --i) {
-            if (this.entities[i].removeFromWorld) {
-                this.entities.splice(i, 1);
+            //for camera later
+            this.camera.update();
+            // this.game.knife.stabPos();
+    
+            //let the levelBuilder know how many of each type of enemy is still alive
+            //add more params as we create more enemies 
+            this.levelBuilder.updateEnemyCnt(knightCnt, archerCnt);
+    
+            // remove all the entites that are no longer relevant - marked with removeFromWorld
+            for (let i = this.entities.length - 1; i >= 0; --i) {
+                if (this.entities[i].removeFromWorld) {
+                    this.entities.splice(i, 1);
+                }
             }
+    
+            this.hud.update();
         }
-
-        this.hud.update();
+        
     };
 
     areColliding(entityA, entityB) {
