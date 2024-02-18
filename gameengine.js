@@ -56,6 +56,7 @@ class GameEngine {
 
     start() {
         console.log("start in gameengine is called");
+        this.levelBuilder.nextLevelScreen();
         this.levelBuilder.initBuilder();
         this.hud = new hud(this);
         this.running = true;
