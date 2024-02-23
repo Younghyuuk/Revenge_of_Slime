@@ -30,6 +30,8 @@ class GameEngine {
         this.A = false;
         this.S = false;
         this.D = false;
+        this.One = false;
+        this.Two = false;
 
         // Options and the Details
         this.options = options || {
@@ -138,6 +140,12 @@ class GameEngine {
                 case "KeyS":
                     that.S = true;
                     break;
+                case "Digit1":
+                    that.One = true;
+                    break;
+                case "Digit2":
+                    that.Two = true;
+                    break;
             }
         });
         
@@ -159,6 +167,12 @@ class GameEngine {
                 case "ArrowDown":
                 case "KeyS":
                     that.S = false;
+                    break;
+                case "Digit1":
+                    that.One = false;
+                    break;
+                case "Digit2":
+                    that.Two = false;
                     break;
             }
         })
@@ -272,24 +286,27 @@ class GameEngine {
     }
     
     isWeapon(entityA, entityB) {
-        if(entityA instanceof Slime){
-            if(entityB.hasOwnProperty('weapon')) { //all weapons should have this.weapon = true
-                entityA.inventory.push(entityB); // add it to the inventory
+        if(entityA instanceof Slime && entityB.hasOwnProperty('weapon')){  //all weapons should have this.weapon = true
+            //&& this.slime.canHoldWeapon()){
 
-                entityB.removeFromWorld = true; // remove weapon from canvas
-                // entityB.assignToSlime = true;
-                
-                if(entityB instanceof knife){
-                    this.slime.hasKnife = true;
-                    this.slime.weaponState = 1; // 0 = no weapon, 1 = knife, 2 = pistol 
-                    console.log("true");
-                }
-                if (entityB instanceof pistol) {
-                    this.slime.hasPistol = true;
-                    this.slime.weaponsState = 2;
-                }
-            }
+            entityA.inventory.push(entityB); // add it to the inventory
+
+            entityB.removeFromWorld = true; // remove weapon from canvas
+            // entityB.assignToSlime = true;
             
+            if(entityB instanceof knife){
+                this.slime.hasKnife = true;
+                this.slime.weaponState = 1; // 0 = no weapon, 1 = knife, 2 = pistol, 3 = sword 
+                console.log("true");
+            }
+            if (entityB instanceof pistol) {
+                this.slime.hasPistol = true;
+                this.slime.weaponState = 2;
+            }
+            if (entityB instanceof sword) {
+                this.slime.hasSword = true;
+                this.slime.weaponState = 3;
+            }
         }
     }
 
