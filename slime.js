@@ -119,7 +119,7 @@ class Slime {
             this.game.mouseClick = false;
         }
     };
-
+    
     attackDirection() {
         let mouseX = this.game.mouseClickPos.x;
         let mouseY = this.game.mouseClickPos.y;
@@ -387,9 +387,10 @@ class Slime {
                     break;
                 case 'sword':
                     this.hasSword = true;
-                    this.sweaponState = 3;
+                    this.weaponState = 3;
                     break;
             }
+            this.state = 0;
         } 
     }
 

@@ -8,8 +8,8 @@ class hud{
 
         this.score = 0;
         this.health = this.slime.health;
-        this.W1 = false;
-        this.W2 = false;
+        this.weaponOne = null;
+        this.weaponTwo = null;
 
         this.minimap = new miniMap(game);
     }
@@ -42,17 +42,8 @@ class hud{
         ctx.strokeRect(500, 700, 50, 40);
         ctx.strokeRect(430, 700, 50, 40);
 
-        //TODO: Update for more weapons, and for weapon switching
-        // 0 = no weapon, 1 = knife, 2 = pistol
-        if(this.slime.weaponState == 1) {
-            //draw highlight around that inventory box
-            this.game.knife.HUDanimator.drawFrame(this.game.clockTick, ctx, invParams.KNIFE_W1_X, invParams.KNIFE_Y, []);
-        } else if (this.slime.weaponState == 2){
-            this.game.pistol.HUDanimator.drawFrame(this.game.clockTick, ctx, invParams.PISTOL_W2_X, invParams.PISTOL_Y, []);
-        } else if (this.slime.weaponState == 3){
-            this.game.sword.HUDanimator.drawFrame(this.game.clockTick, ctx, 440, 707, []);
-        }
-
+        this.fillVisualInventory(ctx);
+        
 
         // Health Bar
         ctx.fillStyle = "Red"
@@ -70,15 +61,57 @@ class hud{
         this.minimap.draw(ctx);
     }
 
+    fillVisualInventory(ctx) {
+
+        if(this.slime.inventory.length != 0){
+            this.weaponOne = this.slime.inventory[0];
+
+            switch(this.weaponOne.name) {
+                case 'knife':
+                    this.game.knife.HUDanimator.drawFrame(this.game.clockTick, ctx, invParams.KNIFE_W1_X, invParams.KNIFE_Y, []);
+                    break;
+                case 'pistol':
+                    this.game.pistol.HUDanimator.drawFrame(this.game.clockTick, ctx, invParams.PISTOL_W1_X, invParams.PISTOL_Y, []);
+                    break;
+                case 'sword':
+                    this.game.sword.HUDanimator.drawFrame(this.game.clockTick, ctx, invParams.SWORD_W1_X, invParams.SWORD_Y, []);
+                    break;
+            }
+
+            if(this.slime.inventory.length >= 2) {
+                this.weaponTwo = this.slime.inventory[1];
+
+                switch(this.weaponTwo.name) {
+                    case 'knife':
+                        this.game.knife.HUDanimator.drawFrame(this.game.clockTick, ctx, invParams.KNIFE_W2_X, invParams.KNIFE_Y, []);
+                        break;
+                    case 'pistol':
+                        this.game.pistol.HUDanimator.drawFrame(this.game.clockTick, ctx, invParams.PISTOL_W2_X, invParams.PISTOL_Y, []);
+                        break;
+                    case 'sword':
+                        this.game.sword.HUDanimator.drawFrame(this.game.clockTick, ctx, invParams.SWORD_W2_X, invParams.SWORD_Y, []);
+                        break;
+                }
+            }    
+        }
+
+        if(this.slime.currentWeapon != null) {
+            ctx.strokeStyle = "Red";
+            if(this.slime.currentWeapon == this.weaponOne){
+                ctx.strokeRect(430, 700, 50, 40);
+
+            } else if (this.slime.currentWeapon == this.weaponTwo){
+                ctx.strokeRect(500, 700, 50, 40);
+
+            }
+        }
+
+        }
+            
     update(){
         // this.score = ? 
         if(this.health >= 0){
             this.health = this.slime.health;
-        }
-
-        // 0 = no weapon, 1 = knife, 2 = pistol
-        if(this.slime.weaponState == 1) {
-            this.W1 = 1;
         }
 
         this.level = this.levelBuilder.level;

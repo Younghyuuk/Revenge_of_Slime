@@ -307,6 +307,8 @@ class GameEngine {
                 this.slime.hasSword = true;
                 this.slime.weaponState = 3;
             }
+
+            this.slime.currentWeapon = entityB;
         }
     }
 
