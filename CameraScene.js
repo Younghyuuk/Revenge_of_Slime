@@ -8,7 +8,16 @@ class CameraScene {
     
     };
 
+    updateAudio() {
+        let mute = document.getElementById("mute").checked;
+        let volume = document.getElementById("volume").value;
+
+        ASSET_MANAGER.muteAudio(mute);
+        ASSET_MANAGER.adjustVolume(volume);
+    }
+
     update() {
+        this.updateAudio();
         // let midpoint = PARAMS.CANVAS_WIDTH/2 - PARAMS.BLOCKWIDTH / 2;
 
         let midPointX = PARAMS.CANVAS_WIDTH / 2;

@@ -57,7 +57,17 @@ ASSET_MANAGER.queueDownload("./images/sword.png");
 ASSET_MANAGER.queueDownload("./images/pistol.png");
 
 
+// sound and music
+ASSET_MANAGER.queueDownload("./sound/2.12.2024_Demo_1.mp3");
+ASSET_MANAGER.queueDownload("./sound/2.12.2024_Demo_2.mp3");
+ASSET_MANAGER.queueDownload("./sound/2.12.2024_Knife_Slash.mp3");
+
+
 ASSET_MANAGER.downloadAll(() => {
+
+	ASSET_MANAGER.autoRepeat("./sound/2.12.2024_Demo_1.mp3");
+	ASSET_MANAGER.autoRepeat("./sound/2.12.2024_Demo_2.mp3");
+
 	// added in the canvas width and height
 	PARAMS.BLOCKWIDTH = PARAMS.BITWIDTH * PARAMS.SCALE;
 	const canvas = document.getElementById("gameWorld");
