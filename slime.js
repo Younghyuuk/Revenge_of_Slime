@@ -40,7 +40,7 @@ class Slime {
         // all the knife stuff.
         this.hasKnife = false; // Indicates if the slime has a knife to attack with
         // console.log(this.inventory.some(item => item.name === "knife");
-        this.knifeCooldown = 0;
+        this.knifeCD = 0.1;
 
         //pistol and gun parameters
         this.hasPistol = false;
@@ -97,7 +97,7 @@ class Slime {
     performKnifeAttack() {
         let stabCircle = this.game.knife.stabPos();
     
-        if (this.hasKnife && this.game.mouseClick) {
+        if (this.hasKnife && this.game.mouseClick && this.elapsedTime > this.knifeCD) {
 
             this.attackDirection();
             this.showStabCircle = true; // Set to true to show the stab circle
@@ -113,7 +113,7 @@ class Slime {
                     }
                 }
             });
-          
+            this.elapsedTime = 0;
             // Reset mouseClick to prevent continuous attacks
             this.game.mouseClick = false;
         }
