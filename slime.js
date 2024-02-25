@@ -217,8 +217,8 @@ class Slime {
 
     update() {
         	
-        ASSET_MANAGER.autoRepeat("./sound/2.12.2024_Demo_1.mp3");
-        ASSET_MANAGER.autoRepeat("./sound/2.12.2024_Demo_2.mp3");
+        // ASSET_MANAGER.autoRepeat("./sound/2.12.2024_Demo_1.mp3");
+        // ASSET_MANAGER.autoRepeat("./sound/2.12.2024_Demo_2.mp3");
         // this.camera.follow(this);
         this.elapsedTime += this.game.clockTick;
 
