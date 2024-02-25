@@ -65,8 +65,7 @@ ASSET_MANAGER.queueDownload("./sound/2.12.2024_Knife_Slash.mp3");
 
 ASSET_MANAGER.downloadAll(() => {
 
-	ASSET_MANAGER.autoRepeat("./sound/2.12.2024_Demo_1.mp3");
-	ASSET_MANAGER.autoRepeat("./sound/2.12.2024_Demo_2.mp3");
+
 
 	// added in the canvas width and height
 	PARAMS.BLOCKWIDTH = PARAMS.BITWIDTH * PARAMS.SCALE;
@@ -75,6 +74,9 @@ ASSET_MANAGER.downloadAll(() => {
 	PARAMS.CANVAS_WIDTH = canvas.width;
 	PARAMS.CANVAS_HEIGHT = canvas.height;
 
+	
+	ASSET_MANAGER.autoRepeat("./sound/2.12.2024_Demo_1.mp3");
+	ASSET_MANAGER.autoRepeat("./sound/2.12.2024_Demo_2.mp3");
 	ctx.imageSmoothingEnabled = false; 
 	// for better image quality, espically when rotating
 
