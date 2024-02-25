@@ -38,6 +38,7 @@ class LevelBuilder {
         this.score = 0;
 
         this.totalDamage = 0;
+        
     };
 
     initBuilder() {
@@ -51,14 +52,13 @@ class LevelBuilder {
             this.calculateEnemyCount();
             this.buildNextLevel();
 
-
-
         
     };
 
     // only here to adda a timer since set time out is being weird 
     update() {
         this.levelChangeGap += this.gameEngine.clockTick
+    
     }
 
     // called from gameEngine after each update() method call to update the number of knights and archers currently on the board

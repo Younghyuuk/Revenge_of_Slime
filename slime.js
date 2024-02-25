@@ -109,10 +109,11 @@ class Slime {
                     if(circlesIntersect(entity.collisionCircle, stabCircle)) {
                         entity.getAttacked(this.game.knife.damage);
                         console.log("Enemy health: " + entity.health);
+                        ASSET_MANAGER.playAsset("./sound/2.12.2024_Knife_Slash.mp3");
                     }
                 }
             });
-    
+          
             // Reset mouseClick to prevent continuous attacks
             this.game.mouseClick = false;
         }
@@ -215,6 +216,7 @@ class Slime {
 
 
     update() {
+        ASSET_MANAGER.playAsset("./sound/2.12.2024_Demo_1.mp3");
         // this.camera.follow(this);
         this.elapsedTime += this.game.clockTick;
 

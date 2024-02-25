@@ -110,5 +110,6 @@ ASSET_MANAGER.downloadAll(() => {
 	gameEngine.init(ctx);
 	new CameraScene(gameEngine);
 
+
 	gameEngine.start();
 });
