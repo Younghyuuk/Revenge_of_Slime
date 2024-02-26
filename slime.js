@@ -339,6 +339,9 @@ class Slime {
             if (this.game.Two) {
                 this.switchWeapons(2);
             }
+            if (this.game.X){
+                this.dropWeapon();
+            }
             else if(!this.game.A && !this.game.D && !this.game.W && !this.game.S && this.state != 6) {
                 this.state = 0;
             }
@@ -369,8 +372,33 @@ class Slime {
         
     };
 
-    canHoldWeapon() {
-        //check if the inventory has 2 weapons already
+    dropWeapon() {
+        //remove the current weapon
+        const updatedInventory = this.inventory.filter((inventoryItem) => inventoryItem !== this.currentWeapon);
+
+        //if the weapon was removed, update the inventory, current weapon, and weapon states
+        if(updatedInventory.length < this.inventory.length) {
+            this.inventory = updatedInventory;
+            this.currentWeapon = this.inventory[0];
+            switch(this.currentWeapon.name){
+                case 'knife':
+                    this.hasKnife = true;
+                    this.weaponState = 1;
+                    break;
+                case 'pistol':
+                    this.hasPistol = true;
+                    this.weaponState = 2;
+                    break;
+                case 'sword':
+                    this.hasSword = true;
+                    this.weaponState = 3;
+                    break;
+            }
+            this.state = 0;
+        }
+
+        this.game.X = false;
+
     }
 
     switchWeapons(index) {
