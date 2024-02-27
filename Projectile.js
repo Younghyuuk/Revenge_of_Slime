@@ -1,21 +1,41 @@
 
 class Projectile {
-    constructor(game,x, y, maxSpeed, damage, radius) {
+    constructor(game,x, y, maxSpeed, damage, radius, type) {
         this.game = game;
-        Object.assign(this, { x, y, maxSpeed, damage, radius });
+        Object.assign(this, { x, y, maxSpeed, damage, radius, type });
         // this.radius = 5;
         this.game.projectile = this;
-        var dist = distance(this, this.game.mouseClickPos);
         // this.maxSpeed = maxSpeed; // pixels per second
        
-        this.velocity = { x: (this.game.mouseClickPos.x - this.x) / dist * this.maxSpeed, 
-        y: (this.game.mouseClickPos.y - this.y) / dist * this.maxSpeed };
+        this.velocity = 0
+        this.calculateVelocity();
        
         this.overlapCollisionCircle = {radius: this.radius, x: this.x + 10, y: this.y + 13};
 
         this.facing = 5;
         this.elapsedTime = 0;
+
+        this.bulletSpritesheet = ASSET_MANAGER.getAsset("./images/bullet.png");
+        this.arrowSpritesheet = ASSET_MANAGER.getAsset("./images/arrow.png");
+
+        this.cache = [];
        
+    };
+
+
+    // this method find out if this is an enemy projectile or slime projectile (velocity calculation is different for both)
+    // then calculates the velocity.
+    calculateVelocity() {
+        // add more if statements for slime with different weapons 
+        if (this.type == "slimePistol") {
+            var dist = distance(this, this.game.mouseClickPos);
+            this.velocity = { x: (this.game.mouseClickPos.x - this.x) / dist * this.maxSpeed, 
+            y: (this.game.mouseClickPos.y - this.y) / dist * this.maxSpeed };
+        } else {
+            var dist = distance(this, this.game.levelBuilder.slime);
+            this.velocity = { x: ((this.game.levelBuilder.slime.x + 31) - this.x) / dist * this.maxSpeed, 
+            y: ((this.game.levelBuilder.slime.y + 55) - this.y) / dist * this.maxSpeed };
+        }
     };
 
     isOutsideGameBounds() {
@@ -28,33 +48,47 @@ class Projectile {
 
 
     drawAngle(ctx, angle) {
-        // if (angle < 0 || angle > 359) return;
 
+        let width;
+        let height;
+        if (angle < 0 || angle > 359) return;
 
-        // if (!this.cache[angle]) {
-        //    let radians = angle / 360 * 2 * Math.PI;
-        //    let offscreenCanvas = document.createElement('canvas');
+        // add more if statements for different enemies with ranged attacks or different slime weapons
+        let spritesheet;
+        if (this.type === "archer") {
+            spritesheet = this.arrowSpritesheet;
+            width = 28;
+            height = 10;
+        } else if (this.type === "slimePistol") {
+            spritesheet = this.bulletSpritesheet;
+            width = 16;
+            height = 10;
+        }
 
-        //     offscreenCanvas.width = 32;
-        //     offscreenCanvas.height = 32;
+        if (!this.cache[angle]) {
+           let radians = angle / 360 * 2 * Math.PI;
+           let offscreenCanvas = document.createElement('canvas');
 
-        //     let offscreenCtx = offscreenCanvas.getContext('2d');
+            offscreenCanvas.width = width;
+            offscreenCanvas.height = width;
 
-        //     offscreenCtx.save();
-        //     offscreenCtx.translate(16, 16);
-        //     offscreenCtx.rotate(radians);
-        //     offscreenCtx.translate(-16, -16);
-        //     // offscreenCtx.drawImage(this.spritesheet, 80, 0, 32, 32, 0, 0, 32, 32);
-        //     offscreenCtx.restore();
-        //     this.cache[angle] = offscreenCanvas;
-        // }
-        // var xOffset = 16;
-        // var yOffset = 16;
+            let offscreenCtx = offscreenCanvas.getContext('2d');
 
-        // ctx.drawImage(this.cache[angle], this.x - xOffset, this.y - yOffset);
+            offscreenCtx.save();
+            offscreenCtx.translate(height, height);
+            offscreenCtx.rotate(radians);
+            offscreenCtx.translate(height * -1, height * -1);
+            offscreenCtx.drawImage(spritesheet, 0, 0, width, height, height, 0, width, height);
+            offscreenCtx.restore();
+            this.cache[angle] = offscreenCanvas;
+        }
+        var xOffset = width / 2;
+        var yOffset = height / 2;
+
+        ctx.drawImage(this.cache[angle], this.x - xOffset, this.y - yOffset);
         // if (PARAMS.DEBUG) {
         //     ctx.strokeStyle = 'Green';
-        //     ctx.strokeRect(this.x - xOffset, this.y - yOffset, 32, 32);
+        //     ctx.strokeRect(this.x - xOffset, this.y - yOffset, 12, 6);
         // }
     };
 
@@ -63,34 +97,45 @@ class Projectile {
     update() {
         this.x += this.velocity.x * this.game.clockTick;
         this.y += this.velocity.y * this.game.clockTick;
-      
-        for (var i = 0; i < this.game.entities.length; i++) {
-            var ent = this.game.entities[i];
-            if ((ent instanceof enemyArcher || ent instanceof enemyKnight) && circlesIntersect(this, ent.collisionCircle)) {
-                ent.getAttacked(this.damage);
-                
+
+
+        if (this.type == "archer") {
+            if (circlesIntersect(this, this.game.levelBuilder.slime.collisionCircle)) {
+                this.game.levelBuilder.slime.getAttacked(this.damage);
                 this.removeFromWorld = true;
-                
             }
-            
+
+        } else {
+            for (var i = 0; i < this.game.entities.length; i++) {
+                var ent = this.game.entities[i];
+                if ((ent instanceof enemyArcher || ent instanceof enemyKnight) && circlesIntersect(this, ent.collisionCircle)) {
+                    ent.getAttacked(this.damage);
+                    
+                    this.removeFromWorld = true;
+                    
+                }
+            }
         }
+      
+        
         
         // this.facing = getFacing(this.velocity);
     };
 
     draw(ctx) {
-        ctx.beginPath(); // Start drawing a new path
-        ctx.arc(this.x, this.y, this.radius, 0, 2 * Math.PI, false); // Draw a circle representing the projectile
-        ctx.fillStyle = 'black'; // Set the fill color for the projectile
-        ctx.fill();
+        // ctx.beginPath(); // Start drawing a new path
+        // ctx.arc(this.x, this.y, this.radius, 0, 2 * Math.PI, false); // Draw a circle representing the projectile
+        // ctx.fillStyle = 'black'; // Set the fill color for the projectile
+        // ctx.fill();
         // var xOffset = 16;
         // var yOffset = 16;
         // if (this.smooth) {
-        //     let angle = Math.atan2(this.velocity.y , this.velocity.x);
-        //     if (angle < 0) angle += Math.PI * 2;
-        //     let degrees = Math.floor(angle / Math.PI / 2 * 360);
+            let angle = Math.atan2(this.velocity.y , this.velocity.x);
+            if (angle < 0) angle += Math.PI * 2;
+            let degrees = Math.floor(angle / Math.PI / 2 * 360);
 
-        //     this.drawAngle(ctx, degrees);
+            this.drawAngle(ctx, degrees);
+
         // } else {
         //     if (this.facing < 5) {
         //         // this.animations[this.facing].drawFrame(this.game.clockTick, ctx, this.x - xOffset, this.y - yOffset, 1);

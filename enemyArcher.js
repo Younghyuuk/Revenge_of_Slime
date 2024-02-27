@@ -1,5 +1,4 @@
 class enemyArcher {
-    // !!!!!!!!!!!! add in a refrence to the player object so we can get its current location !!!!!!!!!!!!
     constructor(game, x, y, speed, health, damage, slime) {
         this.game = game;
 
@@ -37,6 +36,11 @@ class enemyArcher {
         this.dead = false;
 
         this.elapsedDeadAnimTime = 0;
+
+        this.arrowDamage = 20;
+        this.arrowMaxSpeed = 200;
+        this.arrowRadius = 5;
+
 
         this.velocity = {
             x: 0,
@@ -80,9 +84,8 @@ class enemyArcher {
         }
 
         if (dist < this.dealDamageCollisionCircle.radius + this.slime.collisionCircle.radius) {
-            if (this.coolDown > .5) {
+            if (this.coolDown > 3) {
                 this.attack(this.slime);
-               // this.attack(this.slime);
                 this.coolDown = 0;
             }
         } else { 
@@ -106,16 +109,12 @@ class enemyArcher {
 
         if (directionAngle > 45 && directionAngle <= 135) {
             this.direction = 3; // down
-            this.attackDirection = 4;
         } else if (directionAngle > 135 && directionAngle <= 225) {
             this.direction = 1; // left
-            this.attackDirection = 5;
         } else if (directionAngle > 225 && directionAngle <= 315) {
             this.direction = 2; // up
-            this.attackDirection = 7;
         } else { // This covers 315 to 360 (0) and 0 to 45 degrees
             this.direction = 0; // right
-            this.attackDirection = 6;
         }
 
         }
@@ -174,19 +173,60 @@ class enemyArcher {
     attack(entity) {
         // entity.getAttacked(this.damage);
         this.attacking = true;
-
+        console.log("archer is attacking");
+        this.shootArrow();
         // This will set `this.attacking` back to false after 1 second
         setTimeout(() => {
             this.attacking = false;
-        }, 1000);
+        }, 500);
     };
+
+    // this method calls upon a new arrow and attacks the slime 
+    shootArrow() {
+            // Calculate the arrow's direction based on slime location
+            // Create a new arrow instance with arrow speed 5
+            let archerX = this.x + 25 - this.game.camera.x;
+            let archerY = this.y + 23 - this.game.camera.y;
+
+            var dist = distance(this, this.game.levelBuilder.slime);
+            let velocity = { x: ((this.slime.x + 31) - this.x) / dist * this.maxSpeed, 
+            y: ((this.slime.y + 55) - this.y) / dist * this.maxSpeed };
+
+            this.getAttackDirection(this.x, this.y, this.slime.x, this.slime.y);
+
+            // game, archerX , archerY , maxSpeed, damage, radius, type
+            let arrow = new Projectile(this.game, archerX, archerY, this.arrowMaxSpeed, this.arrowDamage, this.arrowRadius, "archer"); 
+            this.elapsedTime = 0;
+            this.game.addEntity(arrow);
+    };
+
+    // // this method finds the direction the archer should be facing to be atttacking the slime. used to determine the right animations
+    getAttackDirection(archerX, archerY, slimeX, slimeY) {
+        const deltaY = slimeY - archerY;
+        const deltaX = slimeX - archerX;
+        const angleDegrees = Math.atan2(deltaY, deltaX) * (180 / Math.PI);
+        
+        // make the angle to in the range of 0-360
+        const normalizedAngle = (angleDegrees + 360) % 360;
+    
+        // Determine the direction based on the angle
+        if (normalizedAngle > 45 && normalizedAngle <= 135) {
+            this.attackDirection = 4; // slime is below archer
+        } else if (normalizedAngle > 135 && normalizedAngle <= 225) {
+            this.attackDirection = 5; // slime is to the left of archer
+        } else if (normalizedAngle > 225 && normalizedAngle <= 315) {
+            this.attackDirection = 7; // slime is above archer
+        } else {
+            this.attackDirection = 6; // slime is to the right of archer
+        }
+    }
+    
 
     // this method is called when this knight is taking damage
     // takes in a parameter of how much damage is being done  
     getAttacked(damage) {
         this.health -= damage;
         this.game.levelBuilder.totalDamage += damage;
-        console.log("damage increment: " + this.game.levelBuilder.totalDamage);
         if (this.health <= 0 && !this.dead) {
             this.dead = true;
             this.game.levelBuilder.kills++;

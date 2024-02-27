@@ -46,7 +46,7 @@ class Slime {
         this.hasPistol = false;
         this.pistolCD = 0.6;
         this.pistolDamage = 50;
-        this.gunMaxSpeed = 1000;
+        this.gunMaxSpeed = 200;
         this.elapsedTime = 0;
         this.gunRadius = 5;
   
@@ -152,8 +152,8 @@ class Slime {
             let slimeX = this.x + 31 - this.game.camera.x;
             let slimeY = this.y + 55 - this.game.camera.y;
 
-            // game, slime , slime , maxSpeed, damage, radius
-            let pistolBullet = new Projectile(this.game, slimeX, slimeY, this.gunMaxSpeed, this.pistolDamage, this.gunRadius); 
+            // game, slime , slime , maxSpeed, damage, radius, type
+            let pistolBullet = new Projectile(this.game, slimeX, slimeY, this.gunMaxSpeed, this.pistolDamage, this.gunRadius, "slimePistol"); 
             this.elapsedTime = 0;
             this.game.addEntity(pistolBullet);
     
