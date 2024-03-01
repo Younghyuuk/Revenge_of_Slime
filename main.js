@@ -74,7 +74,7 @@ ASSET_MANAGER.downloadAll(() => {
 
 		
 	ASSET_MANAGER.autoRepeat("./sound/2.12.2024_Demo_1.mp3");
-	// ASSET_MANAGER.autoRepeat("./sound/2.12.2024_Demo_2.mp3");
+	ASSET_MANAGER.autoRepeat("./sound/2.12.2024_Demo_2.mp3");
 	
 	ctx.imageSmoothingEnabled = false; 
 	// for better image quality, espically when rotating

@@ -40,6 +40,7 @@ class LevelBuilder {
         this.totalDamage = 0;
         
         this.musicFlag = true;
+        this.musicFlag2 = true;
     };
 
     initBuilder() {
@@ -91,17 +92,22 @@ class LevelBuilder {
     buildNextLevel() {
         if  (this.musicFlag && this.level == 1) {
             ASSET_MANAGER.pauseBackgroundMusic();
-            ASSET_MANAGER.playAsset("./sound/2.12.2024_Demo_1.mp3");
+            ASSET_MANAGER.playAsset("./sound/2.12.2024_Demo_2.mp3");
             
         }
         setTimeout(() => {
             this.musicFlag = false;
         }, 4000);
-        
-        if(this.level == 5) {
+
+      
+        if(this.level == 2 && this.livingKnights == 0) {
             ASSET_MANAGER.pauseBackgroundMusic();
-            ASSET_MANAGER.playAsset("./sound/2.12.2024_Demo_2.mp3");
+            ASSET_MANAGER.playAsset("./sound/2.12.2024_Demo_1.mp3");
         }
+        setTimeout(() => {
+            this.musicFlag2 = false;
+        }, 10000);
+
         if (!this.slime.dead) {
             // No more enemies to spawn end loop
             if (this.spawnQueue.length === 0) {
