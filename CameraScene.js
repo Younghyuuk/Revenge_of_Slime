@@ -18,7 +18,7 @@ class CameraScene {
 
     update() {
         this.updateAudio();
-        ASSET_MANAGER.playAsset("./sound/2.12.2024_Demo_1.mp3");
+        // ASSET_MANAGER.playAsset("./sound/2.12.2024_Demo_1.mp3");
         // let midpoint = PARAMS.CANVAS_WIDTH/2 - PARAMS.BLOCKWIDTH / 2;
 
         let midPointX = PARAMS.CANVAS_WIDTH / 2;

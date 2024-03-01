@@ -47,7 +47,6 @@ class LevelBuilder {
         // this.slime = new Slime(engine, 77, 430, 150, 100, 10);
         // this.gameEngine.addEntity(this.slime);
             this.slime = createSlime(this.gameEngine);
-
             // start off the game with level 1
             this.calculateEnemyCount();
             this.buildNextLevel();
@@ -58,7 +57,6 @@ class LevelBuilder {
     // only here to adda a timer since set time out is being weird 
     update() {
         this.levelChangeGap += this.gameEngine.clockTick
-    
     }
 
     // called from gameEngine after each update() method call to update the number of knights and archers currently on the board
@@ -91,7 +89,6 @@ class LevelBuilder {
     // builds new level
     buildNextLevel() {
         if (!this.slime.dead) {
-           
             // No more enemies to spawn end loop
             if (this.spawnQueue.length === 0) {
                 return; 
@@ -120,12 +117,16 @@ class LevelBuilder {
                     // If max capacity reached, check again after a short delay
                     setTimeout(() => this.buildNextLevel(), 100); // Check again in .1 seconds
                 }
+            
         }
+       
     };
 
     // takes in a parameter of what kind of enemy we are 
     // trying to spawn and it determines its health, damage and spawn location
     createEnemyStats(type) {
+        ASSET_MANAGER.pauseBackgroundMusic();
+        ASSET_MANAGER.playAsset("./sound/2.12.2024_Demo_1.mp3");
         let health = 0;
         let damage = 0;
 

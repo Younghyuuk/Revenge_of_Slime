@@ -254,7 +254,7 @@ class Slime {
         
        //don't move if dead
         if(!this.dead) {
-
+            
         
           switch(this.weaponState){
             case 1:
