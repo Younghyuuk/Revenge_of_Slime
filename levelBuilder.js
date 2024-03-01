@@ -94,19 +94,23 @@ class LevelBuilder {
             ASSET_MANAGER.pauseBackgroundMusic();
             ASSET_MANAGER.playAsset("./sound/2.12.2024_Demo_2.mp3");
             
+            setTimeout(() => {
+                this.musicFlag = false;
+            }, 3000);
+            
         }
-        setTimeout(() => {
-            this.musicFlag = false;
-        }, 4000);
+        
 
       
-        if(this.level == 2 && this.livingKnights == 0) {
+        if(this.level == 5 && this.musicFlag2) {
             ASSET_MANAGER.pauseBackgroundMusic();
             ASSET_MANAGER.playAsset("./sound/2.12.2024_Demo_1.mp3");
+            
+            setTimeout(() => {
+                this.musicFlag2 = false;
+            }, 1000);
         }
-        setTimeout(() => {
-            this.musicFlag2 = false;
-        }, 10000);
+  
 
         if (!this.slime.dead) {
             // No more enemies to spawn end loop
