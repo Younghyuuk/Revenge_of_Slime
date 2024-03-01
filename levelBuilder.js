@@ -88,8 +88,10 @@ class LevelBuilder {
 
     // builds new level
     buildNextLevel() {
-        ASSET_MANAGER.pauseBackgroundMusic();
-        ASSET_MANAGER.playAsset("./sound/2.12.2024_Demo_1.mp3");
+        if  (this.livingKnights == 1 && this.level == 1) {
+            ASSET_MANAGER.pauseBackgroundMusic();
+            ASSET_MANAGER.playAsset("./sound/2.12.2024_Demo_1.mp3");
+        }
         if (!this.slime.dead) {
             // No more enemies to spawn end loop
             if (this.spawnQueue.length === 0) {
