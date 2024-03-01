@@ -108,7 +108,7 @@ class hud{
 
         }
             
-    update(){
+    update() {
         // this.score = ? 
         if(this.health >= 0){
             this.health = this.slime.health;

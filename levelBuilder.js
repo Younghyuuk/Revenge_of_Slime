@@ -50,7 +50,7 @@ class LevelBuilder {
             // start off the game with level 1
             this.calculateEnemyCount();
             this.buildNextLevel();
-
+            
         
     };
 
@@ -88,6 +88,8 @@ class LevelBuilder {
 
     // builds new level
     buildNextLevel() {
+        ASSET_MANAGER.pauseBackgroundMusic();
+        ASSET_MANAGER.playAsset("./sound/2.12.2024_Demo_1.mp3");
         if (!this.slime.dead) {
             // No more enemies to spawn end loop
             if (this.spawnQueue.length === 0) {
@@ -125,8 +127,8 @@ class LevelBuilder {
     // takes in a parameter of what kind of enemy we are 
     // trying to spawn and it determines its health, damage and spawn location
     createEnemyStats(type) {
-        ASSET_MANAGER.pauseBackgroundMusic();
-        ASSET_MANAGER.playAsset("./sound/2.12.2024_Demo_1.mp3");
+        // ASSET_MANAGER.pauseBackgroundMusic();
+        // ASSET_MANAGER.playAsset("./sound/2.12.2024_Demo_1.mp3");
         let health = 0;
         let damage = 0;
 
