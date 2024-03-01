@@ -340,7 +340,7 @@ class Slime {
             if (this.game.Two) {
                 this.switchWeapons(2);
             }
-            if (this.game.X){
+            if (this.game.X && this.inventory.length > 1){
                 this.dropWeapon();
             }
             else if(!this.game.A && !this.game.D && !this.game.W && !this.game.S && this.state != 6) {
