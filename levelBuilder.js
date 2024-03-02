@@ -38,6 +38,9 @@ class LevelBuilder {
         this.score = 0;
 
         this.totalDamage = 0;
+        
+        this.musicFlag = true;
+        this.musicFlag2 = true;
     };
 
     initBuilder() {
@@ -46,13 +49,10 @@ class LevelBuilder {
         // this.slime = new Slime(engine, 77, 430, 150, 100, 10);
         // this.gameEngine.addEntity(this.slime);
             this.slime = createSlime(this.gameEngine);
-
             // start off the game with level 1
             this.calculateEnemyCount();
             this.buildNextLevel();
-
-
-
+            
         
     };
 
@@ -90,6 +90,28 @@ class LevelBuilder {
 
     // builds new level
     buildNextLevel() {
+        if  (this.musicFlag && this.level == 1) {
+            ASSET_MANAGER.pauseBackgroundMusic();
+            ASSET_MANAGER.playAsset("./sound/2.12.2024_Demo_2.mp3");
+            
+            setTimeout(() => {
+                this.musicFlag = false;
+            }, 3000);
+            
+        }
+        
+
+      
+        if(this.level == 5 && this.musicFlag2) {
+            ASSET_MANAGER.pauseBackgroundMusic();
+            ASSET_MANAGER.playAsset("./sound/2.12.2024_Demo_1.mp3");
+            
+            setTimeout(() => {
+                this.musicFlag2 = false;
+            }, 1000);
+        }
+  
+
         if (!this.slime.dead) {
             // No more enemies to spawn end loop
             if (this.spawnQueue.length === 0) {
@@ -119,12 +141,16 @@ class LevelBuilder {
                     // If max capacity reached, check again after a short delay
                     setTimeout(() => this.buildNextLevel(), 100); // Check again in .1 seconds
                 }
+            
         }
+       
     };
 
     // takes in a parameter of what kind of enemy we are 
     // trying to spawn and it determines its health, damage and spawn location
     createEnemyStats(type) {
+        // ASSET_MANAGER.pauseBackgroundMusic();
+        // ASSET_MANAGER.playAsset("./sound/2.12.2024_Demo_1.mp3");
         let health = 0;
         let damage = 0;
 

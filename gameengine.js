@@ -30,6 +30,9 @@ class GameEngine {
         this.A = false;
         this.S = false;
         this.D = false;
+        this.X = false;
+        this.One = false;
+        this.Two = false;
 
         // Options and the Details
         this.options = options || {
@@ -138,6 +141,15 @@ class GameEngine {
                 case "KeyS":
                     that.S = true;
                     break;
+                case "Digit1":
+                    that.One = true;
+                    break;
+                case "Digit2":
+                    that.Two = true;
+                    break;
+                case "KeyX":
+                    that.X = true;
+                    break;
             }
         });
         
@@ -159,6 +171,15 @@ class GameEngine {
                 case "ArrowDown":
                 case "KeyS":
                     that.S = false;
+                    break;
+                case "Digit1":
+                    that.One = false;
+                    break;
+                case "Digit2":
+                    that.Two = false;
+                    break;
+                case "KeyX":
+                    that.X = false;
                     break;
             }
         })
@@ -272,8 +293,8 @@ class GameEngine {
     }
     
     isWeapon(entityA, entityB) {
-        if(entityA instanceof Slime){
-            if(entityB.hasOwnProperty('weapon')) { //all weapons should have this.weapon = true
+        if(entityA instanceof Slime && entityB.hasOwnProperty('weapon')){  //all weapons should have this.weapon = true
+            if(entityA.inventory.length < 2){
                 entityA.inventory.push(entityB); // add it to the inventory
 
                 entityB.removeFromWorld = true; // remove weapon from canvas
@@ -281,15 +302,20 @@ class GameEngine {
                 
                 if(entityB instanceof knife){
                     this.slime.hasKnife = true;
-                    this.slime.weaponState = 1; // 0 = no weapon, 1 = knife, 2 = pistol 
+                    this.slime.weaponState = 1; // 0 = no weapon, 1 = knife, 2 = pistol, 3 = sword 
                     console.log("true");
                 }
                 if (entityB instanceof pistol) {
                     this.slime.hasPistol = true;
-                    this.slime.weaponsState = 2;
+                    this.slime.weaponState = 2;
                 }
+                if (entityB instanceof sword) {
+                    this.slime.hasSword = true;
+                    this.slime.weaponState = 3;
+                }
+    
+                this.slime.currentWeapon = entityB;
             }
-            
         }
     }
 

@@ -69,12 +69,16 @@ class Projectile {
             if ((ent instanceof enemyArcher || ent instanceof enemyKnight) && circlesIntersect(this, ent.collisionCircle)) {
                 ent.getAttacked(this.damage);
                 
+                // add a statement here that checks what weapon state the player is in and if not 
+                // sniper, then remove the projectile from the world when it hits an enemy 
                 this.removeFromWorld = true;
                 
             }
             
         }
-        
+        setTimeout(() => {
+            this.removeFromWorld = true;
+        }, 1500);
         // this.facing = getFacing(this.velocity);
     };
 

@@ -5,10 +5,20 @@ class CameraScene {
        
         this.x = 0;
         this.y = 0;
-    
+       
     };
 
+    updateAudio() {
+        let mute = document.getElementById("mute").checked;
+        let volume = document.getElementById("volume").value;
+
+        ASSET_MANAGER.muteAudio(mute);
+        ASSET_MANAGER.adjustVolume(volume);
+    }
+
     update() {
+        this.updateAudio();
+        // ASSET_MANAGER.playAsset("./sound/2.12.2024_Demo_1.mp3");
         // let midpoint = PARAMS.CANVAS_WIDTH/2 - PARAMS.BLOCKWIDTH / 2;
 
         let midPointX = PARAMS.CANVAS_WIDTH / 2;
