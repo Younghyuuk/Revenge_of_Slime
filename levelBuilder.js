@@ -3,7 +3,7 @@ class LevelBuilder {
 
         //reference to the gameEngine 
         this.gameEngine = gameEngine;
-        this.gameEngine.level = this;
+        this.gameEngine.levelBuilder = this;
         // reference to the method in main that we will need to call to create the enemies
         this.createEnemy = createEnemy;
 
@@ -148,12 +148,12 @@ class LevelBuilder {
             
         }
        
-        if (this.level == 1 && this.kills > 0 && this.weaponDropFlag) {
+        if (this.level == 1 && this.kills > 0 /*&& this.kills % 2 == 0*/ && this.weaponDropFlag) {
             this.gameEngine.addEntity(new sniper(this.gameEngine, 700, 430));
-            setTimeout(() => {
-                this.gameEngine.sniper.removeFromWorld = true;
-                this.weaponDropFlag = false;
-            }, 10000);
+            // if(circlesIntersect(this.gameEngine.slime.collisionCircle, this.gameEngine.sniper.collisionCircle)) {
+            //     this.gameEngine.sniper.removeFromWorld = true;
+            //     this.weaponDropFlag = false;
+            // }
         }
        
     };
