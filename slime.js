@@ -42,9 +42,13 @@ class Slime {
         // console.log(this.inventory.some(item => item.name === "knife");
         this.knifeCooldown = 0.2;
 
+        // sword parameters
+        this.hasSword = false;
+        this.swordCD = 0.5;
+
         //pistol and gun parameters
         this.hasPistol = false;
-        this.pistolCD = 0.5;
+        this.pistolCD = 1;
         this.pistolDamage = 20;
         this.gunMaxSpeed = 1000;
         this.elapsedTime = 0;
@@ -115,6 +119,31 @@ class Slime {
                 if (entity instanceof enemyArcher || entity instanceof enemyKnight) {
                     if(circlesIntersect(entity.collisionCircle, stabCircle)) {
                         entity.getAttacked(this.game.knife.damage);
+                        console.log("Enemy health: " + entity.health);
+                        ASSET_MANAGER.playAsset("./sound/2.12.2024_Knife_Slash.mp3");
+                    }
+                }
+            });
+            this.elapsedTime = 0;
+            // Reset mouseClick to prevent continuous attacks
+            this.game.mouseClick = false;
+        }
+    };
+
+    performSwordAttack() {
+        let stabCircle = this.game.sword.stabPos();
+    
+        if (this.hasKnife && this.game.mouseClick && this.elapsedTime > this.swordCD) {
+
+            this.attackDirection();
+            this.showStabCircle = true; // Set to true to show the stab circle
+            this.state = 6;
+    
+            // Check for collisions with entities using stabCircle
+            this.game.entities.forEach(entity => {
+                if (entity instanceof enemyArcher || entity instanceof enemyKnight) {
+                    if(circlesIntersect(entity.collisionCircle, stabCircle)) {
+                        entity.getAttacked(this.game.sword.damage);
                         console.log("Enemy health: " + entity.health);
                         ASSET_MANAGER.playAsset("./sound/2.12.2024_Knife_Slash.mp3");
                     }
