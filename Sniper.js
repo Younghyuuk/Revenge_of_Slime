@@ -13,8 +13,8 @@ class sniper {
 
       
                                             // spritesheet, xStart, yStart, width, height, frameCount, frameDuration, scale
-        this.animator = new Animator(ASSET_MANAGER.getAsset("./images/pistol.png"), 5, 5, 25, 15, 1, 1, 2);
-        this.HUDanimator = new Animator(ASSET_MANAGER.getAsset("./images/pistol.png"), 5, 5, 15, 15, 1, 1, 2);
+        this.animator = new Animator(ASSET_MANAGER.getAsset("./images/sniper.png"), 0, 5, 55, 55, 1, 1, 2);
+        this.HUDanimator = new Animator(ASSET_MANAGER.getAsset("./images/sniper.png"), 0, 0, 55, 15, 1, 1, 2);
 
     }
 
