@@ -318,7 +318,7 @@ class GameEngine {
                     this.slime.weaponState = 4;
                 }
                 if(entityB instanceof rocketLauncher) {
-                    this.slime.hasRocketLauncher = true;
+                    this.slime.hasRocket = true;
                     this.slime.weaponState = 5;
                 }
     
