@@ -519,7 +519,7 @@ class Slime {
         }
         
 
-        if (this.showStabCircle && this.game.knife) {
+        if (this.showStabCircle && this.game.knife && this.weaponState === 1) {
             // Draw the stab circle
             ctx.beginPath();
             ctx.arc(this.game.knife.stabX, this.game.knife.stabY, this.game.knife.stabRad, 0, Math.PI * 2);
@@ -527,7 +527,7 @@ class Slime {
             ctx.stroke();
         }
 
-        if (this.showStabCircle && this.game.sword) {
+        if (this.showStabCircle && this.game.sword && this.weaponState === 3) {
             // Draw the stab circle
             ctx.beginPath();
             ctx.arc(this.game.sword.stabX, this.game.sword.stabY, this.game.sword.stabRad, 0, Math.PI * 2);

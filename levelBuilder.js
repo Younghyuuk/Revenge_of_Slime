@@ -149,11 +149,16 @@ class LevelBuilder {
         }
        
         if (this.level == 1 && this.kills > 0 /*&& this.kills % 2 == 0*/ && this.weaponDropFlag) {
-            this.gameEngine.addEntity(new sniper(this.gameEngine, 700, 430));
+            if (Math.random() < 0.5) {
+                this.gameEngine.addEntity(new sniper(this.gameEngine, 700, 430));
+            } else {
+                this.gameEngine.addEntity(new sword(this.gameEngine, 700, 430));
+            }
             // if(circlesIntersect(this.gameEngine.slime.collisionCircle, this.gameEngine.sniper.collisionCircle)) {
             //     this.gameEngine.sniper.removeFromWorld = true;
             //     this.weaponDropFlag = false;
             // }
+            this.weaponDropFlag = false;
         }
        
     };
