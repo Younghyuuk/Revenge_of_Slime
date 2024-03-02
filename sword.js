@@ -41,7 +41,7 @@ class sword {
         this.stabY = slimeY + Math.sin(this.angle) * 30;
     
         // Define the radius of the stab action's collision circle
-        this.stabRad = 20; // Radius of the collision circle
+        this.stabRad = 18; // Radius of the collision circle
 
         // Create and return the collision circle at the stab position
         this.stabCircle = {

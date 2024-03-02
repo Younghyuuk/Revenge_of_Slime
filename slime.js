@@ -44,7 +44,7 @@ class Slime {
 
         // sword parameters
         this.hasSword = false;
-        this.swordCD = 0.5;
+        this.swordCD = 0.7;
 
         //pistol and gun parameters
         this.hasPistol = false;
@@ -133,7 +133,7 @@ class Slime {
     performSwordAttack() {
         let stabCircle = this.game.sword.stabPos();
     
-        if (this.hasKnife && this.game.mouseClick && this.elapsedTime > this.swordCD) {
+        if (this.hasSword && this.game.mouseClick && this.elapsedTime > this.swordCD) {
 
             this.attackDirection();
             this.showStabCircle = true; // Set to true to show the stab circle
@@ -326,6 +326,9 @@ class Slime {
                 break;
             case 2:
                 this.pistolShot();
+                break;
+            case 3:
+                this.performSwordAttack();
                 break;
             case 4:
                 this.sniperShot();
@@ -520,6 +523,14 @@ class Slime {
             // Draw the stab circle
             ctx.beginPath();
             ctx.arc(this.game.knife.stabX, this.game.knife.stabY, this.game.knife.stabRad, 0, Math.PI * 2);
+            ctx.strokeStyle = 'red';
+            ctx.stroke();
+        }
+
+        if (this.showStabCircle && this.game.sword) {
+            // Draw the stab circle
+            ctx.beginPath();
+            ctx.arc(this.game.sword.stabX, this.game.sword.stabY, this.game.sword.stabRad, 0, Math.PI * 2);
             ctx.strokeStyle = 'red';
             ctx.stroke();
         }
