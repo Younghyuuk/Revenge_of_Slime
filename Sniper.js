@@ -1,7 +1,7 @@
 class sniper {
     constructor(game, x, y) {
         Object.assign(this, {game, x, y});
-        this.game.pistol = this;
+        this.game.sniper = this;
         this.name = "sniper";
 
         this.weapon = true;
@@ -13,8 +13,8 @@ class sniper {
 
       
                                             // spritesheet, xStart, yStart, width, height, frameCount, frameDuration, scale
-        // this.animator = new Animator(ASSET_MANAGER.getAsset("./images/pistol.png"), 5, 5, 25, 15, 1, 1, 2);
-        // this.HUDanimator = new Animator(ASSET_MANAGER.getAsset("./images/pistol.png"), 5, 5, 15, 15, 1, 1, 2);
+        this.animator = new Animator(ASSET_MANAGER.getAsset("./images/pistol.png"), 5, 5, 25, 15, 1, 1, 2);
+        this.HUDanimator = new Animator(ASSET_MANAGER.getAsset("./images/pistol.png"), 5, 5, 15, 15, 1, 1, 2);
 
     }
 

@@ -196,7 +196,7 @@ class Slime {
     loadAnimations() {
 
         // // copied from Marriott's Mario, may have to do similar thing in our code
-        for (var i = 0; i < 4; i++) { // three weapons 
+        for (var i = 0; i < 5; i++) { // four weapons 
             this.animations.push([]);
             for (var j = 0; j < 7; j++) { // six states
                 this.animations[i].push([]);
@@ -258,6 +258,19 @@ class Slime {
         this.animations[3][6][2] = new Animator(this.knifeAttackSpriteSheet, 0, 32, 64, 32, 10, .095, 2); // right
         this.animations[3][6][3] = new Animator(this.knifeAttackSpriteSheet, 0, 64, 64, 32, 10, .095, 2); // up
         this.animations[3][6][4] = new Animator(this.knifeAttackSpriteSheet, 0, 96, 64, 32, 10, .095, 2); // down
+
+        // SNIPER PLACE HOLDER
+        this.animations[4][0][0] = new Animator(this.NoWeaponSpritesheet, 0, 0, 32, 32, 10, .175, 2); // idle
+        this.animations[4][1][0] = new Animator(this.NoWeaponSpritesheet, 0, 128, 32, 32, 10, .175, 2); //left
+        this.animations[4][2][0] = new Animator(this.NoWeaponSpritesheet, 0, 96, 32, 32, 10, .175, 2); // right
+        this.animations[4][3][0] = new Animator(this.NoWeaponSpritesheet, 0, 64, 32, 32, 10, .175, 2); // up
+        this.animations[4][4][0] = new Animator(this.NoWeaponSpritesheet, 0, 32, 32, 32, 10, .175, 2); // down
+        this.animations[4][5][0] = new Animator(this.NoWeaponSpritesheet, 0, 192, 32, 32, 10, .175, 2); // dead
+        this.animations[4][6][0] = new Animator(this.knifeAttackSpriteSheet, 0, 0, 64, 32, 10, .095, 2); // new knife stab attack place holder
+        this.animations[4][6][1] = new Animator(this.knifeAttackSpriteSheet, 0, 0, 64, 32, 10, .095, 2); // left
+        this.animations[4][6][2] = new Animator(this.knifeAttackSpriteSheet, 0, 32, 64, 32, 10, .095, 2); // right
+        this.animations[4][6][3] = new Animator(this.knifeAttackSpriteSheet, 0, 64, 64, 32, 10, .095, 2); // up
+        this.animations[4][6][4] = new Animator(this.knifeAttackSpriteSheet, 0, 96, 64, 32, 10, .095, 2); // down
                                                          
 
     };
@@ -284,6 +297,9 @@ class Slime {
                 break;
             case 2:
                 this.pistolShot();
+                break;
+            case 4:
+                this.sniperShot();
                 break;
           }
             
