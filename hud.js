@@ -76,6 +76,9 @@ class hud{
                 case 'sword':
                     this.game.sword.HUDanimator.drawFrame(this.game.clockTick, ctx, invParams.SWORD_W1_X, invParams.SWORD_Y, []);
                     break;
+                case 'sniper':
+                    this.game.sniper.HUDanimator.drawFrame(this.game.clockTick, ctx, invParams.SNIPER_W1_X, invParams.SNIPER_Y, []);
+                    break;
             }
 
             if(this.slime.inventory.length >= 2) {
@@ -132,5 +135,9 @@ const invParams = {
 
     SWORD_W1_X: 440,
     SWORD_Y: 707,
-    SWORD_W2_X: 510
+    SWORD_W2_X: 510,
+
+    SNIPER_W1_X: 425,
+    SNIPER_Y: 695,
+    SNIPER_W2_X: 495
 };
