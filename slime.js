@@ -30,7 +30,6 @@ class Slime {
 
         
         this.enemyInRange = null; // the enemy that attack is called on
-        this.AttackCount = 0;
 
         // to make sure the dead and attacking animations play
         this.elapsedDeadAnimTime = 0;
@@ -78,12 +77,10 @@ class Slime {
 
     // this method is called when the slime attacks an npc
     attack(entity) {
-        entity.getAttacked(this.damage);
-        this.enemyInRange = null;
-        this.AttackCount++;
-        console.log(`Slime Attack ${this.AttackCount}`);
         // a method call to the player's character to damage them
         // sends in the damage as a parameter to determine how much health should be taken from the character
+        entity.getAttacked(this.damage);
+        this.enemyInRange = null;
     };
 
     // this method is called when this slime is taking damage
@@ -110,6 +107,11 @@ class Slime {
                 if (entity instanceof enemyArcher || entity instanceof enemyKnight) {
                     if(circlesIntersect(entity.collisionCircle, stabCircle)) {
                         entity.getAttacked(this.game.knife.damage);
+                        
+                        //this is here instead of in attack bc attack isnt actually called by this method
+                        if(this.currentWeapon.hasOwnProperty('melee') && this.health < 96) {
+                            this.health += 5;
+                        }
                         console.log("Enemy health: " + entity.health);
                     }
                 }
@@ -432,25 +434,25 @@ class Slime {
     draw(ctx) {
         
         if(this.dead) {
-            this.animations[this.weaponState][this.state][0].drawFrame(this.game.clockTick, ctx, this.x - this.game.camera.x, this.y - this.game.camera.y, [this.collisionCircle, this.overlapCollisionCircle]);
+            this.animations[this.weaponState][this.state][0].drawFrame(this.game.clockTick, ctx, this.x - this.game.camera.x, this.y - this.game.camera.y, [/*this.collisionCircle, this.overlapCollisionCircle*/]);
             
             this.elapsedDeadAnimTime += this.game.clockTick;
                 if(this.elapsedDeadAnimTime > 1.5){
                     this.removeFromWorld = true;
                 }
         } else if(this.state == 6){ // attacking                                                       // magic numbers to keep the slime centered - 18    + 18
-            this.animations[this.weaponState][this.state][this.attackAngle].drawFrame(this.game.clockTick, ctx, this.x - 18 - this.game.camera.x, this.y + 18 - this.game.camera.y, [this.collisionCircle, this.overlapCollisionCircle]);
+            this.animations[this.weaponState][this.state][this.attackAngle].drawFrame(this.game.clockTick, ctx, this.x - 18 - this.game.camera.x, this.y + 18 - this.game.camera.y, [/*this.collisionCircle, this.overlapCollisionCircle*/]);
         } else {
-            this.animations[this.weaponState][this.state][0].drawFrame(this.game.clockTick, ctx, this.x - this.game.camera.x, this.y - this.game.camera.y, [this.collisionCircle, this.overlapCollisionCircle]);
+            this.animations[this.weaponState][this.state][0].drawFrame(this.game.clockTick, ctx, this.x - this.game.camera.x, this.y - this.game.camera.y, [/*this.collisionCircle, this.overlapCollisionCircle*/]);
         }
         
 
-        if (this.showStabCircle && this.game.knife) {
-            // Draw the stab circle
-            ctx.beginPath();
-            ctx.arc(this.game.knife.stabX, this.game.knife.stabY, this.game.knife.stabRad, 0, Math.PI * 2);
-            ctx.strokeStyle = 'red';
-            ctx.stroke();
-        }
+        // if (this.showStabCircle && this.game.knife) {
+        //     // Draw the stab circle
+        //     ctx.beginPath();
+        //     ctx.arc(this.game.knife.stabX, this.game.knife.stabY, this.game.knife.stabRad, 0, Math.PI * 2);
+        //     ctx.strokeStyle = 'red';
+        //     ctx.stroke();
+        // }
     };
 };

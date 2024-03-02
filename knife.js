@@ -6,6 +6,7 @@ class knife {
 
         this.damage = 25; 
         this.weapon = true;
+        this.melee = true;
         this.removeFromWorld = false;
 
         this.collisionCircle = {radius: 25, x: this.game.slime.x + 10, y: this.game.slime.y + 10};// collision detection circle
