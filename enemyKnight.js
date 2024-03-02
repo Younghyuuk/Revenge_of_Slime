@@ -10,7 +10,7 @@ class enemyKnight {
             // health = this is the HP of the knight - arbitrary number to be changed
             // damage = this is the attack damage of the knight 
         Object.assign(this, {x, y, speed, health, damage, slime});
-
+        this.game.knight = this;
         this.removeFromWorld = false; // if the sprite is a live or dead, alive at creation
 
         this.collisionCircle = {radius: 22, x: x + 25, y: y + 25};// collision detection circle
@@ -127,6 +127,8 @@ class enemyKnight {
         //update overlap collision circle
         this.overlapCollisionCircle.x = this.x + 25 - this.game.camera.x;
         this.overlapCollisionCircle.y = this.y + 25 - this.game.camera.y;
+
+       
         
     };
 
