@@ -71,8 +71,12 @@ class Projectile {
                 
                 // add a statement here that checks what weapon state the player is in and if not 
                 // sniper, then remove the projectile from the world when it hits an enemy 
-                if(this.game.slime.weaponState !== 4) {
+                if (this.game.slime.weaponState !== 4 && this.game.slime.weaponState !== 5) {
                     this.removeFromWorld = true;
+                }
+
+                if (this.game.slime.weaponState === 5) {
+                    this.game.slime.radius = 50;
                 }
                 
             }
