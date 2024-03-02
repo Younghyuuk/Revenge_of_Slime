@@ -13,7 +13,7 @@ class Slime {
         this.game.slime = this;
         //slime state variables
         this.state = 0; // 0 = idle, 1 = left, 2 = right, 3 = up, 4 = down, 5 = dead, 6 = attacking
-        this.weaponState = 0; // 0 = no weapon, 1 = knife, 2 = pistol, 3 = sword
+        this.weaponState = 0; // 0 = no weapon, 1 = knife, 2 = pistol, 3 = sword, 4 = sniper
         this.attackAngle = 0; // 1 = left, 2 = right, 3 = up, 4 = down
         this.dead = false;
         
@@ -44,12 +44,17 @@ class Slime {
 
         //pistol and gun parameters
         this.hasPistol = false;
-        this.pistolCD = 0.6;
-        this.pistolDamage = 50;
+        this.pistolCD = 0.3;
+        this.pistolDamage = 20;
         this.gunMaxSpeed = 1000;
         this.elapsedTime = 0;
         this.gunRadius = 5;
-  
+
+        this.hasSniper = false;
+        this.sniperCD = 1;
+        this.sniperDamage = 100;
+        this.sniperMaxSpeed = 1500;
+        this.sniperRadius = 5;
     };
 
     confirm() {
@@ -166,6 +171,22 @@ class Slime {
         }
     };
 
+    sniperShot() {
+        if (this.hasSniper && this.game.mouseClick && this.elapsedTime > this.sniperCD) {
+
+            // Calculate the bullet's direction based on the mouse click
+            // Create a new Bullet instance with bullet speed 5
+            let slimeX = this.x + 31 - this.game.camera.x;
+            let slimeY = this.y + 55 - this.game.camera.y;
+
+            // game, slime , slime , maxSpeed, damage, radius
+            let sniperBullet = new Projectile(this.game, slimeX, slimeY, this.sniperMaxSpeed, this.sniperDamage, this.sniperRadius); 
+            this.elapsedTime = 0;
+            this.game.addEntity(sniperBullet);
+    
+            this.game.mouseClick = false;
+        }
+    }
 
     getCircle() {
         return this.collisionCircle;
@@ -417,6 +438,10 @@ class Slime {
                 case 'sword':
                     this.hasSword = true;
                     this.weaponState = 3;
+                    break;
+                case 'sniper':
+                    this.hasSniper = true;
+                    this.weaponState = 4;
                     break;
             }
             this.state = 0;
