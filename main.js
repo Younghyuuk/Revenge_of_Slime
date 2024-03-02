@@ -28,9 +28,9 @@ function createSlime(gameEngine) {
 	gameEngine.addEntity(new pistol(gameEngine, 780, 470));
 	
 	//added to test weapon switching 
-	gameEngine.addEntity(new sword(gameEngine, 710, 410)); 
-	gameEngine.addEntity(new knife(gameEngine, 700, 300));
-	gameEngine.addEntity(new pistol(gameEngine, 800, 550));
+	// gameEngine.addEntity(new sword(gameEngine, 710, 410)); 
+	// gameEngine.addEntity(new knife(gameEngine, 700, 300));
+	// gameEngine.addEntity(new pistol(gameEngine, 800, 550));
 	return slime;
 };
 
