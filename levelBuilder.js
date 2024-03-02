@@ -39,6 +39,7 @@ class LevelBuilder {
 
         this.totalDamage = 0;
         
+        // for background music
         this.musicFlag = true;
         this.musicFlag2 = true;
     };
