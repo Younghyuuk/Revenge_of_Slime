@@ -1,4 +1,3 @@
-
 class Projectile {
     constructor(game,x, y, maxSpeed, damage, radius, type) {
         this.game = game;
@@ -15,13 +14,17 @@ class Projectile {
         this.facing = 5;
         this.elapsedTime = 0;
 
+        this.animations = [];
+
         this.bulletSpritesheet = ASSET_MANAGER.getAsset("./images/bullet.png");
         this.arrowSpritesheet = ASSET_MANAGER.getAsset("./images/arrow.png");
+        this.energyBlastSpritesheet = ASSET_MANAGER.getAsset("./images/energyBlast.png");
+        this.animations[0] = new Animator(this.energyBlastSpritesheet, 0, 0, 27, 24, 3, .1, 1.75);
+        this.animations[1] = new Animator(this.bulletSpritesheet, 0, 0, 14, 14, 1, .1, 1.75);
 
         this.cache = [];
        
     };
-
 
     // this method find out if this is an enemy projectile or slime projectile (velocity calculation is different for both)
     // then calculates the velocity.
@@ -34,7 +37,7 @@ class Projectile {
         } else {
             var dist = distance(this, this.game.levelBuilder.slime);
             this.velocity = { x: ((this.game.levelBuilder.slime.x + 31) - this.x) / dist * this.maxSpeed, 
-            y: ((this.game.levelBuilder.slime.y + 55) - this.y) / dist * this.maxSpeed };
+            y: ((this.game.levelBuilder.slime.y + 62) - this.y) / dist * this.maxSpeed };
         }
     };
 
@@ -99,7 +102,7 @@ class Projectile {
         this.y += this.velocity.y * this.game.clockTick;
 
 
-        if (this.type == "archer") {
+        if (this.type == "archer" || this.type == "wizard") {
             if (circlesIntersect(this, this.game.levelBuilder.slime.collisionCircle)) {
                 this.game.levelBuilder.slime.getAttacked(this.damage);
                 this.removeFromWorld = true;
@@ -130,11 +133,22 @@ class Projectile {
         // var xOffset = 16;
         // var yOffset = 16;
         // if (this.smooth) {
+
+        if (this.type == "archer") {
             let angle = Math.atan2(this.velocity.y , this.velocity.x);
             if (angle < 0) angle += Math.PI * 2;
             let degrees = Math.floor(angle / Math.PI / 2 * 360);
 
             this.drawAngle(ctx, degrees);
+        } else {
+            if (this.type == "slimePistol") {
+                this.animations[1].drawFrame(this.game.clockTick, ctx, this.x - this.game.camera.x, this.y - this.game.camera.y, []);
+            } else if (this.type == "wizard") {
+                this.animations[0].drawFrame(this.game.clockTick, ctx, this.x - this.game.camera.x, this.y - this.game.camera.y, []);
+            }
+        }
+
+
 
         // } else {
         //     if (this.facing < 5) {

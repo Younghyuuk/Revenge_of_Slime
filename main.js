@@ -13,6 +13,8 @@ function createEnemy(gameEngine, type, x, y, speed, health, damage) {
 		return new enemyArcher(gameEngine, x, y, speed, health, damage, window.slime);
 	} else if (type === "knight") {
 		return new enemyKnight(gameEngine, x, y, speed, health, damage, window.slime);
+	} else if (type === "wizard") {
+		return new WizardBoss(gameEngine, x, y, speed, health, damage, window.slime);
 	}
 	// ... other enemy types
 }
@@ -41,7 +43,8 @@ ASSET_MANAGER.queueDownload("./images/lavaPit.png");
 ASSET_MANAGER.queueDownload("./images/rock.png");
 ASSET_MANAGER.queueDownload("./images/arrow.png");
 ASSET_MANAGER.queueDownload("./images/bullet.png");
-
+ASSET_MANAGER.queueDownload("./images/WizardSprite.png");
+ASSET_MANAGER.queueDownload("./images/energyBlast.png");
 ASSET_MANAGER.queueDownload("./images/blueSlime.png");
 ASSET_MANAGER.queueDownload("./images/knifeBlueSlime.png");
 ASSET_MANAGER.queueDownload("./images/practiceKnifeAttack.png");

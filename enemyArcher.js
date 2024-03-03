@@ -38,7 +38,7 @@ class enemyArcher {
         this.elapsedDeadAnimTime = 0;
 
         this.arrowDamage = 20;
-        this.arrowMaxSpeed = 200;
+        this.arrowMaxSpeed = 1000;
         this.arrowRadius = 5;
 
 
@@ -173,7 +173,6 @@ class enemyArcher {
     attack(entity) {
         // entity.getAttacked(this.damage);
         this.attacking = true;
-        console.log("archer is attacking");
         this.shootArrow();
         // This will set `this.attacking` back to false after 1 second
         setTimeout(() => {

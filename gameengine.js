@@ -194,6 +194,7 @@ class GameEngine {
             //add more counter variables as we get more enemies 
             let archerCnt = 0;
             let knightCnt = 0;
+            let wizardCnt = 0;
     
             for (let i = 0; i < entitiesCount; i++) {
                 let entity1 = this.entities[i];
@@ -205,6 +206,8 @@ class GameEngine {
                         knightCnt++;
                     } else if (entity1 instanceof enemyArcher) {
                         archerCnt++;
+                    } else if (entity1 instanceof WizardBoss) {
+                        wizardCnt++;
                     }
                     
                     for (let j = i + 1; j < entitiesCount; j++) {
@@ -228,7 +231,7 @@ class GameEngine {
     
             //let the levelBuilder know how many of each type of enemy is still alive
             //add more params as we create more enemies 
-            this.levelBuilder.updateEnemyCnt(knightCnt, archerCnt);
+            this.levelBuilder.updateEnemyCnt(knightCnt, archerCnt, wizardCnt);
     
             // remove all the entites that are no longer relevant - marked with removeFromWorld
             for (let i = this.entities.length - 1; i >= 0; --i) {
