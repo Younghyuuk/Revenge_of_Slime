@@ -3,8 +3,9 @@ class sword {
         Object.assign(this, {game, x, y});
         this.game.sword = this;
         this.name = "sword";
-        this.damage = 30; // can be changed, just randomly set to 20
+        this.damage = 30; // can be changed, just randomly set to 30
         this.weapon = true;
+        this.melee = true;
         this.removeFromWorld = false;
 
         this.collisionCircle = {radius: 14, x: this.x + 17, y: this.y + 20};// collision detection circle
