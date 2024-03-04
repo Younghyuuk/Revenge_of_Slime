@@ -28,8 +28,8 @@ class map {
                     image = ASSET_MANAGER.getAsset("./images/wall.png");
                     this.wallBB = new BoundingBox(drawX, drawY, 32, 32);
                     // Optionally draw bounding box for debugging
-                    ctx.strokeStyle = 'red';    
-                    ctx.strokeRect(drawX, drawY, 32, 32);
+                    // ctx.strokeStyle = 'red';    
+                    // ctx.strokeRect(drawX, drawY, 32, 32);
                 // Draw floors
                 } else if (this.theMap[i][j] === 0) {
                     image = ASSET_MANAGER.getAsset("./images/floor.png");
