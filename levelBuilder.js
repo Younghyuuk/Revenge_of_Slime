@@ -148,7 +148,7 @@ class LevelBuilder {
             
         }
        
-        if (this.level == 5 || this.level == 10 && this.kills > 0 /*&& this.kills % 2 == 0*/ && this.weaponDropFlag) {
+        if (this.level == 5 && this.kills > 0 /*&& this.kills % 2 == 0*/ && this.weaponDropFlag) {
             if (Math.random() < 0.5) {
                 this.gameEngine.addEntity(new sniper(this.gameEngine, this.gameEngine.slime.x + 100, this.gameEngine.slime.y + 100));
                 if(this.gameEngine.slime.weaponState === 4) {
@@ -160,14 +160,16 @@ class LevelBuilder {
                     this.gameEngine.sword.removeFromWorld = true;
                 }
             }
+            this.weaponDropFlag = false;
             setTimeout(() => {
                 this.gameEngine.sniper.removeFromWorld = true;
                 this.gameEngine.sword.removeFromWorld = true;
+                
             }, 10000);
-            this.weaponDropFlag = false;
+            
         }
        
-        // if (this.level > 5 || this.level > 10) {
+        // if (this.level == 6 || this.level == 11) {
         //     this.weaponDropFlag = true;
         // }
     };
