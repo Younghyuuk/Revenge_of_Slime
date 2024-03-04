@@ -39,7 +39,7 @@ class Slime {
         // all the knife stuff.
         this.hasKnife = false; // Indicates if the slime has a knife to attack with
         // console.log(this.inventory.some(item => item.name === "knife");
-        this.knifeCooldown = 0.2;
+        this.knifeCooldown = 0.5;
 
         // sword parameters
         this.hasSword = false;
@@ -125,8 +125,8 @@ class Slime {
                         entity.getAttacked(this.game.knife.damage);
                         
                         //this is here instead of in attack bc attack isnt actually called by this method
-                        if(this.currentWeapon.hasOwnProperty('melee') && this.health < 96) {
-                            this.health += 5;
+                        if (this.currentWeapon.hasOwnProperty('melee') && this.health < 96) {
+                            this.health += 2;
                         }
                         console.log("Enemy health: " + entity.health);
                         ASSET_MANAGER.playAsset("./sound/2.12.2024_Knife_Slash.mp3");
