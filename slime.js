@@ -13,7 +13,7 @@ class Slime {
         this.game.slime = this;
         //slime state variables
         this.state = 0; // 0 = idle, 1 = left, 2 = right, 3 = up, 4 = down, 5 = dead, 6 = attacking
-        this.weaponState = 0; // 0 = no weapon, 1 = knife, 2 = pistol, 3 = sword
+        this.weaponState = 0; // 0 = no weapon, 1 = knife, 2 = pistol, 3 = sword, 4 = sniper
         this.attackAngle = 0; // 1 = left, 2 = right, 3 = up, 4 = down
         this.dead = false;
         
@@ -41,14 +41,30 @@ class Slime {
         // console.log(this.inventory.some(item => item.name === "knife");
         this.knifeCooldown = 0.2;
 
+        // sword parameters
+        this.hasSword = false;
+        this.swordCD = 0.7;
+
         //pistol and gun parameters
         this.hasPistol = false;
-        this.pistolCD = 0.6;
-        this.pistolDamage = 50;
+        this.pistolCD = 0.8;
+        this.pistolDamage = 30;
         this.gunMaxSpeed = 1000;
         this.elapsedTime = 0;
         this.gunRadius = 5;
-  
+
+        this.hasSniper = false;
+        this.sniperCD = 5;
+        this.sniperDamage = 100;
+        this.sniperMaxSpeed = 1500;
+        this.sniperRadius = 5;
+
+        this.hasRocket = false;
+        this.rocketCD = 5;
+        this.rocketDamage = 100;
+        this.rocketMaxSpeed = 500;
+        this.rocketRadius = 5;
+
     };
 
     confirm() {
@@ -122,6 +138,31 @@ class Slime {
             this.game.mouseClick = false;
         }
     };
+
+    performSwordAttack() {
+        let stabCircle = this.game.sword.stabPos();
+    
+        if (this.hasSword && this.game.mouseClick && this.elapsedTime > this.swordCD) {
+
+            this.attackDirection();
+            this.showStabCircle = true; // Set to true to show the stab circle
+            this.state = 6;
+    
+            // Check for collisions with entities using stabCircle
+            this.game.entities.forEach(entity => {
+                if (entity instanceof enemyArcher || entity instanceof enemyKnight) {
+                    if(circlesIntersect(entity.collisionCircle, stabCircle)) {
+                        entity.getAttacked(this.game.sword.damage);
+                        console.log("Enemy health: " + entity.health);
+                        ASSET_MANAGER.playAsset("./sound/2.12.2024_Knife_Slash.mp3");
+                    }
+                }
+            });
+            this.elapsedTime = 0;
+            // Reset mouseClick to prevent continuous attacks
+            this.game.mouseClick = false;
+        }
+    };
     
     attackDirection() {
         let mouseX = this.game.mouseClickPos.x;
@@ -168,6 +209,39 @@ class Slime {
         }
     };
 
+    sniperShot() {
+        if (this.hasSniper && this.game.mouseClick && this.elapsedTime > this.sniperCD) {
+
+            // Calculate the bullet's direction based on the mouse click
+            // Create a new Bullet instance with bullet speed 5
+            let slimeX = this.x + 31 - this.game.camera.x;
+            let slimeY = this.y + 55 - this.game.camera.y;
+
+            // game, slime , slime , maxSpeed, damage, radius
+            let sniperBullet = new Projectile(this.game, slimeX, slimeY, this.sniperMaxSpeed, this.sniperDamage, this.sniperRadius); 
+            this.elapsedTime = 0;
+            this.game.addEntity(sniperBullet);
+    
+            this.game.mouseClick = false;
+        }
+    };
+
+    rocketShot() {
+        if (this.hasRocket && this.game.mouseClick && this.elapsedTime > this.rocketCD) {
+
+            // Calculate the bullet's direction based on the mouse click
+            // Create a new Bullet instance with bullet speed 5
+            let slimeX = this.x + 31 - this.game.camera.x;
+            let slimeY = this.y + 55 - this.game.camera.y;
+
+            // game, slime , slime , maxSpeed, damage, radius
+            let rockets = new Projectile(this.game, slimeX, slimeY, this.rocketMaxSpeed, this.rocketDamage, this.rocketRadius); 
+            this.elapsedTime = 0;
+            this.game.addEntity(rockets);
+    
+            this.game.mouseClick = false;
+        }
+    };
 
     getCircle() {
         return this.collisionCircle;
@@ -177,7 +251,7 @@ class Slime {
     loadAnimations() {
 
         // // copied from Marriott's Mario, may have to do similar thing in our code
-        for (var i = 0; i < 4; i++) { // three weapons 
+        for (var i = 0; i < 6; i++) { // Five weapons 
             this.animations.push([]);
             for (var j = 0; j < 7; j++) { // six states
                 this.animations[i].push([]);
@@ -239,6 +313,32 @@ class Slime {
         this.animations[3][6][2] = new Animator(this.knifeAttackSpriteSheet, 0, 32, 64, 32, 10, .095, 2); // right
         this.animations[3][6][3] = new Animator(this.knifeAttackSpriteSheet, 0, 64, 64, 32, 10, .095, 2); // up
         this.animations[3][6][4] = new Animator(this.knifeAttackSpriteSheet, 0, 96, 64, 32, 10, .095, 2); // down
+
+        // SNIPER PLACE HOLDER
+        this.animations[4][0][0] = new Animator(this.NoWeaponSpritesheet, 0, 0, 32, 32, 10, .175, 2); // idle
+        this.animations[4][1][0] = new Animator(this.NoWeaponSpritesheet, 0, 128, 32, 32, 10, .175, 2); //left
+        this.animations[4][2][0] = new Animator(this.NoWeaponSpritesheet, 0, 96, 32, 32, 10, .175, 2); // right
+        this.animations[4][3][0] = new Animator(this.NoWeaponSpritesheet, 0, 64, 32, 32, 10, .175, 2); // up
+        this.animations[4][4][0] = new Animator(this.NoWeaponSpritesheet, 0, 32, 32, 32, 10, .175, 2); // down
+        this.animations[4][5][0] = new Animator(this.NoWeaponSpritesheet, 0, 192, 32, 32, 10, .175, 2); // dead
+        this.animations[4][6][0] = new Animator(this.knifeAttackSpriteSheet, 0, 0, 64, 32, 10, .095, 2); // new knife stab attack place holder
+        this.animations[4][6][1] = new Animator(this.knifeAttackSpriteSheet, 0, 0, 64, 32, 10, .095, 2); // left
+        this.animations[4][6][2] = new Animator(this.knifeAttackSpriteSheet, 0, 32, 64, 32, 10, .095, 2); // right
+        this.animations[4][6][3] = new Animator(this.knifeAttackSpriteSheet, 0, 64, 64, 32, 10, .095, 2); // up
+        this.animations[4][6][4] = new Animator(this.knifeAttackSpriteSheet, 0, 96, 64, 32, 10, .095, 2); // down
+
+        // ROCKET PLACE HOLDER
+        this.animations[5][0][0] = new Animator(this.NoWeaponSpritesheet, 0, 0, 32, 32, 10, .175, 2); // idle
+        this.animations[5][1][0] = new Animator(this.NoWeaponSpritesheet, 0, 128, 32, 32, 10, .175, 2); //left
+        this.animations[5][2][0] = new Animator(this.NoWeaponSpritesheet, 0, 96, 32, 32, 10, .175, 2); // right
+        this.animations[5][3][0] = new Animator(this.NoWeaponSpritesheet, 0, 64, 32, 32, 10, .175, 2); // up
+        this.animations[5][4][0] = new Animator(this.NoWeaponSpritesheet, 0, 32, 32, 32, 10, .175, 2); // down
+        this.animations[5][5][0] = new Animator(this.NoWeaponSpritesheet, 0, 192, 32, 32, 10, .175, 2); // dead
+        this.animations[5][6][0] = new Animator(this.knifeAttackSpriteSheet, 0, 0, 64, 32, 10, .095, 2); // new knife stab attack place holder
+        this.animations[5][6][1] = new Animator(this.knifeAttackSpriteSheet, 0, 0, 64, 32, 10, .095, 2); // left
+        this.animations[5][6][2] = new Animator(this.knifeAttackSpriteSheet, 0, 32, 64, 32, 10, .095, 2); // right
+        this.animations[5][6][3] = new Animator(this.knifeAttackSpriteSheet, 0, 64, 64, 32, 10, .095, 2); // up
+        this.animations[5][6][4] = new Animator(this.knifeAttackSpriteSheet, 0, 96, 64, 32, 10, .095, 2); // down
                                                          
 
     };
@@ -265,6 +365,15 @@ class Slime {
                 break;
             case 2:
                 this.pistolShot();
+                break;
+            case 3:
+                this.performSwordAttack();
+                break;
+            case 4:
+                this.sniperShot();
+                break;
+            case 5:
+                this.rocketShot();
                 break;
           }
             
@@ -396,6 +505,14 @@ class Slime {
                     this.hasSword = true;
                     this.weaponState = 3;
                     break;
+                case 'sniper':
+                    this.hasSniper = true;
+                    this.weaponState = 4;
+                    break;
+                case 'rocket':
+                    this.hasRocket = true;
+                    this.weaponState = 5;
+                    break;
             }
             this.state = 0;
         }
@@ -419,6 +536,14 @@ class Slime {
                 case 'sword':
                     this.hasSword = true;
                     this.weaponState = 3;
+                    break;
+                case 'sniper':
+                    this.hasSniper = true;
+                    this.weaponState = 4;
+                    break;
+                case 'rocket':
+                    this.hasRocket = true;
+                    this.weaponState = 5;
                     break;
             }
             this.state = 0;
@@ -448,6 +573,21 @@ class Slime {
         }
         
 
+        if (this.showStabCircle && this.game.knife && this.weaponState === 1) {
+            // Draw the stab circle
+            ctx.beginPath();
+            ctx.arc(this.game.knife.stabX, this.game.knife.stabY, this.game.knife.stabRad, 0, Math.PI * 2);
+            ctx.strokeStyle = 'red';
+            ctx.stroke();
+        }
+
+        if (this.showStabCircle && this.game.sword && this.weaponState === 3) {
+            // Draw the stab circle
+            ctx.beginPath();
+            ctx.arc(this.game.sword.stabX, this.game.sword.stabY, this.game.sword.stabRad, 0, Math.PI * 2);
+            ctx.strokeStyle = 'red';
+            ctx.stroke();
+        }
         // if (this.showStabCircle && this.game.knife) {
         //     // Draw the stab circle
         //     ctx.beginPath();

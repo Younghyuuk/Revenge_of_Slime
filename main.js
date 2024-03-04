@@ -26,9 +26,13 @@ function createSlime(gameEngine) {
 	gameEngine.addEntity(slime);
 	gameEngine.addEntity(new knife(gameEngine, 670, 470));
 	gameEngine.addEntity(new pistol(gameEngine, 780, 470));
+
+	// tester rocket launcher 
+	// gameEngine.addEntity(new rocketLauncher(gameEngine, 670, 570));
 	
-	//added to test weapon switching 
-	// gameEngine.addEntity(new sword(gameEngine, 710, 410)); 
+	// gameEngine.addEntity(new sniper(gameEngine, 710, 410));
+	// //added to test weapon switching 
+	// gameEngine.addEntity(new sword(gameEngine, 710, 610)); 
 	// gameEngine.addEntity(new knife(gameEngine, 700, 300));
 	// gameEngine.addEntity(new pistol(gameEngine, 800, 550));
 	return slime;
@@ -60,6 +64,7 @@ ASSET_MANAGER.queueDownload("./images/ArcherSprite.png");
 ASSET_MANAGER.queueDownload("./images/knife.png");
 ASSET_MANAGER.queueDownload("./images/sword.png");
 ASSET_MANAGER.queueDownload("./images/pistol.png");
+ASSET_MANAGER.queueDownload("./images/sniper.png");
 
 
 // sound and music

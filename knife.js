@@ -4,7 +4,7 @@ class knife {
         this.game.knife = this;
         this.name = "knife";
 
-        this.damage = 25; 
+        this.damage = 20; 
         this.weapon = true;
         this.melee = true;
         this.removeFromWorld = false;

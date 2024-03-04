@@ -313,6 +313,14 @@ class GameEngine {
                     this.slime.hasSword = true;
                     this.slime.weaponState = 3;
                 }
+                if(entityB instanceof sniper) {
+                    this.slime.hasSniper = true;
+                    this.slime.weaponState = 4;
+                }
+                if(entityB instanceof rocketLauncher) {
+                    this.slime.hasRocket = true;
+                    this.slime.weaponState = 5;
+                }
     
                 this.slime.currentWeapon = entityB;
             }

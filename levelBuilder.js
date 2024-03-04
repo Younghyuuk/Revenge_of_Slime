@@ -3,7 +3,7 @@ class LevelBuilder {
 
         //reference to the gameEngine 
         this.gameEngine = gameEngine;
-
+        this.gameEngine.levelBuilder = this;
         // reference to the method in main that we will need to call to create the enemies
         this.createEnemy = createEnemy;
 
@@ -39,8 +39,12 @@ class LevelBuilder {
 
         this.totalDamage = 0;
         
+        // for background music
         this.musicFlag = true;
         this.musicFlag2 = true;
+
+        // weapon drop flag
+        this.weaponDropFlag = true;
     };
 
     initBuilder() {
@@ -144,8 +148,30 @@ class LevelBuilder {
             
         }
        
+        if (this.level == 5 || this.level == 10 && this.kills > 0 /*&& this.kills % 2 == 0*/ && this.weaponDropFlag) {
+            if (Math.random() < 0.5) {
+                this.gameEngine.addEntity(new sniper(this.gameEngine, this.gameEngine.slime.x + 100, this.gameEngine.slime.y + 100));
+                if(this.gameEngine.slime.weaponState === 4) {
+                    this.gameEngine.sniper.removeFromWorld = true;
+                }
+            } else {
+                this.gameEngine.addEntity(new sword(this.gameEngine, this.gameEngine.slime.x + 100, this.gameEngine.slime.y + 100));
+                if(this.gameEngine.slime.weaponState === 3) {
+                    this.gameEngine.sword.removeFromWorld = true;
+                }
+            }
+            setTimeout(() => {
+                this.gameEngine.sniper.removeFromWorld = true;
+                this.gameEngine.sword.removeFromWorld = true;
+            }, 10000);
+            this.weaponDropFlag = false;
+        }
+       
+        // if (this.level > 5 || this.level > 10) {
+        //     this.weaponDropFlag = true;
+        // }
     };
-
+        
     // takes in a parameter of what kind of enemy we are 
     // trying to spawn and it determines its health, damage and spawn location
     createEnemyStats(type) {
@@ -171,7 +197,7 @@ class LevelBuilder {
                 health = this.level * 2 + 40;
                 damage = this.level * 2 + 15;
             }
-            return this.createEnemy(this.gameEngine, "archer", randomX, randomY, 100, health, damage);
+            return this.createEnemy(this.gameEngine, "archer", randomX, randomY, 140, health, damage);
         } else if (type == "knight") {
             // change if needed -- once the max number of knights is already 
             // queued, give them a bigger increase in health from there onwards
@@ -184,7 +210,7 @@ class LevelBuilder {
                 health = this.level * 2 + 70;
                 damage = this.level * 2 + 5;
             }
-            return this.createEnemy(this.gameEngine, "knight", randomX, randomY, 120, health, damage);
+            return this.createEnemy(this.gameEngine, "knight", randomX, randomY, 170, health, damage);
         }
     };
 
