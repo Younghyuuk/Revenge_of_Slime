@@ -76,6 +76,7 @@ ASSET_MANAGER.queueDownload("./sound/3.4.2024_Official_2.mp3");
 ASSET_MANAGER.queueDownload("./sound/3.4.2024_Gunshot.mp3");
 ASSET_MANAGER.queueDownload("./sound/3.4.2024_Sniper.mp3");
 ASSET_MANAGER.queueDownload("./sound/3.4.2024_Sword.mp3");
+ASSET_MANAGER.queueDownload("./sound/3.4.2024_Rocket.mp3");
 
 ASSET_MANAGER.downloadAll(() => {
 	// added in the canvas width and height
