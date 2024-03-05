@@ -6,7 +6,7 @@ class Slime {
         this.NoWeaponSpritesheet = ASSET_MANAGER.getAsset("./images/blueSlime.png");
         this.KnifeSpritesheet = ASSET_MANAGER.getAsset("./images/knifeBlueSlime.png");
         this.knifeAttackSpriteSheet = ASSET_MANAGER.getAsset("./images/practiceKnifeAttack.png");
-
+        this.pistolSpritesheet = ASSET_MANAGER.getAsset("./images/pistolBlueSlime.png");
 
         Object.assign(this, {x, y, speed, health, damage});
 
@@ -291,17 +291,28 @@ class Slime {
 
 
         //PISTOL PLACE HOLDER
-        this.animations[2][0][0] = new Animator(this.NoWeaponSpritesheet, 0, 0, 32, 32, 10, .175, 2); // idle
-        this.animations[2][1][0] = new Animator(this.NoWeaponSpritesheet, 0, 128, 32, 32, 10, .175, 2); //left
-        this.animations[2][2][0] = new Animator(this.NoWeaponSpritesheet, 0, 96, 32, 32, 10, .175, 2); // right
-        this.animations[2][3][0] = new Animator(this.NoWeaponSpritesheet, 0, 64, 32, 32, 10, .175, 2); // up
-        this.animations[2][4][0] = new Animator(this.NoWeaponSpritesheet, 0, 32, 32, 32, 10, .175, 2); // down
-        this.animations[2][5][0] = new Animator(this.NoWeaponSpritesheet, 0, 192, 32, 32, 10, .175, 2); // dead
-        this.animations[2][6][0] = new Animator(this.knifeAttackSpriteSheet, 0, 0, 64, 32, 10, .095, 2); // new knife stab attack place holder
-        this.animations[2][6][1] = new Animator(this.knifeAttackSpriteSheet, 0, 0, 64, 32, 10, .095, 2); // left
-        this.animations[2][6][2] = new Animator(this.knifeAttackSpriteSheet, 0, 32, 64, 32, 10, .095, 2); // right
-        this.animations[2][6][3] = new Animator(this.knifeAttackSpriteSheet, 0, 64, 64, 32, 10, .095, 2); // up
-        this.animations[2][6][4] = new Animator(this.knifeAttackSpriteSheet, 0, 96, 64, 32, 10, .095, 2); // down
+        // this.animations[2][0][0] = new Animator(this.NoWeaponSpritesheet, 0, 0, 32, 32, 10, .175, 2); // idle
+        // this.animations[2][1][0] = new Animator(this.NoWeaponSpritesheet, 0, 128, 32, 32, 10, .175, 2); //left
+        // this.animations[2][2][0] = new Animator(this.NoWeaponSpritesheet, 0, 96, 32, 32, 10, .175, 2); // right
+        // this.animations[2][3][0] = new Animator(this.NoWeaponSpritesheet, 0, 64, 32, 32, 10, .175, 2); // up
+        // this.animations[2][4][0] = new Animator(this.NoWeaponSpritesheet, 0, 32, 32, 32, 10, .175, 2); // down
+        // this.animations[2][5][0] = new Animator(this.NoWeaponSpritesheet, 0, 192, 32, 32, 10, .175, 2); // dead
+        // this.animations[2][6][0] = new Animator(this.knifeAttackSpriteSheet, 0, 0, 64, 32, 10, .095, 2); // new knife stab attack place holder
+        // this.animations[2][6][1] = new Animator(this.knifeAttackSpriteSheet, 0, 0, 64, 32, 10, .095, 2); // left
+        // this.animations[2][6][2] = new Animator(this.knifeAttackSpriteSheet, 0, 32, 64, 32, 10, .095, 2); // right
+        // this.animations[2][6][3] = new Animator(this.knifeAttackSpriteSheet, 0, 64, 64, 32, 10, .095, 2); // up
+        // this.animations[2][6][4] = new Animator(this.knifeAttackSpriteSheet, 0, 96, 64, 32, 10, .095, 2); // down
+        this.animations[2][0][0] = new Animator(this.pistolSpritesheet, 0, 0, 32, 32, 10, .175, 2); // idle
+        this.animations[2][1][0] = new Animator(this.pistolSpritesheet, 0, 128, 32, 32, 10, .175, 2); //left
+        this.animations[2][2][0] = new Animator(this.pistolSpritesheet, 0, 96, 32, 32, 10, .175, 2); // right
+        this.animations[2][3][0] = new Animator(this.pistolSpritesheet, 0, 64, 32, 32, 10, .175, 2); // up
+        this.animations[2][4][0] = new Animator(this.pistolSpritesheet, 0, 32, 32, 32, 10, .175, 2); // down
+        this.animations[2][5][0] = new Animator(this.pistolSpritesheet, 0, 192, 32, 32, 10, .175, 2); // dead
+        this.animations[2][6][0] = new Animator(this.pistolSpritesheet, 0, 0, 64, 32, 10, .095, 2); // new knife stab attack place holder
+        this.animations[2][6][1] = new Animator(this.pistolSpritesheet, 0, 0, 64, 32, 10, .095, 2); // left
+        this.animations[2][6][2] = new Animator(this.pistolSpritesheet, 0, 32, 64, 32, 10, .095, 2); // right
+        this.animations[2][6][3] = new Animator(this.pistolSpritesheet, 0, 64, 64, 32, 10, .095, 2); // up
+        this.animations[2][6][4] = new Animator(this.pistolSpritesheet, 0, 96, 64, 32, 10, .095, 2); // down
 
         //SWORD PLACE HOLDER
         this.animations[3][0][0] = new Animator(this.KnifeSpritesheet, 0, 0, 32, 32, 10, .175, 2); // idle
