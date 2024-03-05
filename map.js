@@ -44,7 +44,7 @@ class map {
     
                 // Draw the selected image
                 if (image) {
-                    ctx.drawImage(image, drawX, drawY, 32, 32);
+                    ctx.drawImage(image, drawX, drawY, 33, 33);
                 }
             }
         }
