@@ -232,7 +232,7 @@ class LevelBuilder {
                 health = this.level * 2 + 40;
                 damage = this.level * 2 + 15;
             }
-            return this.createEnemy(this.gameEngine, "archer", randomX, randomY, 140, health, damage);
+            return this.createEnemy(this.gameEngine, "archer", randomX, randomY, 150, health, damage);
         } else if (type == "knight") {
             // change if needed -- once the max number of knights is already 
             // queued, give them a bigger increase in health from there onwards
@@ -249,7 +249,7 @@ class LevelBuilder {
         } else if (type == "wizard") {
             health = this.level * 3 + 85;
             damage = this.level * 3 + 10;
-            return this.createEnemy(this.gameEngine, "wizard", randomX, randomY, 100, health, damage);
+            return this.createEnemy(this.gameEngine, "wizard", randomX, randomY, 150, health, damage);
         }
     };
 
