@@ -113,7 +113,6 @@ class Projectile {
                 if ((ent instanceof enemyArcher || ent instanceof enemyKnight || ent instanceof WizardBoss) && circlesIntersect(this, ent.collisionCircle)) {
                     ent.getAttacked(this.damage);
                     
-                    this.removeFromWorld = true;
                     
                     if (this.game.slime.weaponState !== 4) {
                         this.removeFromWorld = true;
@@ -127,7 +126,7 @@ class Projectile {
         }
         setTimeout(() => {
             this.removeFromWorld = true;
-        }, 1500);
+        }, 1000);
         // this.facing = getFacing(this.velocity);
     };
 
