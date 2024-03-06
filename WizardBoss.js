@@ -203,18 +203,22 @@ class WizardBoss {
     // this method is called when the knight attacks the player
     attack(entity, type) {
         this.attacking = true;
+        let timeout = 0;
         if (type === "ranged") {
-
+            timeout = 600;
             this.getAttackDirection(this.x, this.y, this.slime.x, this.slime.y, "ranged");
-            this.shootEnergyBlast();
+            setTimeout(() => {
+                this.shootEnergyBlast();
+            }, 250); // 500 milliseconds = 0.5 seconds
         } else {
             this.getAttackDirection(this.x, this.y, this.slime.x, this.slime.y, "melee");
             entity.getAttacked(this.damage);
+            timeout = 1000;
         }
         // This will set `this.attacking` back to false after 1 second
         setTimeout(() => {
             this.attacking = false;
-        }, 1000);
+        }, timeout);
     };
 
     // this method calls upon a new arrow and attacks the slime 
@@ -232,11 +236,11 @@ class WizardBoss {
 
             // this is done so the energy blast comes out of the wizrds hand instead of out of the body 
             let xOffset = 0;
-            let yOffset = 2;
+            let yOffset = -15;
             if (this.attackDirection == 5) {
-                xOffset = -5;
+                xOffset = -10;
             } else if (this.attackDirection == 6) {
-                xOffset = 5;
+                xOffset = 10;
             }
             // game, archerX , archerY , maxSpeed, damage, radius, type
             let energyBlast = new Projectile(this.game, wizardX + xOffset, wizardY + yOffset, this.energyBlastMaxSpeed, this.energyBlastDamage, this.energyBlastRadius, "wizard"); 
@@ -295,13 +299,13 @@ class WizardBoss {
         // 0 = idle, 1 = left, 2 = right, 3 = up, 4 = down, 5 = dead, 6 = attacking
         // new Animator(spriteSheet, xSpriteSheet, ySpriteSheet, width, height, frameCount, frameDuration, scale);
         this.animations[0] = new Animator(this.spritesheet, 0, 0, 42, 55, 7, .1, 1.75); // left and down 
-        this.animations[1] = new Animator(this.spritesheet, 0, 55, 42, 55, 7, .1, 1.75); // right
-        this.animations[2] = new Animator(this.spritesheet, 0, 110, 42, 55, 7, .1, 1.75); // up
-        this.animations[3] = new Animator(this.spritesheet, 0, 165, 42, 55, 10, .1, 1.75); // melee left
-        this.animations[4] = new Animator(this.spritesheet, 0, 220, 42, 55, 10, .1, 1.75); // melee right
-        this.animations[5] = new Animator(this.spritesheet, 0, 275, 42, 55, 6, .1, 1.75); // ranged left
-        this.animations[6] = new Animator(this.spritesheet, 0, 330, 42, 55, 6, .1, 1.75); // ranged right
-        this.animations[7] = new Animator(this.spritesheet, 0, 385, 42, 55, 11, .1, 1.75); // death
+        this.animations[1] = new Animator(this.spritesheet, 0, 53, 42, 55, 7, .1, 1.75); // right
+        this.animations[2] = new Animator(this.spritesheet, 0, 108, 42, 55, 7, .1, 1.75); // up
+        this.animations[3] = new Animator(this.spritesheet, 0, 163, 42, 55, 10, .1, 1.75); // melee left
+        this.animations[4] = new Animator(this.spritesheet, 0, 218, 42, 55, 10, .1, 1.75); // melee right
+        this.animations[5] = new Animator(this.spritesheet, 0, 273, 42, 55, 6, .1, 1.75); // ranged left
+        this.animations[6] = new Animator(this.spritesheet, 0, 328, 42, 55, 6, .1, 1.75); // ranged right
+        this.animations[7] = new Animator(this.spritesheet, 0, 383, 42, 55, 11, .1, 1.75); // death
         this.animations[8] = new Animator(this.spritesheet, 0, 0, 42, 55, 1, .1, 1.75); // idle
     };
 
