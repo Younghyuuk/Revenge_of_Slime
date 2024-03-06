@@ -148,7 +148,7 @@ class Projectile {
             this.drawAngle(ctx, degrees);
         } else {
             if (this.type == "slimePistol") {
-                this.animations[1].drawFrame(this.game.clockTick, ctx, this.x - this.game.camera.x, this.y - this.game.camera.y, []);
+                this.animations[1].drawFrame(this.game.clockTick, ctx, this.x, this.y, []);
             } else if (this.type == "wizard") {
                 this.animations[0].drawFrame(this.game.clockTick, ctx, this.x - this.game.camera.x, this.y - this.game.camera.y, []);
             }
