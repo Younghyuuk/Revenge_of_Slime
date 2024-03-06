@@ -96,7 +96,7 @@ class LevelBuilder {
     buildNextLevel() {
         if  (this.musicFlag && this.level == 1) {
             ASSET_MANAGER.pauseBackgroundMusic();
-            ASSET_MANAGER.playAsset("./sound/2.12.2024_Demo_2.mp3");
+            ASSET_MANAGER.playAsset("./sound/3.4.2024_Official_2.mp3");
             
             setTimeout(() => {
                 this.musicFlag = false;
@@ -108,7 +108,7 @@ class LevelBuilder {
       
         if(this.level == 5 && this.musicFlag2) {
             ASSET_MANAGER.pauseBackgroundMusic();
-            ASSET_MANAGER.playAsset("./sound/2.12.2024_Demo_1.mp3");
+            ASSET_MANAGER.playAsset("./sound/3.4.2024_Official_1.mp3");
             
             setTimeout(() => {
                 this.musicFlag2 = false;

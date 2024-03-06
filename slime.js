@@ -143,7 +143,7 @@ class Slime {
         let stabCircle = this.game.sword.stabPos();
     
         if (this.hasSword && this.game.mouseClick && this.elapsedTime > this.swordCD) {
-
+            ASSET_MANAGER.playAsset("./sound/3.4.2024_Sword.mp3");
             this.attackDirection();
             this.showStabCircle = true; // Set to true to show the stab circle
             this.state = 6;
@@ -158,6 +158,7 @@ class Slime {
                     }
                 }
             });
+            
             this.elapsedTime = 0;
             // Reset mouseClick to prevent continuous attacks
             this.game.mouseClick = false;
@@ -194,7 +195,7 @@ class Slime {
         // if (this.hasPistol && this.game.mouseClick && !this.hasKnife && this.elapsedTime > this.pistolCD) {
         if (this.hasPistol && this.game.mouseClick && this.elapsedTime > this.pistolCD) {
 
-            
+            ASSET_MANAGER.playAsset("./sound/3.4.2024_Gunshot.mp3");
             // Calculate the bullet's direction based on the mouse click
             // Create a new Bullet instance with bullet speed 5
             let slimeX = this.x + 31 - this.game.camera.x;
@@ -211,7 +212,7 @@ class Slime {
 
     sniperShot() {
         if (this.hasSniper && this.game.mouseClick && this.elapsedTime > this.sniperCD) {
-
+            ASSET_MANAGER.playAsset("./sound/3.4.2024_Sniper.mp3");
             // Calculate the bullet's direction based on the mouse click
             // Create a new Bullet instance with bullet speed 5
             let slimeX = this.x + 31 - this.game.camera.x;
@@ -226,9 +227,10 @@ class Slime {
         }
     };
 
+    // still under maintenance
     rocketShot() {
         if (this.hasRocket && this.game.mouseClick && this.elapsedTime > this.rocketCD) {
-
+            ASSET_MANAGER.playAsset("./sound/3.4.2024_Rocket.mp3");
             // Calculate the bullet's direction based on the mouse click
             // Create a new Bullet instance with bullet speed 5
             let slimeX = this.x + 31 - this.game.camera.x;
