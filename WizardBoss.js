@@ -120,7 +120,7 @@ class WizardBoss {
                 this.rangedCoolDown = 0;
                 this.meleeRangedCoolDown = 0;
             }
-            this.attacking = false;
+            // this.attacking = false;
             // Introduce randomness in the direction
             const adjustedAngle = Math.atan2(target.y - current.y, target.x - current.x) + this.currentAngleVariation;
             // Maintain the original speed
@@ -308,18 +308,18 @@ class WizardBoss {
     draw(ctx) {
         if (!this.removeFromWorld) {
             if (this.slime.dead) {
-                this.animations[8].drawFrame(this.game.clockTick, ctx, this.x- this.game.camera.x, this.y - this.game.camera.y, [this.meleeDamageCollisionCircle, this.rangedDamageCollisionCircle, this.collisionCircle, this.overlapCollisionCircle]);
+                this.animations[8].drawFrame(this.game.clockTick, ctx, this.x- this.game.camera.x, this.y - this.game.camera.y, []);
             } else if (this.dead) {
-                this.animations[7].drawFrame(this.game.clockTick, ctx, this.x - this.game.camera.x, this.y - this.game.camera.y, [this.meleeDamageCollisionCircle, this.collisionCircle, this.overlapCollisionCircle]);
+                this.animations[7].drawFrame(this.game.clockTick, ctx, this.x - this.game.camera.x, this.y - this.game.camera.y, []);
                 // making sure the dead animation plays, and kngiht is removed from world afterwards
                 this.elapsedDeadAnimTime += this.game.clockTick;
                 if(this.elapsedDeadAnimTime > 1){
                     this.removeFromWorld = true;
                 }
             } else if (this.attacking == true) {
-                this.animations[this.attackDirection].drawFrame(this.game.clockTick, ctx, this.x- this.game.camera.x, this.y - this.game.camera.y, [this.meleeDamageCollisionCircle, this.rangedDamageCollisionCircle, this.collisionCircle, this.overlapCollisionCircle]);
+                this.animations[this.attackDirection].drawFrame(this.game.clockTick, ctx, this.x- this.game.camera.x, this.y - this.game.camera.y, []);
             } else {
-                this.animations[this.direction].drawFrame(this.game.clockTick, ctx, this.x- this.game.camera.x, this.y - this.game.camera.y, [this.meleeDamageCollisionCircle, this.rangedDamageCollisionCircle, this.collisionCircle, this.overlapCollisionCircle]);
+                this.animations[this.direction].drawFrame(this.game.clockTick, ctx, this.x- this.game.camera.x, this.y - this.game.camera.y, []);
             }
         }
     }
