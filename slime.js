@@ -15,7 +15,9 @@ class Slime {
         this.state = 0; // 0 = idle, 1 = left, 2 = right, 3 = up, 4 = down, 5 = dead, 6 = attacking
         this.weaponState = 0; // 0 = no weapon, 1 = knife, 2 = pistol, 3 = sword, 4 = sniper
         this.attackAngle = 0; // 1 = left, 2 = right, 3 = up, 4 = down
+        this.dying = false;
         this.dead = false;
+
         
 
         this.collisionCircle = {radius: 14, x: this.x + 31, y: this.y + 55};// collision detection circle
@@ -104,7 +106,7 @@ class Slime {
     getAttacked(damage) {
         this.health -= damage;
         if (this.health <= 0) {
-            this.dead = true;
+            this.dying = true;
             this.state = 5;
         }
     };
@@ -357,7 +359,7 @@ class Slime {
         // let deltaY = 0;
         
        //don't move if dead
-        if(!this.dead) {
+        if(!this.dying) {
             
         
           switch(this.weaponState){
@@ -561,11 +563,12 @@ class Slime {
 
     draw(ctx) {
         
-        if(this.dead) {
+        if(this.dying) {
             this.animations[this.weaponState][this.state][0].drawFrame(this.game.clockTick, ctx, this.x - this.game.camera.x, this.y - this.game.camera.y, [/*this.collisionCircle, this.overlapCollisionCircle*/]);
             
             this.elapsedDeadAnimTime += this.game.clockTick;
                 if(this.elapsedDeadAnimTime > 1.5){
+                    this.dead = true;
                     this.removeFromWorld = true;
                 }
         } else if(this.state == 6){ // attacking                                                       // magic numbers to keep the slime centered - 18    + 18
