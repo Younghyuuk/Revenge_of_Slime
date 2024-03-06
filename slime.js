@@ -43,7 +43,7 @@ class Slime {
 
         // sword parameters
         this.hasSword = false;
-        this.swordCD = 0.7;
+        this.swordCD = 0.8;
 
         //pistol and gun parameters
         this.hasPistol = false;
@@ -54,10 +54,10 @@ class Slime {
         this.gunRadius = 5;
 
         this.hasSniper = false;
-        this.sniperCD = 5;
+        this.sniperCD = 3;
         this.sniperDamage = 100;
         this.sniperMaxSpeed = 1500;
-        this.sniperRadius = 5;
+        this.sniperRadius = 3;
 
         this.hasRocket = false;
         this.rocketCD = 5;
@@ -120,13 +120,13 @@ class Slime {
     
             // Check for collisions with entities using stabCircle
             this.game.entities.forEach(entity => {
-                if (entity instanceof enemyArcher || entity instanceof enemyKnight) {
+                if (entity instanceof enemyArcher || entity instanceof enemyKnight || entity instanceof WizardBoss) {
                     if(circlesIntersect(entity.collisionCircle, stabCircle)) {
                         entity.getAttacked(this.game.knife.damage);
                         
                         //this is here instead of in attack bc attack isnt actually called by this method
                         if (this.currentWeapon.hasOwnProperty('melee') && this.health < 96) {
-                            this.health += 2;
+                            this.health += 6;
                         }
                         console.log("Enemy health: " + entity.health);
                         ASSET_MANAGER.playAsset("./sound/2.12.2024_Knife_Slash.mp3");
@@ -150,9 +150,13 @@ class Slime {
     
             // Check for collisions with entities using stabCircle
             this.game.entities.forEach(entity => {
-                if (entity instanceof enemyArcher || entity instanceof enemyKnight) {
+                if (entity instanceof enemyArcher || entity instanceof enemyKnight || entity instanceof WizardBoss) {
                     if(circlesIntersect(entity.collisionCircle, stabCircle)) {
                         entity.getAttacked(this.game.sword.damage);
+                        
+                        if (this.currentWeapon.hasOwnProperty('melee') && this.health < 96) {
+                            this.health += 7;
+                        }
                         console.log("Enemy health: " + entity.health);
                         ASSET_MANAGER.playAsset("./sound/2.12.2024_Knife_Slash.mp3");
                     }
@@ -201,8 +205,10 @@ class Slime {
             let slimeX = this.x + 31 - this.game.camera.x;
             let slimeY = this.y + 55 - this.game.camera.y;
 
-            // game, slime , slime , maxSpeed, damage, radius
-            let pistolBullet = new Projectile(this.game, slimeX, slimeY, this.gunMaxSpeed, this.pistolDamage, this.gunRadius); 
+            console.log("slimeX: " + slimeX + " slimeY: " + slimeY);
+            console.log("slimeX: " + this.x + " slimeY: " + this.y);
+            // game, slime , slime , maxSpeed, damage, radius, type
+            let pistolBullet = new Projectile(this.game, slimeX, slimeY, this.gunMaxSpeed, this.pistolDamage, this.gunRadius, "slimePistol"); 
             this.elapsedTime = 0;
             this.game.addEntity(pistolBullet);
     
@@ -219,7 +225,7 @@ class Slime {
             let slimeY = this.y + 55 - this.game.camera.y;
 
             // game, slime , slime , maxSpeed, damage, radius
-            let sniperBullet = new Projectile(this.game, slimeX, slimeY, this.sniperMaxSpeed, this.sniperDamage, this.sniperRadius); 
+            let sniperBullet = new Projectile(this.game, slimeX, slimeY, this.sniperMaxSpeed, this.sniperDamage, this.sniperRadius, "slimePistol"); 
             this.elapsedTime = 0;
             this.game.addEntity(sniperBullet);
     
@@ -235,6 +241,7 @@ class Slime {
             // Create a new Bullet instance with bullet speed 5
             let slimeX = this.x + 31 - this.game.camera.x;
             let slimeY = this.y + 55 - this.game.camera.y;
+            
 
             // game, slime , slime , maxSpeed, damage, radius
             let rockets = new Projectile(this.game, slimeX, slimeY, this.rocketMaxSpeed, this.rocketDamage, this.rocketRadius); 

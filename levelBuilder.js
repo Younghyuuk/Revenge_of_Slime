@@ -3,7 +3,7 @@ class LevelBuilder {
 
         //reference to the gameEngine 
         this.gameEngine = gameEngine;
-        this.gameEngine.levelBuilder = this;
+        // this.gameEngine.levelBuilder = this;
         // reference to the method in main that we will need to call to create the enemies
         this.createEnemy = createEnemy;
 
@@ -24,11 +24,15 @@ class LevelBuilder {
         //number of archers created for this current level
         this.currentArcherCnt = 0;
 
+        this.currentWizardCnt = 0;
+
         //the number of knights currently alive in the level
         this.livingKnights = 0;
 
         //the number of archers currently alive in the level 
         this.livingArchers = 0;
+
+        this.livingWizards = 0;
 
         // holds all the enemies that will need to spawn in, spawn number limited by maxCapacity
         this.spawnQueue = [];
@@ -66,12 +70,13 @@ class LevelBuilder {
     }
 
     // called from gameEngine after each update() method call to update the number of knights and archers currently on the board
-    updateEnemyCnt(knights, archers) {
-        console.log("knights: " + knights + ", archers: " + archers);
+    updateEnemyCnt(knights, archers, wizards) {
+        console.log("knights: " + knights + ", archers: " + archers + ", wizards: " + wizards);
         this.livingKnights = knights;
         this.livingArchers = archers;
+        this.livingWizards = wizards;
         // TODO add more conditions to this if statement as we get more enemies built 
-        if (this.livingArchers == 0 && this.livingKnights == 0 /* && !this.slime.dead*/) {
+        if (this.livingArchers == 0 && this.livingKnights == 0 && this.livingWizards == 0/* && !this.slime.dead*/) {
             console.log("new level being created")
             // TODO add in next level screen thing
 
@@ -122,10 +127,10 @@ class LevelBuilder {
                 return; 
             }
 
-            console.log("enemies: " + (this.livingArchers + this.livingKnights));
+            console.log("enemies: " + (this.livingArchers + this.livingKnights + this.livingWizards));
 
                 // checks to see if we have reached the max capacity, if so, wait a bit then try again
-                if ((this.livingArchers + this.livingKnights) < this.maxCapacity) {
+                if ((this.livingArchers + this.livingKnights + this.livingWizards) < this.maxCapacity) {
                     // Get the next enemy to spawn
                     const enemyType = this.spawnQueue.shift(); 
                     // method call to create enemies with right stats and spawn point
@@ -227,7 +232,7 @@ class LevelBuilder {
                 health = this.level * 2 + 40;
                 damage = this.level * 2 + 15;
             }
-            return this.createEnemy(this.gameEngine, "archer", randomX, randomY, 140, health, damage);
+            return this.createEnemy(this.gameEngine, "archer", randomX, randomY, 150, health, damage);
         } else if (type == "knight") {
             // change if needed -- once the max number of knights is already 
             // queued, give them a bigger increase in health from there onwards
@@ -241,6 +246,10 @@ class LevelBuilder {
                 damage = this.level * 2 + 5;
             }
             return this.createEnemy(this.gameEngine, "knight", randomX, randomY, 170, health, damage);
+        } else if (type == "wizard") {
+            health = this.level * 3 + 85;
+            damage = this.level * 3 + 10;
+            return this.createEnemy(this.gameEngine, "wizard", randomX, randomY, 150, health, damage);
         }
     };
 
@@ -257,22 +266,26 @@ class LevelBuilder {
         // after a certain number, there will be a cap on how many enemies of each type can spawn per level
         // so use the algorithm to find out enemy count until max is reached 
         // TODO tweak algortihm for balancing 
-        this.currentArcherCnt = Math.min(this.level * 2 + 3, 30);
-        this.currentKnightCnt = Math.min(this.level * 3 + 4, 50);
+        this.currentArcherCnt = Math.min(this.level * 2 + 1, 30);
+        this.currentKnightCnt = Math.min(this.level * 2 + 2, 50);
+        this.currentWizardCnt = this.level;
 
         // Add enemies to the queue until both counts are exhausted
-        while (this.currentArcherCnt > 0 || this.currentKnightCnt > 0) {
+        while (this.currentArcherCnt > 0 || this.currentKnightCnt > 0 || this.currentWizardCnt > 0) {
             
             //randomize order
-            let randomNum = Math.floor(Math.random() * 2); // 0 or 1
+            let randomNum = Math.floor(Math.random() * 3); // 0 or 1 or 2
 
             // TODO add more if statements when we get more enemies 
             if (randomNum === 0 && this.currentArcherCnt > 0) {
                 this.spawnQueue.push("archer");
                 this.currentArcherCnt--;
-            } else if (this.currentKnightCnt > 0) {
+            } else if (randomNum === 1 && this.currentKnightCnt > 0) {
                 this.spawnQueue.push("knight");
                 this.currentKnightCnt--;
+            } else if (this.currentWizardCnt > 0) {
+                this.spawnQueue.push("wizard");
+                this.currentWizardCnt--;
             }
         }
 
