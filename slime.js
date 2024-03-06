@@ -126,7 +126,7 @@ class Slime {
                         
                         //this is here instead of in attack bc attack isnt actually called by this method
                         if (this.currentWeapon.hasOwnProperty('melee') && this.health < 96) {
-                            this.health += 4;
+                            this.health += 6;
                         }
                         console.log("Enemy health: " + entity.health);
                         ASSET_MANAGER.playAsset("./sound/2.12.2024_Knife_Slash.mp3");
@@ -150,7 +150,7 @@ class Slime {
     
             // Check for collisions with entities using stabCircle
             this.game.entities.forEach(entity => {
-                if (entity instanceof enemyArcher || entity instanceof enemyKnight) {
+                if (entity instanceof enemyArcher || entity instanceof enemyKnight || entity instanceof WizardBoss) {
                     if(circlesIntersect(entity.collisionCircle, stabCircle)) {
                         entity.getAttacked(this.game.sword.damage);
                         
