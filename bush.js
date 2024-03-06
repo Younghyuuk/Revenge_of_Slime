@@ -3,7 +3,7 @@ class bush {
         Object.assign(this, {game, x, y}); 
         this.spritesheet = ASSET_MANAGER.getAsset("./images/bush.png");
         this.animation = new Animator(this.spritesheet, 0, 0, 32, 32, 1, 1, 3);
-
+        this.game.bush = this;
         this.obstacle = true
 
         this.collisionCircle = {radius: 43, x: this.x + 48 - this.game.camera.x, y: this.y + 50 - this.game.camera.y};

@@ -349,7 +349,6 @@ class Slime {
 
 
     update() {
-        // this.camera.follow(this);
         this.elapsedTime += this.game.clockTick;
 
         let potentialX = this.x;
@@ -398,12 +397,17 @@ class Slime {
                 if(this.state != 6) {
                     this.state = 1;
                 }
+              
                 // this.state = 1;
                 // deltaX -= 1;
                 // this.x -= this.speed * this.game.clockTick;
                 potentialX -= this.speed * this.game.clockTick;
                 if (!this.game.map.collidesWithCircle({ ...this.collisionCircle, x: potentialX + 31 })) {
                     this.x = potentialX;
+                }
+                if (circlesIntersect(this.collisionCircle, this.game.bush.collisionCircle)) {
+                    // this.x = this.game.bush.x + 66;
+                    this.x = this.game.bush.collisionCircle.x + 37;
                 }
             } 
             if (this.game.D) { // right
@@ -418,6 +422,9 @@ class Slime {
                 potentialX += this.speed * this.game.clockTick;
                 if (!this.game.map.collidesWithCircle({ ...this.collisionCircle, x: potentialX + 31 })) {
                     this.x = potentialX;
+                }
+                if (circlesIntersect(this.collisionCircle, this.game.bush.collisionCircle)) {
+                    this.x = this.game.bush.collisionCircle.x - 55;
                 }
             } 
             if (this.game.W) { // up
@@ -434,6 +441,9 @@ class Slime {
                 if (!this.game.map.collidesWithCircle({ ...this.collisionCircle, y: potentialY + 55 })) {
                     this.y = potentialY;
                 }
+                if (circlesIntersect(this.collisionCircle, this.game.bush.collisionCircle)) {
+                    this.y = this.game.bush.collisionCircle.y + 55;
+                }
             } 
             if (this.game.S) { // down
             // if the slime IS attacking, keep playing attack animation and move down
@@ -447,6 +457,9 @@ class Slime {
                 potentialY += this.speed * this.game.clockTick;
                 if (!this.game.map.collidesWithCircle({ ...this.collisionCircle, y: potentialY + 55 })) {
                     this.y = potentialY;
+                }
+                if (circlesIntersect(this.collisionCircle, this.game.bush.collisionCircle)) {
+                    this.y = this.game.bush.collisionCircle.y + 55;
                 }
             } 
             if (this.game.One) {
