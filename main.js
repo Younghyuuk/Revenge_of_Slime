@@ -13,6 +13,8 @@ function createEnemy(gameEngine, type, x, y, speed, health, damage) {
 		return new enemyArcher(gameEngine, x, y, speed, health, damage, window.slime);
 	} else if (type === "knight") {
 		return new enemyKnight(gameEngine, x, y, speed, health, damage, window.slime);
+	} else if (type === "wizard") {
+		return new WizardBoss(gameEngine, x, y, speed, health, damage, window.slime);
 	}
 	// ... other enemy types
 }
@@ -22,7 +24,7 @@ function createEnemy(gameEngine, type, x, y, speed, health, damage) {
 function createSlime(gameEngine) {
 	 console.log("createSlime() is called");
 	//game , x, y, speed, health,  base damage
-	window.slime = new Slime(gameEngine, 700, 430, 150, 100, 10);
+	window.slime = new Slime(gameEngine, 700, 430, 150, 1000, 10);
 	gameEngine.addEntity(slime);
 	gameEngine.addEntity(new knife(gameEngine, 670, 470));
 	gameEngine.addEntity(new pistol(gameEngine, 780, 470));
@@ -48,7 +50,10 @@ ASSET_MANAGER.queueDownload("./images/floor.png");
 ASSET_MANAGER.queueDownload("./images/tree.png");
 ASSET_MANAGER.queueDownload("./images/lavaPit.png");
 ASSET_MANAGER.queueDownload("./images/rock.png");
-
+ASSET_MANAGER.queueDownload("./images/arrow.png");
+ASSET_MANAGER.queueDownload("./images/bullet.png");
+ASSET_MANAGER.queueDownload("./images/WizardSprite.png");
+ASSET_MANAGER.queueDownload("./images/energyBlast.png");
 ASSET_MANAGER.queueDownload("./images/blueSlime.png");
 ASSET_MANAGER.queueDownload("./images/knifeBlueSlime.png");
 ASSET_MANAGER.queueDownload("./images/practiceKnifeAttack.png");

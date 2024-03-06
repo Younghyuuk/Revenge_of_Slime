@@ -201,8 +201,10 @@ class Slime {
             let slimeX = this.x + 31 - this.game.camera.x;
             let slimeY = this.y + 55 - this.game.camera.y;
 
-            // game, slime , slime , maxSpeed, damage, radius
-            let pistolBullet = new Projectile(this.game, slimeX, slimeY, this.gunMaxSpeed, this.pistolDamage, this.gunRadius); 
+            console.log("slimeX: " + slimeX + " slimeY: " + slimeY);
+            console.log("slimeX: " + this.x + " slimeY: " + this.y);
+            // game, slime , slime , maxSpeed, damage, radius, type
+            let pistolBullet = new Projectile(this.game, slimeX, slimeY, this.gunMaxSpeed, this.pistolDamage, this.gunRadius, "slimePistol"); 
             this.elapsedTime = 0;
             this.game.addEntity(pistolBullet);
     
@@ -235,6 +237,7 @@ class Slime {
             // Create a new Bullet instance with bullet speed 5
             let slimeX = this.x + 31 - this.game.camera.x;
             let slimeY = this.y + 55 - this.game.camera.y;
+            
 
             // game, slime , slime , maxSpeed, damage, radius
             let rockets = new Projectile(this.game, slimeX, slimeY, this.rocketMaxSpeed, this.rocketDamage, this.rocketRadius); 
