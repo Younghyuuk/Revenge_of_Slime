@@ -9,6 +9,7 @@ class WizardBoss {
             // health = this is the HP of the knight - arbitrary number to be changed
             // damage = this is the attack damage of the knight 
         Object.assign(this, {x, y, speed, health, damage, slime});
+        console.log("Health: " + this.health);
 
         this.collsionXoffset = 35;
 
@@ -22,6 +23,8 @@ class WizardBoss {
         this.rangedDamageCollisionCircle = {radius: 350, x: x + this.collsionXoffset, y: y + this.collsionYoffset};
 
         this.overlapCollisionCircle = {radius: 19, x: x + this.collsionXoffset, y: y + this.collsionYoffset};
+
+        this.collisionCircle = {radius: 25, x: x + this.collsionXoffset, y: y + this.collsionYoffset};
 
         this.NPC = true;
         this.meleeCoolDown = 0;
@@ -165,6 +168,9 @@ class WizardBoss {
         this.rangedDamageCollisionCircle.y = this.y + this.collsionYoffset - this.game.camera.y;;
 
         // update collison circle for NPC overlapping
+        this.collisionCircle.x = this.x + this.collsionXoffset - this.game.camera.x;
+        this.collisionCircle.y = this.y + this.collsionYoffset - this.game.camera.y;
+
         this.overlapCollisionCircle.x = this.x + this.collsionXoffset - this.game.camera.x;
         this.overlapCollisionCircle.y = this.y + this.collsionYoffset - this.game.camera.y;
     };
@@ -270,8 +276,9 @@ class WizardBoss {
     // this method is called when this knight is taking damage
     // takes in a parameter of how much damage is being done  
     getAttacked(damage) {
-        console.log("get attacked");
+        console.log("wizard get attacked");
         this.health -= damage;
+        console.log("Health: " + this.health);
         this.game.levelBuilder.totalDamage += damage;
         if (this.health <= 0 && !this.dead) {
             this.dead = true;
@@ -301,18 +308,18 @@ class WizardBoss {
     draw(ctx) {
         if (!this.removeFromWorld) {
             if (this.slime.dead) {
-                this.animations[8].drawFrame(this.game.clockTick, ctx, this.x- this.game.camera.x, this.y - this.game.camera.y, [this.meleeDamageCollisionCircle, this.rangedDamageCollisionCircle, this.overlapCollisionCircle]);
+                this.animations[8].drawFrame(this.game.clockTick, ctx, this.x- this.game.camera.x, this.y - this.game.camera.y, [this.meleeDamageCollisionCircle, this.rangedDamageCollisionCircle, this.collisionCircle, this.overlapCollisionCircle]);
             } else if (this.dead) {
-                this.animations[7].drawFrame(this.game.clockTick, ctx, this.x - this.game.camera.x, this.y - this.game.camera.y, [this.meleeDamageCollisionCircle, this.overlapCollisionCircle]);
+                this.animations[7].drawFrame(this.game.clockTick, ctx, this.x - this.game.camera.x, this.y - this.game.camera.y, [this.meleeDamageCollisionCircle, this.collisionCircle, this.overlapCollisionCircle]);
                 // making sure the dead animation plays, and kngiht is removed from world afterwards
                 this.elapsedDeadAnimTime += this.game.clockTick;
                 if(this.elapsedDeadAnimTime > 1){
                     this.removeFromWorld = true;
                 }
             } else if (this.attacking == true) {
-                this.animations[this.attackDirection].drawFrame(this.game.clockTick, ctx, this.x- this.game.camera.x, this.y - this.game.camera.y, [this.meleeDamageCollisionCircle, this.rangedDamageCollisionCircle, this.overlapCollisionCircle]);
+                this.animations[this.attackDirection].drawFrame(this.game.clockTick, ctx, this.x- this.game.camera.x, this.y - this.game.camera.y, [this.meleeDamageCollisionCircle, this.rangedDamageCollisionCircle, this.collisionCircle, this.overlapCollisionCircle]);
             } else {
-                this.animations[this.direction].drawFrame(this.game.clockTick, ctx, this.x- this.game.camera.x, this.y - this.game.camera.y, [this.meleeDamageCollisionCircle, this.rangedDamageCollisionCircle, this.overlapCollisionCircle]);
+                this.animations[this.direction].drawFrame(this.game.clockTick, ctx, this.x- this.game.camera.x, this.y - this.game.camera.y, [this.meleeDamageCollisionCircle, this.rangedDamageCollisionCircle, this.collisionCircle, this.overlapCollisionCircle]);
             }
         }
     }
