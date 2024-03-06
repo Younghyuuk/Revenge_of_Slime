@@ -49,7 +49,7 @@ class WizardBoss {
         this.elapsedDeadAnimTime = 0;
 
         this.energyBlastDamage = 40;
-        this.energyBlastMaxSpeed = 200;
+        this.energyBlastMaxSpeed = 700;
         this.energyBlastRadius = 15;
 
 
@@ -287,7 +287,7 @@ class WizardBoss {
     };
 
     drawMiniMap(ctx, mmX, mmY){
-        ctx.fillStyle = "#084c18"; // color of archer
+        ctx.fillStyle = "#800080";  // color of wizard
         ctx.fillRect(mmX + this.x / 32, mmY + this.y / 32, 4, 4);
     };
 

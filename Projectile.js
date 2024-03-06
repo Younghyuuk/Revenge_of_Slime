@@ -35,9 +35,9 @@ class Projectile {
             this.velocity = { x: (this.game.mouseClickPos.x - this.x) / dist * this.maxSpeed, 
             y: (this.game.mouseClickPos.y - this.y) / dist * this.maxSpeed };
         } else {
-            // var dist = distance(this, this.game.levelBuilder.slime);
-            // this.velocity = { x: ((this.game.levelBuilder.slime.x + 31) - this.x) / dist * this.maxSpeed, 
-            // y: ((this.game.levelBuilder.slime.y + 62) - this.y) / dist * this.maxSpeed };
+            var dist = distance(this, this.game.levelBuilder.slime);
+            this.velocity = { x: ((this.game.levelBuilder.slime.x + 31) - this.x) / dist * this.maxSpeed, 
+            y: ((this.game.levelBuilder.slime.y + 62) - this.y) / dist * this.maxSpeed };
         }
     };
 
@@ -102,7 +102,7 @@ class Projectile {
         this.y += this.velocity.y * this.game.clockTick;
 
         if (this.type == "archer" || this.type == "wizard") {
-            if (circlesIntersect(this, this.game.slime.collisionCircle)) {
+            if (circlesIntersect(this, this.game.levelBuilder.slime.collisionCircle)) {
                 this.game.levelBuilder.slime.getAttacked(this.damage);
                 this.removeFromWorld = true;
             }
@@ -127,7 +127,7 @@ class Projectile {
         }
         setTimeout(() => {
             this.removeFromWorld = true;
-        }, 1500);
+        }, 2000);
         // this.facing = getFacing(this.velocity);
     };
 
@@ -150,7 +150,7 @@ class Projectile {
             if (this.type == "slimePistol") {
                 this.animations[1].drawFrame(this.game.clockTick, ctx, this.x, this.y, []);
             } else if (this.type == "wizard") {
-                this.animations[0].drawFrame(this.game.clockTick, ctx, this.x - this.game.camera.x, this.y - this.game.camera.y, []);
+                this.animations[0].drawFrame(this.game.clockTick, ctx, this.x, this.y, []);
             }
         }
 
