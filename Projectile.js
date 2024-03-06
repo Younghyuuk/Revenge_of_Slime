@@ -127,7 +127,7 @@ class Projectile {
         }
         setTimeout(() => {
             this.removeFromWorld = true;
-        }, 2000);
+        }, 1500);
         // this.facing = getFacing(this.velocity);
     };
 

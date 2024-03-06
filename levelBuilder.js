@@ -245,11 +245,11 @@ class LevelBuilder {
                 health = this.level * 2 + 70;
                 damage = this.level * 2 + 5;
             }
-            return this.createEnemy(this.gameEngine, "knight", randomX, randomY, 120, health, damage);
+            return this.createEnemy(this.gameEngine, "knight", randomX, randomY, 170, health, damage);
         } else if (type == "wizard") {
             health = this.level * 3 + 85;
             damage = this.level * 3 + 10;
-            return this.createEnemy(this.gameEngine, "wizard", randomX, randomY, 90, health, damage);
+            return this.createEnemy(this.gameEngine, "wizard", randomX, randomY, 100, health, damage);
         }
     };
 
