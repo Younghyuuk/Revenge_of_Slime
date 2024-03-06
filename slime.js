@@ -105,7 +105,7 @@ class Slime {
     
             // Check for collisions with entities using stabCircle
             this.game.entities.forEach(entity => {
-                if (entity instanceof enemyArcher || entity instanceof enemyKnight) {
+                if (entity instanceof enemyArcher || entity instanceof enemyKnight || entity instanceof WizardBoss) {
                     if(circlesIntersect(entity.collisionCircle, stabCircle)) {
                         entity.getAttacked(this.game.knife.damage);
                         console.log("Enemy health: " + entity.health);

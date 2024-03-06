@@ -103,7 +103,7 @@ class Projectile {
 
 
         if (this.type == "archer" || this.type == "wizard") {
-            if (circlesIntersect(this, this.game.levelBuilder.slime.collisionCircle)) {
+            if (circlesIntersect(this, this.game.slime.collisionCircle)) {
                 this.game.levelBuilder.slime.getAttacked(this.damage);
                 this.removeFromWorld = true;
             }
@@ -111,7 +111,7 @@ class Projectile {
         } else {
             for (var i = 0; i < this.game.entities.length; i++) {
                 var ent = this.game.entities[i];
-                if ((ent instanceof enemyArcher || ent instanceof enemyKnight) && circlesIntersect(this, ent.collisionCircle)) {
+                if ((ent instanceof enemyArcher || ent instanceof enemyKnight || ent instanceof WizardBoss) && circlesIntersect(this, ent.collisionCircle)) {
                     ent.getAttacked(this.damage);
                     
                     this.removeFromWorld = true;
