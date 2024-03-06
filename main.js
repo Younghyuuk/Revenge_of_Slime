@@ -27,6 +27,9 @@ function createSlime(gameEngine) {
 	gameEngine.addEntity(new knife(gameEngine, 670, 470));
 	gameEngine.addEntity(new pistol(gameEngine, 780, 470));
 
+	gameEngine.addEntity(new bush(gameEngine, 400, 400));
+
+
 	// tester rocket launcher 
 	// gameEngine.addEntity(new rocketLauncher(gameEngine, 670, 570));
 	
@@ -48,6 +51,8 @@ ASSET_MANAGER.queueDownload("./images/floor.png");
 ASSET_MANAGER.queueDownload("./images/tree.png");
 ASSET_MANAGER.queueDownload("./images/lavaPit.png");
 ASSET_MANAGER.queueDownload("./images/rock.png");
+ASSET_MANAGER.queueDownload("./images/bush.png");
+
 
 ASSET_MANAGER.queueDownload("./images/blueSlime.png");
 ASSET_MANAGER.queueDownload("./images/knifeBlueSlime.png");

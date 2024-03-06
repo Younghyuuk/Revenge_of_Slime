@@ -104,7 +104,7 @@ class Slime {
     // this method is called when this slime is taking damage
     // takes in a parameter of how much damage is being done  
     getAttacked(damage) {
-        this.health -= damage;
+        // this.health -= damage;
         if (this.health <= 0) {
             this.dying = true;
             this.state = 5;
@@ -578,21 +578,21 @@ class Slime {
         }
         
 
-        if (this.showStabCircle && this.game.knife && this.weaponState === 1) {
-            // Draw the stab circle
-            ctx.beginPath();
-            ctx.arc(this.game.knife.stabX, this.game.knife.stabY, this.game.knife.stabRad, 0, Math.PI * 2);
-            ctx.strokeStyle = 'red';
-            ctx.stroke();
-        }
+        // if (this.showStabCircle && this.game.knife && this.weaponState === 1) {
+        //     // Draw the stab circle
+        //     ctx.beginPath();
+        //     ctx.arc(this.game.knife.stabX, this.game.knife.stabY, this.game.knife.stabRad, 0, Math.PI * 2);
+        //     ctx.strokeStyle = 'red';
+        //     ctx.stroke();
+        // }
 
-        if (this.showStabCircle && this.game.sword && this.weaponState === 3) {
-            // Draw the stab circle
-            ctx.beginPath();
-            ctx.arc(this.game.sword.stabX, this.game.sword.stabY, this.game.sword.stabRad, 0, Math.PI * 2);
-            ctx.strokeStyle = 'red';
-            ctx.stroke();
-        }
+        // if (this.showStabCircle && this.game.sword && this.weaponState === 3) {
+        //     // Draw the stab circle
+        //     ctx.beginPath();
+        //     ctx.arc(this.game.sword.stabX, this.game.sword.stabY, this.game.sword.stabRad, 0, Math.PI * 2);
+        //     ctx.strokeStyle = 'red';
+        //     ctx.stroke();
+        // }
         // if (this.showStabCircle && this.game.knife) {
         //     // Draw the stab circle
         //     ctx.beginPath();
