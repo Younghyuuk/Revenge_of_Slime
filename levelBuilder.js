@@ -266,8 +266,8 @@ class LevelBuilder {
         // after a certain number, there will be a cap on how many enemies of each type can spawn per level
         // so use the algorithm to find out enemy count until max is reached 
         // TODO tweak algortihm for balancing 
-        this.currentArcherCnt = Math.min(this.level * 2 + 3, 30);
-        this.currentKnightCnt = Math.min(this.level * 3 + 4, 50);
+        this.currentArcherCnt = Math.min(this.level * 2 + 1, 30);
+        this.currentKnightCnt = Math.min(this.level * 2 + 2, 50);
         this.currentWizardCnt = this.level;
 
         // Add enemies to the queue until both counts are exhausted
