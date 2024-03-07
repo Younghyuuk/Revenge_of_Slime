@@ -25,9 +25,15 @@ function createSlime(gameEngine) {
 	 console.log("createSlime() is called");
 	//game , x, y, speed, health,  base damage
 	window.slime = new Slime(gameEngine, 700, 430, 150, 100, 10);
+
 	gameEngine.addEntity(slime);
 	gameEngine.addEntity(new knife(gameEngine, 670, 470));
 	gameEngine.addEntity(new pistol(gameEngine, 780, 470));
+
+	// gameEngine.addEntity(new bush(gameEngine, 1000, 1000));
+	// gameEngine.addEntity(new bush(gameEngine, 600, 600));
+
+
 
 	// tester rocket launcher 
 	// gameEngine.addEntity(new rocketLauncher(gameEngine, 670, 570));
@@ -54,6 +60,9 @@ ASSET_MANAGER.queueDownload("./images/arrow.png");
 ASSET_MANAGER.queueDownload("./images/bullet.png");
 ASSET_MANAGER.queueDownload("./images/WizardSprite.png");
 ASSET_MANAGER.queueDownload("./images/energyBlast.png");
+ASSET_MANAGER.queueDownload("./images/bush.png");
+
+
 ASSET_MANAGER.queueDownload("./images/blueSlime.png");
 ASSET_MANAGER.queueDownload("./images/knifeBlueSlime.png");
 ASSET_MANAGER.queueDownload("./images/practiceKnifeAttack.png");
