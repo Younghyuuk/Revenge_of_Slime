@@ -11,6 +11,7 @@ class Projectile {
         this.velocity = { x: (this.game.mouseClickPos.x - this.x) / dist * this.maxSpeed, 
         y: (this.game.mouseClickPos.y - this.y) / dist * this.maxSpeed };
        
+        this.collisionCircle = {radius: this.radius, x: this.x + 10, y: this.y + 13};
         this.overlapCollisionCircle = {radius: this.radius, x: this.x + 10, y: this.y + 13};
 
         this.facing = 5;

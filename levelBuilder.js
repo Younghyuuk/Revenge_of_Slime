@@ -52,6 +52,7 @@ class LevelBuilder {
         // creates the slime main character and adds to the gameEngine as an entity
         // this.slime = new Slime(engine, 77, 430, 150, 100, 10);
         // this.gameEngine.addEntity(this.slime);
+            this.addObstacles();
             this.slime = createSlime(this.gameEngine);
             // start off the game with level 1
             this.calculateEnemyCount();
@@ -59,6 +60,18 @@ class LevelBuilder {
             
         
     };
+
+    addObstacles() {
+        // console.log("Bushes being added");
+        let randomTotal = Math.floor(Math.random() * 100)        
+
+        for(;randomTotal >= 0; randomTotal--){
+            let randomX = Math.floor(Math.random() * 3090);
+            let randomY = Math.floor(Math.random() * 3090);
+            this.gameEngine.addEntity(new bush(this.gameEngine, randomX, randomY));
+        }
+
+    }
 
     // only here to adda a timer since set time out is being weird 
     update() {

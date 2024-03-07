@@ -23,12 +23,13 @@ function createSlime(gameEngine) {
 	 console.log("createSlime() is called");
 	//game , x, y, speed, health,  base damage
 	window.slime = new Slime(gameEngine, 700, 430, 150, 100, 10);
+
 	gameEngine.addEntity(slime);
 	gameEngine.addEntity(new knife(gameEngine, 670, 470));
 	gameEngine.addEntity(new pistol(gameEngine, 780, 470));
 
-	gameEngine.addEntity(new bush(gameEngine, 1000, 1000));
-	gameEngine.addEntity(new bush(gameEngine, 600, 600));
+	// gameEngine.addEntity(new bush(gameEngine, 1000, 1000));
+	// gameEngine.addEntity(new bush(gameEngine, 600, 600));
 
 
 

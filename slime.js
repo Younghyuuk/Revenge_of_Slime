@@ -104,7 +104,7 @@ class Slime {
     // this method is called when this slime is taking damage
     // takes in a parameter of how much damage is being done  
     getAttacked(damage) {
-        // this.health -= damage;
+        this.health -= damage;
         if (this.health <= 0) {
             this.dying = true;
             this.state = 5;
