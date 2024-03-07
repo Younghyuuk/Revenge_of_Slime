@@ -21,7 +21,7 @@ class bush {
         this.entities = this.game.entities; 
 
         this.game.entities.forEach(entity => {
-            if(entity instanceof enemyArcher || entity instanceof enemyKnight || entity instanceof Slime || entity instanceof WizardBoss) {
+            if (entity instanceof enemyArcher || entity instanceof enemyKnight || entity instanceof Slime || entity instanceof WizardBoss) {
                 if (this != entity && circlesIntersect(this.collisionCircle, entity.collisionCircle)) {
                     this.handleCollision(entity);
                 }
