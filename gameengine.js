@@ -231,13 +231,9 @@ class GameEngine {
                     for (let j = i + 1; j < entitiesCount; j++) {
                         let entity2 = this.entities[j];
                         if (this.areColliding(entity1, entity2)) {
-                            if(this.isObstacle(entity1)){
-                                this.obstacleCollision(entity1, entity2);
-                            }
                             if (this.isNPC(entity1) && this.isNPC(entity2)) {
                                 this.resolveCollision(entity1, entity2);
-                            } 
-                            if(entity1 instanceof Slime && this.isNPC(entity2)) {
+                            } else if(entity1 instanceof Slime && this.isNPC(entity2)) {
                                 entity1.enemyInRange = entity2;
                                 
                             }
@@ -295,45 +291,6 @@ class GameEngine {
     
         // Don't forget to update the entities' actual positions if they're separate from their collision circles
     }
-
-    obstacleCollision(obstacle, entity){
-        console.log('Entity collided with bush');
-
-        let dist = distance(obstacle, entity);
-        // let delta = (dist - obstacle.overlapCollisionCircle.radius - entity.overlapCollisionCircle.radius) /2 ;
-        let delta = obstacle.overlapCollisionCircle.radius + entity.overlapCollisionCircle.radius - dist;
-
-        if(dist > 0) {
-            let dxNormalized = (obstacle.x - entity.x) / dist;
-            let dyNormalized = (obstacle.y - entity.y) / dist;
-
-            entity.x += dxNormalized * delta;
-            entity.y += dyNormalized * delta;
-        } else {
-            let dxNormalized = (obstacle.x - entity.x);
-            let dyNormalized = (obstacle.y - entity.y);
-
-            entity.x -= dxNormalized * delta;
-            entity.y -= dyNormalized * delta;
-        }
-
-        // let dxNormalized = (obstacle.x - entity.x) / dist;
-        // let dyNormalized = (obstacle.y - entity.y) / dist;
-
-        // entity.x += dxNormalized * delta;
-        // entity.y += dyNormalized * delta;
-
-        // if(obstacle.x >= entity.x) {
-        //     entity.x += dxNormalized * delta;
-        //     entity.y += dyNormalized * delta;
-        // } else {
-        //     entity.x -= dxNormalized * delta;
-        //     entity.y -= dyNormalized * delta;
-        // }
-
-
-
-    }
     
     isWeapon(entityA, entityB) {
         if(entityA instanceof Slime && entityB.hasOwnProperty('weapon')){  //all weapons should have this.weapon = true
@@ -373,12 +330,6 @@ class GameEngine {
     isNPC(entity) {
         //all NPC's should have this.NPC = true
         if(entity.hasOwnProperty('NPC')) {
-            return true;
-        }
-    }
-
-    isObstacle(entity){
-        if(entity.hasOwnProperty('obstacle')){
             return true;
         }
     }
