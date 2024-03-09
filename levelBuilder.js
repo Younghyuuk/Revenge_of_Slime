@@ -171,6 +171,7 @@ class LevelBuilder {
             if(this.gameEngine.slime.weaponState === 2) {
                 this.gameEngine.pistol.removeFromWorld = true;
             }
+            this.weaponDropFlag = false;
         }
 
         if (this.level == 5 && this.kills > 0 /*&& this.kills % 2 == 0*/ && this.weaponDropFlag) {
