@@ -7,6 +7,7 @@ class Slime {
         this.KnifeSpritesheet = ASSET_MANAGER.getAsset("./images/knifeBlueSlime.png");
         this.knifeAttackSpriteSheet = ASSET_MANAGER.getAsset("./images/practiceKnifeAttack.png");
         this.pistolSpritesheet = ASSET_MANAGER.getAsset("./images/pistolBlueSlime.png");
+        this.swordAttack = ASSET_MANAGER.getAsset("./images/swordAttack.png");
 
         Object.assign(this, {x, y, speed, health, damage});
 
@@ -330,11 +331,11 @@ class Slime {
         this.animations[3][3][0] = new Animator(this.KnifeSpritesheet, 0, 64, 32, 32, 10, .175, 2); // up
         this.animations[3][4][0] = new Animator(this.KnifeSpritesheet, 0, 32, 32, 32, 10, .175, 2); // down
         this.animations[3][5][0] = new Animator(this.KnifeSpritesheet, 0, 192, 32, 32, 10, .175, 2); // dead
-        this.animations[3][6][0] = new Animator(this.knifeAttackSpriteSheet, 0, 0, 64, 32, 10, .095, 2); // new knife stab attack place holder
-        this.animations[3][6][1] = new Animator(this.knifeAttackSpriteSheet, 0, 0, 64, 32, 10, .095, 2); // left
-        this.animations[3][6][2] = new Animator(this.knifeAttackSpriteSheet, 0, 32, 64, 32, 10, .095, 2); // right
-        this.animations[3][6][3] = new Animator(this.knifeAttackSpriteSheet, 0, 64, 64, 32, 10, .095, 2); // up
-        this.animations[3][6][4] = new Animator(this.knifeAttackSpriteSheet, 0, 96, 64, 32, 10, .095, 2); // down
+        this.animations[3][6][0] = new Animator(this.swordAttack, 0, 0, 64, 32, 10, .095, 2); // new sword attack place holder
+        this.animations[3][6][1] = new Animator(this.swordAttack, 0, 0, 64, 32, 10, .095, 2); // left
+        this.animations[3][6][2] = new Animator(this.swordAttack, 0, 32, 64, 32, 10, .095, 2); // right
+        this.animations[3][6][3] = new Animator(this.swordAttack, 0, 64, 64, 32, 10, .095, 2); // up
+        this.animations[3][6][4] = new Animator(this.swordAttack, 0, 96, 64, 32, 10, .095, 2); // down
 
         // SNIPER PLACE HOLDER
         // this.animations[4][0][0] = new Animator(this.NoWeaponSpritesheet, 0, 0, 32, 32, 10, .175, 2); // idle
