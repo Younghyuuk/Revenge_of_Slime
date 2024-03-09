@@ -39,8 +39,8 @@ function createSlime(gameEngine) {
 	// gameEngine.addEntity(new rocketLauncher(gameEngine, 670, 570));
 	
 	// gameEngine.addEntity(new sniper(gameEngine, 710, 410));
-	// //added to test weapon switching 
-	// gameEngine.addEntity(new sword(gameEngine, 710, 610)); 
+	// added to test weapon switching 
+	gameEngine.addEntity(new sword(gameEngine, 710, 610)); 
 	// gameEngine.addEntity(new knife(gameEngine, 700, 300));
 	// gameEngine.addEntity(new pistol(gameEngine, 800, 550));
 	return slime;
@@ -66,6 +66,8 @@ ASSET_MANAGER.queueDownload("./images/bush.png");
 ASSET_MANAGER.queueDownload("./images/blueSlime.png");
 ASSET_MANAGER.queueDownload("./images/knifeBlueSlime.png");
 ASSET_MANAGER.queueDownload("./images/practiceKnifeAttack.png");
+ASSET_MANAGER.queueDownload("./images/swordBlueSlime.png");
+ASSET_MANAGER.queueDownload("./images/swordAttack.png");
 ASSET_MANAGER.queueDownload("./images/pistolBlueSlime.png");
 
 
