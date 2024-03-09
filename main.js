@@ -39,7 +39,7 @@ function createSlime(gameEngine) {
 	// gameEngine.addEntity(new rocketLauncher(gameEngine, 670, 570));
 	
 	// gameEngine.addEntity(new sniper(gameEngine, 710, 410));
-	// //added to test weapon switching 
+	// added to test weapon switching 
 	gameEngine.addEntity(new sword(gameEngine, 710, 610)); 
 	// gameEngine.addEntity(new knife(gameEngine, 700, 300));
 	// gameEngine.addEntity(new pistol(gameEngine, 800, 550));
