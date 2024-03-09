@@ -79,6 +79,8 @@ ASSET_MANAGER.queueDownload("./images/knife.png");
 ASSET_MANAGER.queueDownload("./images/sword.png");
 ASSET_MANAGER.queueDownload("./images/pistol.png");
 ASSET_MANAGER.queueDownload("./images/sniper.png");
+ASSET_MANAGER.queueDownload("./images/startMenu.png");
+ASSET_MANAGER.queueDownload("./images/controlsMenu.png");
 
 
 // sound and music
@@ -92,54 +94,92 @@ ASSET_MANAGER.queueDownload("./sound/3.4.2024_Sniper.mp3");
 ASSET_MANAGER.queueDownload("./sound/3.4.2024_Sword.mp3");
 ASSET_MANAGER.queueDownload("./sound/3.4.2024_Rocket.mp3");
 
+
+
+
+
+let isMenuActive = true;
+
+// Load all assets and then draw the main menu
 ASSET_MANAGER.downloadAll(() => {
-	// added in the canvas width and height
-	PARAMS.BLOCKWIDTH = PARAMS.BITWIDTH * PARAMS.SCALE;
+    drawMainMenu();
+    const canvas = document.getElementById("gameWorld");
+    canvas.addEventListener('click', handleMenuClick);
+});
+
+// Function to check if a click is within the boundaries of a button
+function isClickInside(x, y, buttonRect) {
+    return x >= buttonRect.left && x <= buttonRect.right && y >= buttonRect.top && y <= buttonRect.bottom;
+}
+
+// Menu state enumeration
+const MenuState = {
+    MAIN_MENU: 'main_menu',
+    CONTROLS_MENU: 'controls_menu'
+};
+
+let currentMenuState = MenuState.MAIN_MENU;
+
+
+// Define button boundaries
+const startButtonRect = { left: 495, right: 850, top: 408, bottom: 490 };
+const controlsButtonRect = { left: 495, right: 850, top: 540, bottom: 622 };
+const backButtonRect = { left: 535, right: 785, top: 673, bottom: 730 };
+
+function drawMainMenu() {
 	const canvas = document.getElementById("gameWorld");
-	const ctx = canvas.getContext("2d");
+    const ctx = canvas.getContext("2d");
+    const menuImage = ASSET_MANAGER.getAsset("./images/startMenu.png");
+    ctx.drawImage(menuImage, 0, 0, canvas.width, canvas.height);
+}
+
+function drawControlsMenu() {
+	const canvas = document.getElementById("gameWorld");
+    const ctx = canvas.getContext("2d");
+    const controlsImage = ASSET_MANAGER.getAsset("./images/controlsMenu.png");
+    ctx.drawImage(controlsImage, 0, 0, canvas.width, canvas.height);
+}
+
+// Handle clicks for different menu states
+function handleMenuClick(event) {
+	if (!isMenuActive) return;
+	const canvas = document.getElementById("gameWorld");
+    const rect = canvas.getBoundingClientRect();
+    const clickX = event.clientX - rect.left;
+    const clickY = event.clientY - rect.top;
+
+    if (currentMenuState === MenuState.MAIN_MENU) {
+        if (isClickInside(clickX, clickY, startButtonRect)) {
+            startGame();
+        } else if (isClickInside(clickX, clickY, controlsButtonRect)) {
+            currentMenuState = MenuState.CONTROLS_MENU;
+            drawControlsMenu();
+        }
+    } else if (currentMenuState === MenuState.CONTROLS_MENU) {
+        if (isClickInside(clickX, clickY, backButtonRect)) {
+            currentMenuState = MenuState.MAIN_MENU;
+            drawMainMenu();
+        }
+    }
+}
+
+// Function to start the game
+function startGame() {
+	const canvas = document.getElementById("gameWorld");
+    const ctx = canvas.getContext("2d");
+	// Game initialization code goes here, for example:
+	PARAMS.BLOCKWIDTH = PARAMS.BITWIDTH * PARAMS.SCALE;
 	PARAMS.CANVAS_WIDTH = canvas.width;
 	PARAMS.CANVAS_HEIGHT = canvas.height;
-
-		
-	ASSET_MANAGER.autoRepeat("./sound/3.4.2024_Official_1.mp3");
-	ASSET_MANAGER.autoRepeat("./sound/3.4.2024_Official_2.mp3");
-	
 	ctx.imageSmoothingEnabled = false; 
-	// for better image quality, espically when rotating
-
-						//game, x, y, speed, health, damage
-	// let slime = new Slime(gameEngine, 700, 430, 150, 100, 10);
-
-	// gameEngine.addEntity(slime);
-
-										//game,      x,   y,  s,  h,  d,  slime
-	// gameEngine.addEntity(new enemyKnight(gameEngine, 10, 10, 100, 20, 5, slime));
-	// gameEngine.addEntity(new enemyKnight(gameEngine, 100, 10, 100, 20, 5, slime));
-	// gameEngine.addEntity(new enemyKnight(gameEngine, 1000, 10, 100, 20, 5, slime));
-	// gameEngine.addEntity(new enemyKnight(gameEngine, 456, 10, 100, 20, 5, slime));
-	// gameEngine.addEntity(new enemyKnight(gameEngine, 532, 10, 100, 20, 5, slime));
-	// gameEngine.addEntity(new enemyKnight(gameEngine, 788, 10, 100, 20, 5, slime));
-	// gameEngine.addEntity(new enemyKnight(gameEngine, 234, 10, 100, 20, 5, slime));
-	// gameEngine.addEntity(new enemyKnight(gameEngine, 653, 10, 100, 20, 5, slime));
-	// gameEngine.addEntity(new enemyKnight(gameEngine, 234, 10, 100, 20, 5, slime));
-	// gameEngine.addEntity(new enemyKnight(gameEngine, 876, 10, 100, 20, 5, slime));
-
-										//game,       x,   y,  s,  h,  d,  slime
-	// gameEngine.addEntity(new enemyArcher(gameEngine, 450, 100, 60, 20, 10, slime));
-	// gameEngine.addEntity(new enemyArcher(gameEngine, 40, 200, 60, 75, 30, slime));
-	// gameEngine.addEntity(new enemyArcher(gameEngine, 1050, 300, 60, 20, 10, slime));
-	// gameEngine.addEntity(new enemyArcher(gameEngine, 490, 400, 60, 75, 30, slime));
-	// gameEngine.addEntity(new enemyArcher(gameEngine, 980, 500, 60, 75, 30, slime));
-	// gameEngine.addEntity(new enemyArcher(gameEngine, 600, 600, 60, 75, 30, slime));
-
-	// gameEngine.addEntity(new knife(gameEngine, 105, 610));
-	// gameEngine.addEntity(new sword(gameEngine, 160, 610));
-
-
+	// const canvas = document.getElementById("gameWorld");
+	// const ctx = canvas.getContext("2d");
 	gameEngine.init(ctx);
 	new CameraScene(gameEngine);
-
-
 	gameEngine.start();
+	isMenuActive = false;
+	// Play the background music
+	ASSET_MANAGER.autoRepeat("./sound/3.4.2024_Official_1.mp3");
+	ASSET_MANAGER.autoRepeat("./sound/3.4.2024_Official_2.mp3");
+}
 
-});
