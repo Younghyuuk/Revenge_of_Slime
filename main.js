@@ -28,7 +28,7 @@ function createSlime(gameEngine) {
 
 	gameEngine.addEntity(slime);
 	gameEngine.addEntity(new knife(gameEngine, 670, 470));
-	gameEngine.addEntity(new pistol(gameEngine, 780, 470));
+	// gameEngine.addEntity(new pistol(gameEngine, 780, 470));
 
 	// gameEngine.addEntity(new bush(gameEngine, 1000, 1000));
 	// gameEngine.addEntity(new bush(gameEngine, 600, 600));
@@ -66,7 +66,7 @@ ASSET_MANAGER.queueDownload("./images/bush.png");
 ASSET_MANAGER.queueDownload("./images/blueSlime.png");
 ASSET_MANAGER.queueDownload("./images/knifeBlueSlime.png");
 ASSET_MANAGER.queueDownload("./images/practiceKnifeAttack.png");
-
+ASSET_MANAGER.queueDownload("./images/pistolBlueSlime.png");
 
 
 

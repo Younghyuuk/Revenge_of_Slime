@@ -165,7 +165,14 @@ class LevelBuilder {
                 }
             
         }
-       
+
+        if(this.level == 3 && this.weaponDropFlag) {
+            this.gameEngine.addEntity(new pistol(this.gameEngine, this.gameEngine.slime.x + 100, this.gameEngine.slime.y + 100));
+            if(this.gameEngine.slime.weaponState === 2) {
+                this.gameEngine.pistol.removeFromWorld = true;
+            }
+        }
+
         if (this.level == 5 && this.kills > 0 /*&& this.kills % 2 == 0*/ && this.weaponDropFlag) {
             if (Math.random() < 0.5) {
                 this.gameEngine.addEntity(new sniper(this.gameEngine, this.gameEngine.slime.x + 100, this.gameEngine.slime.y + 100));
@@ -187,7 +194,7 @@ class LevelBuilder {
             
         }
        
-        if (this.level == 6 || this.level == 11) {
+        if (this.level == 6 || this.level == 11 || this.level == 4) {
             this.weaponDropFlag = true;
         }
 
@@ -281,7 +288,7 @@ class LevelBuilder {
         // TODO tweak algortihm for balancing 
         this.currentArcherCnt = Math.min(this.level * 1 + 1, 30);
         this.currentKnightCnt = Math.min(this.level * 1 + 2, 50);
-        this.currentWizardCnt = this.level;
+        this.currentWizardCnt = this.level >= 5 ? this.level - 4 : 0;
 
         // Add enemies to the queue until both counts are exhausted
         while (this.currentArcherCnt > 0 || this.currentKnightCnt > 0 || this.currentWizardCnt > 0) {
