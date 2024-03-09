@@ -28,7 +28,7 @@ function createSlime(gameEngine) {
 
 	gameEngine.addEntity(slime);
 	gameEngine.addEntity(new knife(gameEngine, 670, 470));
-	gameEngine.addEntity(new pistol(gameEngine, 780, 470));
+	// gameEngine.addEntity(new pistol(gameEngine, 780, 470));
 
 	// gameEngine.addEntity(new bush(gameEngine, 1000, 1000));
 	// gameEngine.addEntity(new bush(gameEngine, 600, 600));
