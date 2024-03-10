@@ -82,7 +82,7 @@ class WizardBoss {
             return;
         }
         // target stores the location of the slime in its current state 
-        let target = {x : this.slime.getCircle().x - this.game.camera.x, y : this.slime.getCircle().y - this.game.camera.y};
+        let target = {x : this.slime.getCircle().x, y : this.slime.getCircle().y};
         // current holds the location of the knight in its current state
         let current = {x : this.meleeDamageCollisionCircle.x, y : this.meleeDamageCollisionCircle.y};
 
@@ -229,8 +229,8 @@ class WizardBoss {
             let wizardY = this.y + this.collsionYoffset - this.game.camera.y;
 
             var dist = distance(this, this.game.levelBuilder.slime);
-            let velocity = { x: ((this.slime.x + 31) - this.x) / dist * this.maxSpeed, 
-            y: ((this.slime.y + 55) - this.y) / dist * this.maxSpeed };
+            let velocity = { x: ((this.slime.x + 31 - this.game.camera.x) - this.x) / dist * this.maxSpeed, 
+            y: ((this.slime.y + 55 - this.game.camera.y) - this.y) / dist * this.maxSpeed };
 
             //this.getAttackDirection(this.x, this.y, this.slime.x, this.slime.y, "ranged");
 

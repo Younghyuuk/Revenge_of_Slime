@@ -70,7 +70,7 @@ class enemyArcher {
             }
             return;
         }
-        let target = {x : this.slime.getCircle().x - this.game.camera.x, y : this.slime.getCircle().y - this.game.camera.y};
+        let target = {x : this.slime.getCircle().x, y : this.slime.getCircle().y};
         let current = {x : this.collisionCircle.x, y : this.collisionCircle.y};
 
         var dist = distance(current, target);
@@ -188,8 +188,8 @@ class enemyArcher {
             let archerY = this.y + 23 - this.game.camera.y;
 
             var dist = distance(this, this.game.levelBuilder.slime);
-            let velocity = { x: ((this.slime.x + 31) - this.x) / dist * this.maxSpeed, 
-            y: ((this.slime.y + 55) - this.y) / dist * this.maxSpeed };
+            let velocity = { x: ((this.slime.x + 31 - this.game.camera.x) - this.x) / dist * this.maxSpeed, 
+            y: ((this.slime.y + 55 - this.game.camera.y) - this.y) / dist * this.maxSpeed };
 
             this.getAttackDirection(this.x, this.y, this.slime.x, this.slime.y);
 
