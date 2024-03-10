@@ -82,7 +82,7 @@ class WizardBoss {
             return;
         }
         // target stores the location of the slime in its current state 
-        let target = {x : this.slime.getCircle().x, y : this.slime.getCircle().y};
+        let target = {x : this.slime.getCircle().x - this.game.camera.x, y : this.slime.getCircle().y - this.game.camera.y};
         // current holds the location of the knight in its current state
         let current = {x : this.meleeDamageCollisionCircle.x, y : this.meleeDamageCollisionCircle.y};
 

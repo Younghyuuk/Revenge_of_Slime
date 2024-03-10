@@ -70,7 +70,7 @@ class enemyArcher {
             }
             return;
         }
-        let target = {x : this.slime.getCircle().x, y : this.slime.getCircle().y};
+        let target = {x : this.slime.getCircle().x - this.game.camera.x, y : this.slime.getCircle().y - this.game.camera.y};
         let current = {x : this.collisionCircle.x, y : this.collisionCircle.y};
 
         var dist = distance(current, target);
