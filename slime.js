@@ -1,6 +1,6 @@
 class Slime {
     constructor(game, x, y, speed, health, damage) {
-        console.log("slime is created");
+        //console.log("slime is created");
         this.game = game;
 
         this.NoWeaponSpritesheet = ASSET_MANAGER.getAsset("./images/blueSlime.png");
@@ -42,7 +42,7 @@ class Slime {
 
         // all the knife stuff.
         this.hasKnife = false; // Indicates if the slime has a knife to attack with
-        // console.log(this.inventory.some(item => item.name === "knife");
+        // //console.log(this.inventory.some(item => item.name === "knife");
         this.knifeCooldown = 0.5;
 
         // sword parameters
@@ -72,7 +72,7 @@ class Slime {
     };
 
     confirm() {
-        console.log("reference passed");
+        //console.log("reference passed");
     };
     // calls attack if mouse clicked and enemy in range
     canAttack() {
@@ -88,7 +88,7 @@ class Slime {
         } else {
             // making sure the attack animation plays
             this.elapsedAttackAnimTime += this.game.clockTick;
-            if(this.elapsedAttackAnimTime > 1.5) {
+            if(this.elapsedAttackAnimTime > 1.75) {
                 this.elapsedAttackAnimTime = 0;
                 this.state = 0;
             }
@@ -132,7 +132,7 @@ class Slime {
                         if (this.currentWeapon.hasOwnProperty('melee') && this.health < 96) {
                             this.health += 6;
                         }
-                        console.log("Enemy health: " + entity.health);
+                        //console.log("Enemy health: " + entity.health);
                         ASSET_MANAGER.playAsset("./sound/2.12.2024_Knife_Slash.mp3");
                     }
                 }
@@ -161,7 +161,7 @@ class Slime {
                         if (this.currentWeapon.hasOwnProperty('melee') && this.health < 94) {
                             this.health += 7;
                         }
-                        console.log("Enemy health: " + entity.health);
+                        //console.log("Enemy health: " + entity.health);
                         ASSET_MANAGER.playAsset("./sound/2.12.2024_Knife_Slash.mp3");
                     }
                 }
@@ -209,8 +209,8 @@ class Slime {
             let slimeX = this.x + 31 - this.game.camera.x;
             let slimeY = this.y + 55 - this.game.camera.y;
 
-            console.log("slimeX: " + slimeX + " slimeY: " + slimeY);
-            console.log("slimeX: " + this.x + " slimeY: " + this.y);
+            //console.log("slimeX: " + slimeX + " slimeY: " + slimeY);
+            //console.log("slimeX: " + this.x + " slimeY: " + this.y);
             // game, slime , slime , maxSpeed, damage, radius, type
             let pistolBullet = new Projectile(this.game, slimeX, slimeY, this.gunMaxSpeed, this.pistolDamage, this.gunRadius, "slimePistol"); 
             this.elapsedTime = 0;
@@ -389,6 +389,7 @@ class Slime {
                 this.pistolShot();
                 break;
             case 3:
+                this.canAttack();
                 this.performSwordAttack();
                 break;
             case 4:
@@ -515,6 +516,8 @@ class Slime {
         if(updatedInventory.length < this.inventory.length) {
             this.inventory = updatedInventory;
             this.currentWeapon = this.inventory[0];
+            this.state = 0;
+
             switch(this.currentWeapon.name){
                 case 'knife':
                     this.hasKnife = true;
@@ -537,7 +540,6 @@ class Slime {
                     this.weaponState = 5;
                     break;
             }
-            this.state = 0;
         }
 
         this.game.X = false;

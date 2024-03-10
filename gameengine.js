@@ -299,7 +299,8 @@ class GameEngine {
         if(entityA instanceof Slime && entityB.hasOwnProperty('weapon')){  //all weapons should have this.weapon = true
             if(entityA.inventory.length < 2){
                 entityA.inventory.push(entityB); // add it to the inventory
-
+                entityA.state = 0;
+                
                 entityB.removeFromWorld = true; // remove weapon from canvas
                 // entityB.assignToSlime = true;
                 

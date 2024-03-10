@@ -46,7 +46,7 @@ class hud{
         
 
         // Health Bar
-        ctx.fillStyle = "Red"
+        ctx.fillStyle = "rgb(255 0 0 / 75%)" // transparent red
         if(this.health > 0) {
             ctx.fillRect(580, 700, (this.health/100) * 200, 40);
         }

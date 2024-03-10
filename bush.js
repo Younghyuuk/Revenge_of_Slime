@@ -2,8 +2,21 @@ class bush {
     constructor(game, x, y){
         Object.assign(this, {game, x, y}); 
         this.spritesheet = ASSET_MANAGER.getAsset("./images/bush.png");
-        this.animation = new Animator(this.spritesheet, 0, 0, 32, 32, 1, 1, 3);
-        // this.game.bush = this;
+        this.spritesheet2 = ASSET_MANAGER.getAsset("./images/bush2.png");
+        this.spritesheet3 = ASSET_MANAGER.getAsset("./images/bush3.png");
+
+
+        if(this.x % 2 == 0){
+            //bush with red flowers
+            this.animation = new Animator(this.spritesheet2, 0, 0, 32, 32, 1, 1, 3);
+        } else if(this.y % 2 == 0){
+            //bush with yellow flowers
+            this.animation = new Animator(this.spritesheet3, 0, 0, 32, 32, 1, 1, 3);
+        } else {
+            //regular bush
+            this.animation = new Animator(this.spritesheet, 0, 0, 32, 32, 1, 1, 3);
+        }
+
         this.obstacle = true
 
         this.collisionCircle = {radius: 35, x: this.x + 48 - this.game.camera.x, y: this.y + 50 - this.game.camera.y};
@@ -18,7 +31,6 @@ class bush {
         this.overlapCollisionCircle.x = this.x + 48 - this.game.camera.x;
         this.overlapCollisionCircle.y = this.y + 50 - this.game.camera.y;
 
-        this.entities = this.game.entities; 
 
         this.game.entities.forEach(entity => {
             if (entity instanceof enemyArcher || entity instanceof enemyKnight || entity instanceof Slime || entity instanceof WizardBoss) {
@@ -30,6 +42,11 @@ class bush {
     }
 
     handleCollision(entity){
+        if(entity.hasOwnProperty('weapon')){
+            entity.x += 50;
+            entity.y += 50;
+            return;
+        }
         let dist = distance(this.collisionCircle, entity.collisionCircle);
         let delta = (dist - this.collisionCircle.radius - entity.collisionCircle.radius) / 2;
 
